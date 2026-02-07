@@ -1,0 +1,67 @@
+<div class="wrapper">
+  <!-- Sidebar -->
+  <app-menu></app-menu>
+
+  <!-- Top Navbar -->
+  <app-header></app-header>
+
+  <!-- Page Content -->
+  <div id="content-page" class="content-page">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12 col-lg-12">
+          <div class="iq-card">
+            <div class="iq-card-header d-flex justify-content-between">
+              <div class="iq-header-title">
+                <h4 class="card-title">Liste des Clients</h4>
+                <a routerLink="/ajouterClient" class="btn btn-primary">Ajouter Client</a>
+
+              </div>
+            </div>
+
+            <div class="iq-card-body">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Id</th>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Email</th>
+                    <th>Adresse</th>
+                    <th>Téléphone</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr *ngFor="let client of listeClient">
+                    <td>{{ client.id }}</td>
+                    <td>{{ client.nom }}</td>
+                    <td>{{ client.prenom }}</td>
+                    <td>{{ client.email }}</td>
+                    <td>{{ client.adresse }}</td>
+                    <td>{{ client.tlf }}</td>
+                    <td>
+                      <button class="btn btn-success btn-sm">
+                        Modifier
+                      </button>
+                      <button
+                        class="btn btn-danger btn-sm"
+                        (click)="DeleteClient(client)"
+                      >
+                        Supprimer
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

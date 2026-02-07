@@ -1,0 +1,69 @@
+<div class="wrapper">
+
+  <app-menu></app-menu>
+  <app-header></app-header>
+
+  <div id="content-page" class="content-page">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12 col-lg-12">
+          <div class="iq-card">
+
+            <div class="iq-card-header d-flex justify-content-between">
+              <div class="iq-header-title">
+                <h4 class="card-title">Ajouter un Fournisseur</h4>
+              </div>
+            </div>
+
+            <div class="iq-card-body">
+              <form [formGroup]="fournisseurForm" (ngSubmit)="addNewFournisseur()">
+
+                <div class="form-row">
+
+                  <div class="col-md-6 mb-3">
+                    <label>Nom</label>
+                    <input class="form-control" formControlName="nom">
+                  </div>
+
+                  <div class="col-md-6 mb-3">
+                    <label>Prénom</label>
+                    <input class="form-control" formControlName="prenom">
+                  </div>
+
+                  <div class="col-md-6 mb-3">
+                    <label>Email</label>
+                    <input type="email" class="form-control" formControlName="email">
+                  </div>
+
+                  <div class="col-md-6 mb-3">
+                    <label>Mot de passe</label>
+                    <input type="password" class="form-control" formControlName="mdp">
+                  </div>
+
+                  <div class="col-md-6 mb-3">
+                    <label>Adresse</label>
+                    <input class="form-control" formControlName="adresse">
+                  </div>
+
+                  <div class="col-md-6 mb-3">
+                    <label>Téléphone</label>
+                    <input class="form-control" formControlName="tlf">
+                  </div>
+
+                </div>
+
+                <button class="btn btn-primary" type="submit">
+                  Ajouter
+                </button>
+
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <app-footer></app-footer>
+</div>

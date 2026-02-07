@@ -1,0 +1,50 @@
+<div class="wrapper">
+
+  <app-menu></app-menu>
+  <app-header></app-header>
+
+  <div id="content-page" class="content-page">
+    <div class="container-fluid">
+
+      <div class="iq-card">
+        <div class="iq-card-header d-flex justify-content-between">
+          <h4 class="card-title">Liste des Experts Agricoles</h4>
+          <a routerLink="/ajouterExpert" class="btn btn-primary">Ajouter Expert</a>
+        </div>
+
+        <div class="iq-card-body">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Email</th>
+                <th>Adresse</th>
+                <th>Téléphone</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let expert of listeExperts">
+                <td>{{ expert.nom }}</td>
+                <td>{{ expert.prenom }}</td>
+                <td>{{ expert.email }}</td>
+                <td>{{ expert.adresse }}</td>
+                <td>{{ expert.tlf }}</td>
+                <td>
+                  <button class="btn btn-danger btn-sm"
+                          (click)="deleteExpert(expert)">
+                    Supprimer
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <app-footer></app-footer>
+</div>

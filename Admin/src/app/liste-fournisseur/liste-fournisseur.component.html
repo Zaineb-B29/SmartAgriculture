@@ -1,0 +1,52 @@
+<html>
+<div class="wrapper">
+
+  <app-menu></app-menu>
+  <app-header></app-header>
+
+  <div id="content-page" class="content-page">
+    <div class="container-fluid">
+
+      <div class="iq-card">
+        <div class="iq-card-header d-flex justify-content-between">
+          <h4 class="card-title">Liste des Fournisseurs</h4>
+          <a routerLink="/addfournisseur" class="btn btn-primary">Ajouter Fournisseur</a>
+        </div>
+
+        <div class="iq-card-body">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Email</th>
+                <th>Adresse</th>
+                <th>Téléphone</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let f of listeFournisseurs">
+                <td>{{ f.nom }}</td>
+                <td>{{ f.prenom }}</td>
+                <td>{{ f.email }}</td>
+                <td>{{ f.adresse }}</td>
+                <td>{{ f.tlf }}</td>
+                <td>
+                  <button class="btn btn-danger btn-sm"
+                          (click)="deleteFournisseur(f)">
+                    Supprimer
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <app-footer></app-footer>
+</div>
+</html>
