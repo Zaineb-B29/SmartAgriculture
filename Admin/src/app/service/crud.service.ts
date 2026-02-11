@@ -12,7 +12,7 @@ import { ExpertAgricole } from '../Entites/ExpertAgricole.Entites';
 export class CrudService {
 
   apiUrl = 'http://localhost:8081/api';
-
+  loginAdminurl = 'http://localhost:8081/api/admin/login';
   constructor(private http: HttpClient) {}
 
   // ===== ADMIN =====
@@ -69,5 +69,8 @@ deleteFournisseur(id: number) {
   return this.http.delete(`${this.apiUrl}/fournisseur/${id}`);
 }
 
-
+/*login admin*/
+loginAdmin(admin:Admin){
+  return this.http.post<any>(this.loginAdminurl, admin);
+}
 }

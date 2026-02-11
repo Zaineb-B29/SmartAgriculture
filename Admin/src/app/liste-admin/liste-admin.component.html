@@ -18,11 +18,10 @@
               <div class="iq-header-title">
                 <h4 class="card-title">Liste des Admins</h4>
               </div>
-
               <a
-                routerLink=""
+                routerLink="/"
                 class="btn btn-primary">
-                Ajouter Admin
+                Ajouter
               </a>
             </div>
 
@@ -35,7 +34,7 @@
                     <th>Prénom</th>
                     <th>Email</th>
                     <th>Rôle</th>
-                    <th>Action</th>
+                    <th *ngIf="role=='superadmin'">Action</th>
                   </tr>
                 </thead>
 
@@ -46,7 +45,7 @@
                     <td>{{ admin.prenom }}</td>
                     <td>{{ admin.email }}</td>
                     <td>{{ admin.role }}</td>
-                    <td>
+                    <td *ngIf="role=='superadmin'">
                       <button class="btn btn-success btn-sm">
                         Modifier
                       </button>

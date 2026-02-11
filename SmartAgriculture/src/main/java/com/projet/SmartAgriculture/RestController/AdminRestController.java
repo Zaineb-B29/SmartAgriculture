@@ -92,6 +92,7 @@ public class AdminRestController {
                         .signWith(SignatureAlgorithm.HS256, "SECRET")
                         .compact();
                 response.put("token", token);
+                response.put("role",userFromDB.getRole());
                 System.out.println("works");
                 return ResponseEntity.status(HttpStatus.OK).body(response);
             }

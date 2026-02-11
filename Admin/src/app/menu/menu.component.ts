@@ -7,4 +7,9 @@ import { Component } from '@angular/core';
 })
 export class MenuComponent {
 
+  toggleSidebar() {
+    document.body.classList.toggle('sidebar-main');
+  }
+
+  
 }

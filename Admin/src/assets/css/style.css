@@ -68,6 +68,47 @@ NOTE: This file contains the styling for responsive Template.
 ::-moz-selection { background: var(--iq-dark-primary-bg); color: var(--iq-white); text-shadow: none; }
 ::selection { background: var(--iq-dark-primary-bg); color: var(--iq-white); text-shadow: none; }
 
+/* ===== Smart Agriculture Branding ===== */
+
+/* Website title */
+.smart-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1b5e20; /* dark green */
+    text-transform: uppercase;
+}
+
+/* Highlight part */
+.smart-highlight {
+    color: #66bb6a; /* light green */
+    margin-left: 4px;
+}
+
+/* Sidebar icons default */
+.iq-sidebar-menu i {
+    color: #2e7d32;
+}
+
+/* Sidebar text */
+.iq-sidebar-menu span {
+    color: #1b5e20;
+    font-weight: 500;
+}
+
+/* Hover effect */
+.iq-sidebar-menu a:hover i,
+.iq-sidebar-menu a:hover span {
+    color: #66bb6a;
+}
+
+/* Active menu item */
+.iq-sidebar-menu li.active > a,
+.iq-sidebar-menu li > a.active {
+    background: rgba(102, 187, 106, 0.15);
+    border-left: 4px solid #2e7d32;
+}
+/***********/
+
 /* Definition Lists */
 dl dd { margin-bottom: 15px; }
 dl dd:last-child { margin-bottom: 0px; }
@@ -176,7 +217,7 @@ a:hover { text-decoration: none; }
                              list Style 1
 -----------------------------------------------------------------------*/
 .iq-list-style-1 { margin: 0; padding: 0; }
-.iq-list-style-1 li { display: inline-block; float: left; list-style-type: none; margin-right: 15px; }
+.iq-list-style-1 li { display: inline-block; float:left; list-style-type: none; margin-right: 15px; }
 .iq-list-style-1 li:last-child { margin-right: 0; }
 .iq-list-style-1 li a { color: var(--iq-dark-body-text); }
 .iq-list-style-1 li a i { color: var(--iq-dark-body-text); margin-right: 5px; }
@@ -208,7 +249,7 @@ a:hover { text-decoration: none; }
 .sign-in-page-data { border-radius: 15px; }
 .sign-in-detail { padding: 50px 80px; }
 .sign-in-logo { display: inline-block; width: 100%; }
-.sign-in-logo img { height: 50px; }
+.sign-in-logo img { height: 160px; }
 .sign-in-from { padding: 20px 30px; position: relative; }
 .sign-info { padding-top: 20px; }
 .iq-social-media { margin: 0; padding: 0; float: right; }
@@ -1162,3 +1203,247 @@ Add User Page
 -----------------------------------------------------------------------*/
 .add-img-user .p-image { position: static; text-align: left; display: block; height: auto; width: auto; background: transparent; margin-top: 20px; }
 .img-extension a, .img-extension span { color: var(--iq-dark-body-text); padding: 0 3px; font-size: 13px; }
+
+
+
+
+/* =====================================================
+   Smart Agriculture – DARK GREEN THEME
+   ===================================================== */
+
+:root {
+    /* Primary greens */
+    --iq-dark-primary-bg: #4caf50;     /* accent green */
+    --iq-dark-primary: #1b5e20;        /* dark green */
+
+    /* Backgrounds */
+    --iq-dark-body-bg: #0f1f17;        /* main dark bg */
+    --iq-dark-card: #162a1f;           /* cards / sidebar */
+    --iq-border-dark: #1f3d2b;
+
+    /* Text */
+    --iq-dark-body-text: #c8e6c9;      /* light green text */
+    --iq-dark1: #a5d6a7;
+
+    /* Status */
+    --iq-success: #66bb6a;
+    --iq-info: #4db6ac;
+    --iq-warning: #fbc02d;
+    --iq-danger: #ef5350;
+}
+
+/* ================= GLOBAL ================= */
+
+body {
+    background-color: var(--iq-dark-body-bg);
+    color: var(--iq-dark-body-text);
+}
+
+/* ================= SIDEBAR ================= */
+
+.iq-sidebar {
+    background: var(--iq-dark-card);
+    box-shadow: none;
+}
+
+.iq-sidebar-logo span {
+    color: #c8e6c9 !important;
+}
+
+.iq-sidebar-menu .iq-menu li a {
+    color: #a5d6a7;
+}
+
+.iq-sidebar-menu .iq-menu li a i {
+    color: #66bb6a;
+}
+
+/* Hover */
+.iq-sidebar-menu .iq-menu li a:hover {
+    background: rgba(102, 187, 106, 0.15);
+    color: #ffffff;
+}
+
+/* Active */
+.iq-sidebar-menu .iq-menu li.active > a,
+.iq-sidebar-menu .iq-menu li > a.active {
+    background: rgba(76, 175, 80, 0.25);
+    color: #ffffff;
+    border-left: 4px solid #66bb6a;
+}
+
+/* Arrow */
+.iq-sidebar-menu .iq-menu li a .iq-arrow-right {
+    color: #81c784;
+}
+
+/* ================= TOP NAV ================= */
+
+.iq-top-navbar {
+    background: #12261b;
+    border-bottom: 1px solid var(--iq-border-dark);
+}
+
+.iq-top-navbar a,
+.iq-top-navbar i {
+    color: #81c784;
+}
+
+/* ================= CARDS ================= */
+
+.iq-card {
+    background: var(--iq-dark-card);
+    color: var(--iq-dark-body-text);
+}
+
+/* ================= BUTTONS ================= */
+
+.btn-primary {
+    background-color: #43a047;
+    border-color: #43a047;
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background-color: #2e7d32;
+    border-color: #2e7d32;
+}
+
+/* ================= LINKS ================= */
+
+a {
+    color: #81c784;
+}
+
+a:hover {
+    color: #a5d6a7;
+}
+
+
+/* =====================================
+   FORCE NAVBAR ABOVE SIDEBAR (FIX OVERLAP)
+   ===================================== */
+
+/* Sidebar */
+.iq-sidebar {
+    z-index: 1000;
+}
+
+/* Top navbar MUST be above sidebar */
+.iq-top-navbar {
+    position: fixed;
+    left: 300px;
+    right: 0;
+    width: calc(100% - 300px);
+    z-index: 1100; /* higher than sidebar */
+}
+
+/* When sidebar is collapsed */
+body.sidebar-main .iq-top-navbar {
+    left: 80px;
+    width: calc(100% - 80px);
+}
+
+/* Ensure logo area does not hide */
+.iq-navbar-logo {
+    position: relative;
+    z-index: 1200;
+}
+
+/* Prevent text wrapping/collapsing */
+.iq-navbar-logo span {
+  font-size: 18px; 
+    white-space: nowrap;
+    font-weight: 600;
+}
+
+/* =====================================
+   FIX SIDEBAR LOGO SIZE & OVERLAP
+   ===================================== */
+
+/* Sidebar logo container */
+.iq-sidebar-logo {
+    width: 300px;
+    overflow: hidden;
+}
+
+/* Text next to logo (SMART AGRICULTURE) */
+.iq-sidebar-logo a span {
+    font-size: 18px;          /* ⬅ smaller text */
+    font-weight: 600;
+    white-space: nowrap;     /* no wrap */
+    overflow: hidden;
+    text-overflow: ellipsis; /* prevents overlap */
+}
+
+/* When sidebar is collapsed */
+body.sidebar-main .iq-sidebar-logo a span {
+    display: none;           /* ⬅ hide text */
+}
+
+/* Keep logo icon visible */
+.iq-sidebar-logo img {
+    width: 40px;
+    height: auto;
+}
+/* Capitalize first letter of each word in sidebar logo */
+.iq-sidebar-logo a span {
+    text-transform: capitalize;
+}
+
+/* ===============================
+   STABLE SIDEBAR COLLAPSE FIX
+   =============================== */
+
+/* Sidebar width */
+.iq-sidebar {
+  width: 300px;
+  transition: width 0.3s ease;
+}
+
+/* Collapsed sidebar */
+.sidebar-main .iq-sidebar {
+  width: 80px;
+}
+
+/* Shift content */
+.sidebar-main .content-page,
+.sidebar-main .iq-footer {
+  margin-left: 80px;
+}
+
+/* Hide ONLY menu text (NOT icons, NOT toggle) */
+.sidebar-main .iq-sidebar-menu span {
+  display: none !important;
+}
+
+/* Hide logo text only */
+.sidebar-main .logo-title {
+  display: none !important;
+}
+
+/* Center menu icons */
+.sidebar-main .iq-sidebar-menu i {
+  margin-right: 0;
+  text-align: center;
+  width: 100%;
+}
+
+/* Keep toggle button ALWAYS visible */
+.iq-menu-bt-sidebar {
+  position: absolute;
+  top: 20px;
+  right: -15px;
+  z-index: 2000;
+}
+
+/* Arrow rotation animation */
+.wrapper-menu {
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.sidebar-main .wrapper-menu {
+  transform: rotate(180deg);
+}
+

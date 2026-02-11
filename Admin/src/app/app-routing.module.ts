@@ -13,7 +13,7 @@ import { AjouterExpertComponent } from './ajouter-expert/ajouter-expert.componen
 const routes: Routes = [
   {path: '', component: AjouterAdminComponent},
   {path: 'listeAdmin', component: ListeAdminComponent},
-  { path: 'ajouterClient', component: AjouterClientComponent},
+  { path: 'ajouterClient', component: AjouterClientComponent}, 
   {path: 'listeClient', component: ListeClientComponent},
   {path: 'login', component: LoginComponent},
   { path: 'ajouterExpert', component: AjouterExpertComponent },

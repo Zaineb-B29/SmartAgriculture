@@ -509,5 +509,6 @@ Index Of Script
         }
 
     });
+    
 
-})(jQuery);
+})(jQuery)

@@ -7,10 +7,16 @@
     <div class="container-fluid">
 
       <div class="iq-card">
-        <div class="iq-card-header d-flex justify-content-between">
-          <h4 class="card-title">Liste des Experts Agricoles</h4>
-          <a routerLink="/ajouterExpert" class="btn btn-primary">Ajouter Expert</a>
-        </div>
+        <div class="iq-card-header d-flex justify-content-between align-items-center">
+              <div class="iq-header-title">
+                <h4 class="card-title">Liste des Experts Agricoles</h4>
+              </div>
+              <a
+                routerLink="/ajouterExpert"
+                class="btn btn-primary">
+                Ajouter
+              </a>
+            </div>
 
         <div class="iq-card-body">
           <table class="table table-striped">
@@ -32,6 +38,9 @@
                 <td>{{ expert.adresse }}</td>
                 <td>{{ expert.tlf }}</td>
                 <td>
+                  <button class="btn btn-success btn-sm">
+                        Modifier
+                  </button>
                   <button class="btn btn-danger btn-sm"
                           (click)="deleteExpert(expert)">
                     Supprimer

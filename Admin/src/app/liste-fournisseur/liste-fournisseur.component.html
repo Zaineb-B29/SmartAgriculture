@@ -8,11 +8,16 @@
     <div class="container-fluid">
 
       <div class="iq-card">
-        <div class="iq-card-header d-flex justify-content-between">
-          <h4 class="card-title">Liste des Fournisseurs</h4>
-          <a routerLink="/addfournisseur" class="btn btn-primary">Ajouter Fournisseur</a>
-        </div>
-
+        <div class="iq-card-header d-flex justify-content-between align-items-center">
+              <div class="iq-header-title">
+                <h4 class="card-title">Liste des Fournisseurs</h4>
+              </div>
+              <a
+                routerLink="/ajouterFournisseur"
+                class="btn btn-primary">
+                Ajouter
+              </a>
+            </div>
         <div class="iq-card-body">
           <table class="table table-striped">
             <thead>
@@ -33,6 +38,9 @@
                 <td>{{ f.adresse }}</td>
                 <td>{{ f.tlf }}</td>
                 <td>
+                  <button class="btn btn-success btn-sm">
+                        Modifier
+                  </button>
                   <button class="btn btn-danger btn-sm"
                           (click)="deleteFournisseur(f)">
                     Supprimer
