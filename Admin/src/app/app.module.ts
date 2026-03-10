@@ -17,6 +17,13 @@ import { AjouterExpertComponent } from './ajouter-expert/ajouter-expert.componen
 import { AjouterFournisseurComponent } from './ajouter-fournisseur/ajouter-fournisseur.component';
 import { ListeExpertComponent } from './liste-expert/liste-expert.component';
 import { ListeFournisseurComponent } from './liste-fournisseur/liste-fournisseur.component';
+import { ModifierAdminComponent } from './modifier-admin/modifier-admin.component';
+import { ModifierClientComponent } from './modifier-client/modifier-client.component';
+import { ModifierExpertComponent } from './modifier-expert/modifier-expert.component';
+import { ModifierFournisseurComponent } from './modifier-fournisseur/modifier-fournisseur.component';
+import { HomeComponent } from './home/home.component';
+import { ProfilComponent } from './profil/profil.component';
+import { UpdateProfilComponent } from './update-profil/update-profil.component';
 
 
 @NgModule({
@@ -34,6 +41,13 @@ import { ListeFournisseurComponent } from './liste-fournisseur/liste-fournisseur
     AjouterFournisseurComponent,
     ListeExpertComponent,
     ListeFournisseurComponent,
+    ModifierAdminComponent,
+    ModifierClientComponent,
+    ModifierExpertComponent,
+    ModifierFournisseurComponent,
+    HomeComponent,
+    ProfilComponent,
+    UpdateProfilComponent,
   ],
   imports: [
     BrowserModule,

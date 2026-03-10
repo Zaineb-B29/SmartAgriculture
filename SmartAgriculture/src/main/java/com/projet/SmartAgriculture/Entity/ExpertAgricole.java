@@ -18,4 +18,5 @@ public class ExpertAgricole {
     private String mdp;
     private String adresse;
     private String tlf;
+    private boolean etat;
 }

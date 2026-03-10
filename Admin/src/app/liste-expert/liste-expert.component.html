@@ -38,12 +38,20 @@
                 <td>{{ expert.adresse }}</td>
                 <td>{{ expert.tlf }}</td>
                 <td>
-                  <button class="btn btn-success btn-sm">
-                        Modifier
-                  </button>
+                  <a class="btn btn-success btn-sm" 
+                    href="/modifierExpert/{{expert.id}}">
+                      Modifier
+                    </a>
                   <button class="btn btn-danger btn-sm"
-                          (click)="deleteExpert(expert)">
+                      (click)="deleteExpert(expert)">
                     Supprimer
+                  </button>
+
+                  <button *ngIf="!expert.etat" class="btn btn-sm btn-light btn-3d" (click)="updateExpertEtat(expert)">
+                    <i class="fa-solid fa-lock" style="color: black;"></i>
+                  </button>
+                  <button *ngIf="expert.etat" class="btn btn-sm btn-secondary btn-3d" (click)="updateExpertEtat(expert)">
+                    <i class="fa-solid fa-check" style="color: green;"></i>      
                   </button>
                 </td>
               </tr>

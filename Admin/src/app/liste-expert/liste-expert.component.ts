@@ -73,4 +73,45 @@ export class ListeExpertComponent {
       }
     });
   }
+
+
+  updateExpertEtat(expert: ExpertAgricole): void {
+  const newEtat = !expert.etat;
+  const message = newEtat ? 'activer' : 'désactiver';
+
+  Swal.fire({
+    title: 'Êtes-vous sûr ?',
+    text: `Voulez-vous vraiment ${message} l'expert agricole "${expert.nom} ${expert.prenom}" ?`,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: newEtat ? '#28a745' : '#d33',
+    cancelButtonColor: '#3085d6',
+    confirmButtonText: `Oui, ${message}`,
+    cancelButtonText: 'Annuler'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      expert.etat = newEtat;
+      this.service.updateEtatExpert(expert.id, expert).subscribe({
+        next: () => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Succès !',
+            text: `L'expert agricole a été ${message} avec succès.`,
+            timer: 2000,
+            showConfirmButton: false
+          });
+        },
+        error: (err) => {
+          console.error('Erreur lors de la mise à jour:', err);
+          expert.etat = !newEtat;
+          Swal.fire({
+            icon: 'error',
+            title: 'Erreur',
+            text: `Une erreur est survenue lors de la mise à jour du statut de l'expert agricole.`
+          });
+        }
+      });
+    }
+  });
+}
 }

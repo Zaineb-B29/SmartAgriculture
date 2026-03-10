@@ -20,29 +20,11 @@
         <!-- Sign in Start -->
         <section class="sign-in-page">
           <div class="container p-0" id="sign-in-page-box">
-                <div class="bg-white form-container sign-up-container">
-                   <div class="sign-in-page-data">
-                      <div class="sign-in-from w-100 m-auto">
-                          <h1 class="mb-3 text-center">Login</h1>
-                          <p class="text-center text-dark">Enter your email address and password to access admin panel.</p>
-                          <form class="mt-4" [formGroup]="loginForm" (ngSubmit)="login()">
-                              <div class="form-group">
-                                  <label formControlName="email">Email</label>
-                                  <input type="email" class="form-control mb-0" id="exampleInputEmail1" placeholder="Entrer e-mail" formControlName="email">
-                              </div>
-                              <div class="form-group">
-                                  <label formControlName="mdp">Mot de passe</label>
-                                  <input type="password" class="form-control mb-0" id="exampleInputEmail2" placeholder="Entrer mot de passe" formControlName="mdp">
-                              </div>
-                          </form>
-                      </div>
-                  </div>
-                </div>
                 <div class="bg-white form-container sign-in-container">
                     <div class="sign-in-page-data">
                       <div class="sign-in-from w-100 m-auto">
-                          <h1 class="mb-3 text-center">Sign in</h1>
-                          <p class="text-center text-dark">Enter your email address and password to access admin panel.</p>
+                          <h1 class="mb-3 text-center">Connexion</h1>
+                          <p class="text-center text-dark">Entrer votre email et mot de passe pour accéder à votre espace.</p>
                           <form class="mt-4" [formGroup]="loginForm" (ngSubmit)="login()">
                             <div class="form-group">
                                 <label for="email">Email</label>
@@ -64,7 +46,7 @@
                             </div>
 
                             <button type="submit" class="btn btn-primary w-100 mt-3">
-                                Sign In
+                                Connexion
                             </button>
                             </form>
                       </div>
@@ -72,15 +54,8 @@
                 </div>
                 <div class="overlay-container" >
                     <div class="overlay">
-                        <div class="overlay-panel overlay-left">
-                            <a class="sign-in-logo mb-5" href="#"><img src="assets/images/logologin.png" class="img-fluid" alt="logo"></a>
-                            <p>To Keep connected with us please login with your personal info</p>
-                            <button class="btn iq-border-primary mt-2" id="signIn">Sign In</button>
-                        </div>
                         <div class="overlay-panel overlay-right">
                             <a class="sign-in-logo mb-5" href="#"><img src="assets/images/logologin.png" class="img-fluid" alt="logo"></a>
-                            <p>Enter your personal details and start journey with us</p>
-                            <button class="btn iq-border-primary mt-2" id="signUp">Sign Up</button>
                         </div>
                     </div>
                 </div>

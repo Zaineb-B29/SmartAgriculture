@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+   
+<!-- Mirrored from templates.iqonic.design/server360/html-dark/form-validation.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 28 Jan 2026 10:39:17 GMT -->
+<head>
+      <!-- Required meta tags -->
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <title>Server360 - Responsive Bootstrap 4 Admin Dashboard Template</title>
+      <!-- Favicon -->
+      
+   </head>
+   <body class="sidebar-main-active right-column-fixed">
+      <!-- loader Start -->
+      <div id="loading">
+         <div id="loading-center">
+         </div>
+      </div>
+      <!-- loader END -->
+      <!-- Wrapper Start -->
+      <div class="wrapper">
+         <!-- Sidebar  -->
+         <app-menu></app-menu>
+         <!-- TOP Nav Bar -->
+         <app-header></app-header>
+         <!-- TOP Nav Bar END -->
+         
+         <!-- Page Content  -->
+         <div id="content-page" class="content-page">
+            <div class="container-fluid">
+               <div class="row">
+                  <div class="col-sm-12 col-lg-12">
+                     <div class="iq-card">
+                        <div class="iq-card-header d-flex justify-content-between">
+                           <div class="iq-header-title">
+                              <h4 class="card-title"> Modifier Admin</h4>
+                           </div>
+                        </div>
+                        <div class="iq-card-body">
+                           <form (ngSubmit)="updateAdmin()" [formGroup]="adminForm">
+                              <div class="form-row">
+                                 <div class="col-md-6 mb-3">
+                                    <label for="validationDefault01">Nom</label>
+                                    <input formControlName="nom" type="text" class="form-control" id="validationDefault01" required>
+                                 </div>
+                                 <div class="col-md-6 mb-3">
+                                    <label for="validationDefault02">Prénom</label>
+                                    <input formControlName="prenom" type="text" class="form-control" id="validationDefault02" required>
+                                 </div>
+                                 <div class="col-md-6 mb-3">
+                                    <label for="validationDefaultUsername">E-mail</label>
+                                       <input formControlName="email" type="email" class="form-control" id="validationDefaultUsername"  aria-describedby="inputGroupPrepend2" required>
+                                 </div>
+                                 <div class="col-md-6 mb-3">
+                                    <label for="validationDefault03">Mot de passe</label>
+                                    <input formControlName="mdp" type="password" class="form-control" id="validationDefault03" required>
+                                 </div>
+                                 <div class="col-md-6 mb-3">
+                                    <label for="validationDefault04">role</label>
+                                       <select formControlName="role" class="form-control" id="validationDefault04" required>
+                                          <option selected disabled value="">Choisir...</option>
+                                          <option value="superadmin">super admin</option>
+                                          <option value="sousadmin">sous admin</option>
+                                       </select>
+                                 </div>
+                              </div>
+                              
+                              <div class="form-group">
+                                 <button class="btn btn-success" type="submit">Modifier</button>
+                              </div>
+                           </form>
+                        </div>
+                     </div>
+                     
+                  </div>
+                  
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- Wrapper END -->
+       <!-- Footer -->
+      <app-footer></app-footer>
+      <!-- Footer END -->
+      
+      <!-- Optional JavaScript -->
+      <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+      
+   </body>
+
+<!-- Mirrored from templates.iqonic.design/server360/html-dark/form-validation.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 28 Jan 2026 10:39:17 GMT -->
+</html>

@@ -1,0 +1,71 @@
+<div class="wrapper">
+
+  <app-menu></app-menu>
+  <app-header></app-header>
+
+  <div id="content-page" class="content-page">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12 col-lg-12">
+          <div class="iq-card">
+
+            <div class="iq-card-header d-flex justify-content-between">
+              <div class="iq-header-title">
+                <h4 class="card-title">Modifier Expert Agricole</h4>
+              </div>
+            </div>
+
+            <div class="iq-card-body">
+              <form [formGroup]="expertForm" (ngSubmit)="updateExpert()">
+
+                <div class="form-row">
+
+                  <div class="col-md-6 mb-3">
+                    <label for="validationDefault01">Nom</label>
+                    <input type="text" class="form-control" id="validationDefault01" formControlName="nom" required>
+                  </div>
+
+                  <div class="col-md-6 mb-3">
+                    <label for="validationDefault02">Prénom</label>
+                    <input type="text" class="form-control" id="validationDefault02" formControlName="prenom" required>
+                  </div>
+
+                  <div class="col-md-6 mb-3">
+                    <label for="validationDefaultUsername">E-mail</label>
+                    <input type="email" class="form-control" id="validationDefaultUsername" formControlName="email" required>
+                  </div>
+
+                  <div class="col-md-6 mb-3">
+                    <label for="validationDefault03">Mot de passe</label>
+                    <input type="password" class="form-control" id="validationDefault03" formControlName="mdp" required>
+                  </div>
+
+                  <div class="col-md-6 mb-3">
+                    <label for="validationDefault04">Adresse</label>
+                    <input type="text" class="form-control" id="validationDefault04" formControlName="adresse" required>
+                  </div>
+
+                  <div class="col-md-6 mb-3">
+                    <label for="validationDefault05">Téléphone</label>
+                    <input type="text" class="form-control" id="validationDefault05" formControlName="tlf" required>
+                  </div>
+
+                </div>
+
+                <div class="form-group">
+                  <button class="btn btn-success" type="submit">
+                    Modifier
+                  </button>
+                </div>
+
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <app-footer></app-footer>
+</div>

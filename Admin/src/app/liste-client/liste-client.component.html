@@ -45,9 +45,10 @@
                     <td>{{ client.adresse }}</td>
                     <td>{{ client.tlf }}</td>
                     <td>
-                      <button class="btn btn-success btn-sm">
+                      <a class="btn btn-success btn-sm" 
+                      routerLink="/modifierClient/{{client.id}}">
                         Modifier
-                      </button>
+                      </a>
                       <button
                         class="btn btn-danger btn-sm"
                         (click)="DeleteClient(client)"

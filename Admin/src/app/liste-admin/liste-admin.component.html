@@ -46,9 +46,10 @@
                     <td>{{ admin.email }}</td>
                     <td>{{ admin.role }}</td>
                     <td *ngIf="role=='superadmin'">
-                      <button class="btn btn-success btn-sm">
+                      <a class="btn btn-success btn-sm" 
+                        href="/modifierAdmin/{{admin.id}}">
                         Modifier
-                      </button>
+                      </a>
                       <button
                         class="btn btn-danger btn-sm"
                         (click)="DeleteAdmin(admin)">

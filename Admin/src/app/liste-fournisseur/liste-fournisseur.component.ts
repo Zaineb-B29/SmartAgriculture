@@ -12,6 +12,7 @@ import { CrudService } from '../service/crud.service';
 export class ListeFournisseurComponent {
 
   listeFournisseurs: Fournisseur[] = [];
+fournisseur: any;
 
   constructor(
     private service: CrudService,

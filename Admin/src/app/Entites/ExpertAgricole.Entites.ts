@@ -6,6 +6,7 @@ export class ExpertAgricole {
         public email?: string,
         public mdp?: string,
         public adresse?: string,
-        public tlf?: string
+        public tlf?: string,
+        public etat?: boolean
     ) {}
 }

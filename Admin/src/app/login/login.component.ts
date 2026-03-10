@@ -133,7 +133,7 @@ export class LoginComponent {
           timer: 1500,
           showConfirmButton: false
         }).then(() => {
-          this.router.navigate(['/']).then(() => {
+          this.router.navigate(['/home']).then(() => {
             window.location.reload();
           });
         });

@@ -2,6 +2,7 @@ package com.projet.SmartAgriculture.RestController;
 
 import com.projet.SmartAgriculture.Entity.ExpertAgricole;
 import com.projet.SmartAgriculture.Repository.ExpertAgricoleRepository;
+import com.projet.SmartAgriculture.Services.EmailService;
 import com.projet.SmartAgriculture.Services.ExpertAgricoleService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -27,6 +28,9 @@ public class ExpertAgricoleRestController {
 
     @Autowired
     ExpertAgricoleService expertAgricoleService;
+
+    @Autowired
+    EmailService emailService;
 
     @RequestMapping(method = RequestMethod.POST )
     ResponseEntity<?> AjouterExpertAgricole (@RequestBody ExpertAgricole expertAgricole){
@@ -98,5 +102,36 @@ public class ExpertAgricoleRestController {
             }
 
         }
+    }
+
+    @PutMapping(value = "/updateEtat/{id}")
+    public ExpertAgricole modifieretatExpertAgricole(@RequestBody ExpertAgricole expertAgricole, @PathVariable("id") Long id) {
+        ExpertAgricole newExpertAgricole = null;
+        if (expertAgricoleRepository.findById(id).isPresent()) { //ken user deja mawjoud
+            ExpertAgricole expertAgricole1 = expertAgricoleRepository.findById(id).get();
+            var exid = expertAgricole.getId();
+            var nom = expertAgricole.getNom();
+            var prenom = expertAgricole.getPrenom();
+            var tel = expertAgricole.getTlf();
+            var email = expertAgricole.getEmail();
+            var mdp = expertAgricole1.getMdp();
+            expertAgricole1.setId(exid);
+            expertAgricole1.setNom(nom);
+            expertAgricole1.setPrenom(prenom);
+            expertAgricole1.setTlf(tel);
+            expertAgricole1.setEmail(email);
+            expertAgricole1.setMdp(mdp);
+
+            //mta3 yjih mail fih l etat
+            expertAgricole.setMdp(this.bCryptPasswordEncoder.encode(expertAgricole1.getMdp()));
+            if (expertAgricole.isEtat() != expertAgricole1.isEtat()) {
+                //ternary expression
+                String etat = expertAgricole1.isEtat() ? "Bloqué" : "Accepté";
+                emailService.SendSimpleMessage(expertAgricole1.getEmail(), "L'etat de votre compte", "votre compte a été " + etat);
+            }
+            expertAgricole1.setEtat(expertAgricole.isEtat());
+            newExpertAgricole = expertAgricoleRepository.save(expertAgricole1);
+        }
+        return newExpertAgricole;
     }
 }

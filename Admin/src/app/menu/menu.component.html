@@ -28,7 +28,7 @@
 
             <!-- DASHBOARD -->
          <li>
-            <a href="/dashboard" class="iq-waves-effect">
+            <a href="/home" class="iq-waves-effect">
                <i class="las la-home iq-arrow-left"></i>
                <span>Dashboard</span>
             </a>
@@ -37,23 +37,25 @@
             <!-- ADMIN -->
             <li>
                <a href="#adminMenu" class="iq-waves-effect" data-toggle="collapse" aria-expanded="false">
-                  <i class="las la-user-shield iq-arrow-left"></i>
+                  <i class="las la-users iq-arrow-left"></i>
                   <span>Admin</span>
                   <i class="ri-arrow-right-s-line iq-arrow-right"></i>
                </a>
+
                <ul id="adminMenu" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
                   <li>
-                     <a href="/listeAdmin">
-                        <i class="las la-list"></i>Liste Admin
+                     <a routerLink="/listeAdmin">
+                     <i class="las la-list"></i>Liste Admin
                      </a>
                   </li>
                   <li>
-                     <a href="/">
-                        <i class="las la-user-plus"></i>Ajouter Admin
+                     <a routerLink="/ajouterAdmin">
+                     <i class="las la-user-plus"></i>Ajouter Admin
                      </a>
                   </li>
                </ul>
             </li>
+
 
             <!-- CLIENT -->
             <li>
