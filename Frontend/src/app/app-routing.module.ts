@@ -9,6 +9,8 @@ import { RegistreExpertComponent } from './registre-expert/registre-expert.compo
 import { LoginClientComponent } from './login-client/login-client.component';
 import { LoginExpertComponent } from './login-expert/login-expert.component';
 import { LoginFournisseurComponent } from './login-fournisseur/login-fournisseur.component';
+import { AjouterBesoinComponent } from './ajouter-besoin/ajouter-besoin.component';
+import { ListeBesoinComponent } from './liste-besoin/liste-besoin.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -20,6 +22,10 @@ const routes: Routes = [
   {path:'loginClient', component: LoginClientComponent},
   {path:'loginFournisseur', component: LoginFournisseurComponent},
   {path:'loginExpert', component: LoginExpertComponent},
+  {path:'ajouterBesoin', component: AjouterBesoinComponent},
+  {path:'listeBesoin', component:ListeBesoinComponent},
+
+
 ]
 
 @NgModule({

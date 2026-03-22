@@ -8,15 +8,12 @@ import lombok.Data;
 
 @Entity
 @Data
-public class Fournisseur {
+public class Contact {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nom;
-    private String prenom;
     private String email;
-    private String mdp;
-    private String adresse;
-    private String tlf;
-    private boolean etat;
+    private String sujet;
+    private String msg;
 }

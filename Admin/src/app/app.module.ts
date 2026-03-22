@@ -24,6 +24,7 @@ import { ModifierFournisseurComponent } from './modifier-fournisseur/modifier-fo
 import { HomeComponent } from './home/home.component';
 import { ProfilComponent } from './profil/profil.component';
 import { UpdateProfilComponent } from './update-profil/update-profil.component';
+import { ContactComponent } from './contact/contact.component';
 
 
 @NgModule({
@@ -48,6 +49,7 @@ import { UpdateProfilComponent } from './update-profil/update-profil.component';
     HomeComponent,
     ProfilComponent,
     UpdateProfilComponent,
+    ContactComponent,
   ],
   imports: [
     BrowserModule,

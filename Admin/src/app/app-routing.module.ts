@@ -17,6 +17,7 @@ import { ModifierExpertComponent } from './modifier-expert/modifier-expert.compo
 import { HomeComponent } from './home/home.component';
 import { ProfilComponent } from './profil/profil.component';
 import { UpdateProfilComponent } from './update-profil/update-profil.component';
+import { ContactComponent } from './contact/contact.component';
 
 const routes: Routes = [
   {path: 'ajouterAdmin', component: AjouterAdminComponent,canActivate: [AuthGuard]},
@@ -35,6 +36,7 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent ,canActivate: [AuthGuard]},
   { path: 'profil/:id', component: ProfilComponent ,canActivate: [AuthGuard]},
   { path: 'updateProfil/:id', component: UpdateProfilComponent ,canActivate: [AuthGuard]},
+  { path: 'contact', component: ContactComponent,canActivate: [AuthGuard] }
 
 
 ];

@@ -1,0 +1,80 @@
+<div class="se-pre-con"></div>
+
+<app-header></app-header>
+
+<div class="breadcrumb-area text-center shadow dark bg-fixed text-light"
+     style="background-image: url(assets/img/banner/18.jpg);">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2">
+                <h1>Liste des besoins</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li>
+                            <a routerLink="/">
+                                <i class="fas fa-home"></i> Accueil
+                            </a>
+                        </li>
+                        <li class="active">Liste des besoins</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="besoin-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-12" *ngIf="besoins.length === 0">
+                <div class="empty-box">
+                    Aucun besoin disponible.
+                </div>
+            </div>
+
+            <div class="col-12" *ngFor="let besoin of besoins">
+                <div class="besoin-card">
+                    <div class="besoin-image">
+                        <img [src]="besoin.image" alt="Image besoin">
+                    </div>
+
+                    <div class="besoin-content">
+                        <div class="besoin-header">
+                            <h3>{{ besoin.type }}</h3>
+                        </div>
+
+                        <p class="besoin-description">
+                            {{ besoin.description }}
+                        </p>
+
+                        <div class="besoin-details">
+                            <div class="detail-item">
+                                <span class="label">Nombre d'arbres</span>
+                                <span class="value">{{ besoin.nombreArbres }}</span>
+                            </div>
+
+                            <div class="detail-item">
+                                <span class="label">Lieu</span>
+                                <span class="value">{{ besoin.lieu }}</span>
+                            </div>
+
+                            <div class="detail-item">
+                                <span class="label">Métrage</span>
+                                <span class="value">{{ besoin.metrage }}</span>
+                            </div>
+                        </div>
+
+                        <div class="besoin-actions">
+                            <button class="btn-delete" (click)="supprimerBesoin(besoin.id)">
+                                Supprimer
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<app-footer></app-footer>

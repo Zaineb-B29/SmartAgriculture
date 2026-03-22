@@ -31,15 +31,7 @@ public class FournisseurRestController {
     @RequestMapping(method = RequestMethod.POST )
     ResponseEntity<?> AjouterFournisseur (@RequestBody Fournisseur fournisseur){
 
-        HashMap<String, Object> response = new HashMap<>();
-        if(fournisseurRepository.existsByEmail(fournisseur.getEmail())){
-            response.put("message", "email exist deja !");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-        }else{
-            fournisseur.setMdp(this.bCryptPasswordEncoder.encode(fournisseur.getMdp()));
-            Fournisseur savedUser = fournisseurRepository.save(fournisseur);
-            return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
-        }
+        return fournisseurService.AjouterFournisseur(fournisseur);
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -95,5 +87,10 @@ public class FournisseurRestController {
                 return ResponseEntity.status(HttpStatus.OK).body(response);
             }
         }
+    }
+
+    @RequestMapping(value="/confirm-account", method= {RequestMethod.GET, RequestMethod.POST})
+    public ResponseEntity<?> confirmCoachAccount(@RequestParam("token")String confirmationemail) {
+        return fournisseurService.confirmationmail(confirmationemail);
     }
 }

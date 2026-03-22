@@ -17,6 +17,8 @@ import { RegistreFournisseurComponent } from './registre-fournisseur/registre-fo
 import { LoginClientComponent } from './login-client/login-client.component';
 import { LoginExpertComponent } from './login-expert/login-expert.component';
 import { LoginFournisseurComponent } from './login-fournisseur/login-fournisseur.component';
+import { AjouterBesoinComponent } from './ajouter-besoin/ajouter-besoin.component';
+import { ListeBesoinComponent } from './liste-besoin/liste-besoin.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +34,8 @@ import { LoginFournisseurComponent } from './login-fournisseur/login-fournisseur
     LoginClientComponent,
     LoginExpertComponent,
     LoginFournisseurComponent,
+    AjouterBesoinComponent,
+    ListeBesoinComponent,
 
   ],
   imports: [

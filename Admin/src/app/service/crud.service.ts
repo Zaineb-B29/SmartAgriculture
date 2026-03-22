@@ -6,6 +6,7 @@ import { Client } from '../Entites/Client.Entites';
 import { Fournisseur } from '../Entites/Fournisseur.Entites';
 import { ExpertAgricole } from '../Entites/ExpertAgricole.Entites';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { Contact } from '../Entites/Contact.Entites';
 
 
 @Injectable({
@@ -16,6 +17,7 @@ export class CrudService {
 
   apiUrl = 'http://localhost:8081/api';
   loginAdminurl = 'http://localhost:8081/api/admin/login';
+  contactUrl = `${this.apiUrl}/contact`;
   constructor(private http: HttpClient) {}
 
 // ===== ADMIN =====
@@ -131,4 +133,8 @@ export class CrudService {
     const url = `${this.apiUrl + "/fournisseur"}/${id}`;
     return this.http.get<Fournisseur>(url)  
   }
+  /* ================= view contacts ================= */
+  getContacts(): Observable<Contact[]> {
+  return this.http.get<Contact[]>(this.contactUrl);
+}
 }

@@ -1,0 +1,113 @@
+
+
+
+    <div class="se-pre-con"></div>
+
+    <app-header></app-header>
+
+    <!-- Fil d’Ariane -->
+    <div class="breadcrumb-area text-center shadow dark bg-fixed text-light"
+         style="background-image: url(assets/img/banner/18.jpg);">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2">
+                    <h1>Ajouter un besoin</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li>
+                                <a routerLink="/">
+                                    <i class="fas fa-home"></i> Accueil
+                                </a>
+                            </li>
+                            <li class="active">Ajouter un besoin</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Zone Ajouter Besoin -->
+    <div class="contact-area default-padding"
+         style="background-image: url(assets/img/shape/28.png);">
+        <div class="container">
+            <div class="row align-center">
+
+                <!-- Formulaire Besoin -->
+                <div class="col-lg-7 mb-md-50">
+                    <div class="contact-form-style-one">
+                        <h5 class="sub-title">Nouveau besoin</h5>
+                        <h2 class="heading">Ajouter votre besoin</h2>
+
+
+                        <form [formGroup]="besoinForm" (ngSubmit)="addNewBesoin()">       
+                            <div class="form-row">
+                                <div class="col-md-12 mb-3">
+                                    <label>Image</label>
+                                    <input type="text" class="form-control" formControlName="image" placeholder="URL de l'image">
+                                </div>
+
+                                <div class="col-md-12 mb-3">
+                                    <label>Description</label>
+                                    <textarea class="form-control" formControlName="description" rows="4" placeholder="Description du besoin"></textarea>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label>Type</label>
+                                    <input type="text" class="form-control" formControlName="type" placeholder="Type de besoin">
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label>Nombre d'arbres</label>
+                                    <input type="text" class="form-control" formControlName="nombreArbres" placeholder="Nombre d'arbres">
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label>Lieu</label>
+                                    <input type="text" class="form-control" formControlName="lieu" placeholder="Lieu">
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label>Métrage</label>
+                                    <input type="text" class="form-control" formControlName="metrage" placeholder="Métrage">
+                                </div>
+
+                            </div>
+
+                            <button class="btn btn-primary" type="submit">
+                                 Ajouter
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Infos à droite -->
+                <div class="col-lg-5 pl-60 pl-md-15 pl-xs-15">
+                    <div class="contact-style-one-info">
+                        <h2>
+                            Gestion des besoins
+                            <span>
+                                Simple et rapide
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     viewBox="0 0 500 150"
+                                     preserveAspectRatio="none">
+                                    <path d="M14.4,111.6c0,0,202.9-33.7,471.2,0"></path>
+                                </svg>
+                            </span>
+                        </h2>
+
+                        <p>
+                            Remplissez ce formulaire pour enregistrer un nouveau besoin agricole.
+                        </p>
+
+                        <a routerLink="/listeBesoin" class="btn btn-theme">
+                            Voir les besoins
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <app-footer></app-footer>

@@ -1,0 +1,21 @@
+.alert {
+  padding: 12px 15px;
+  border-radius: 6px;
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.alert-success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+textarea.form-control {
+  min-height: 150px;
+  resize: vertical;
+}
