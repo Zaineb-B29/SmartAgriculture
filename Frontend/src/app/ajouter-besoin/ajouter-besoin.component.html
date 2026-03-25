@@ -1,113 +1,205 @@
+<div class="se-pre-con"></div>
 
+<app-header></app-header>
 
+<!-- Breadcrumb -->
+<div class="breadcrumb-area shadow dark bg-cover text-center text-light"
+     style="background-image: url(assets/img/banner/3.jpg);">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 col-md-12">
+        <h1>Ajouter un Besoin</h1>
+        <ul class="breadcrumb">
+          <li><a href="/listeBesoin">Voir les besoins</a></li>
+          <li>Ajouter un besoin</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Breadcrumb -->
 
-    <div class="se-pre-con"></div>
+<!-- Start Form Area -->
+<div class="validtheme-shop-area default-padding">
+  <div class="container">
+    <div class="row">
 
-    <app-header></app-header>
+      <!-- Form Side -->
+      <div class="col-lg-8">
+        <div class="contact-form-style-one">
 
-    <!-- Fil d’Ariane -->
-    <div class="breadcrumb-area text-center shadow dark bg-fixed text-light"
-         style="background-image: url(assets/img/banner/18.jpg);">
-        <div class="container">
+          <h4 class="widget-title" style="margin-bottom: 30px;">
+            Remplissez le formulaire ci-dessous
+          </h4>
+
+          <form [formGroup]="besoinForm" (ngSubmit)="onSubmit()">
+
             <div class="row">
-                <div class="col-lg-8 offset-lg-2">
-                    <h1>Ajouter un besoin</h1>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li>
-                                <a routerLink="/">
-                                    <i class="fas fa-home"></i> Accueil
-                                </a>
-                            </li>
-                            <li class="active">Ajouter un besoin</li>
-                        </ol>
-                    </nav>
+
+              <!-- IMAGE -->
+              <div class="col-lg-12 mb-3">
+                <div class="form-group">
+                  <label style="font-weight: 600; margin-bottom: 8px;">
+                    <i class="fas fa-image" style="color: #4CAF50; margin-right: 6px;"></i>
+                    Image du besoin
+                  </label>
+                  <input
+                    type="file"
+                    class="form-control"
+                    formControlName="image"
+                    (change)="onFileSelected($event)"
+                    style="padding: 10px;">
                 </div>
+              </div>
+
+              <!-- TITRE -->
+              <div class="col-lg-12 mb-3">
+                <div class="form-group">
+                  <label style="font-weight: 600; margin-bottom: 8px;">
+                    <i class="fas fa-tag" style="color: #4CAF50; margin-right: 6px;"></i>
+                    Titre
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="titre"
+                    placeholder="Ex: Irrigation verger">
+                </div>
+              </div>
+
+              <!-- DESCRIPTION -->
+              <div class="col-lg-12 mb-3">
+                <div class="form-group">
+                  <label style="font-weight: 600; margin-bottom: 8px;">
+                    <i class="fas fa-align-left" style="color: #4CAF50; margin-right: 6px;"></i>
+                    Description
+                  </label>
+                  <textarea
+                    class="form-control"
+                    formControlName="description"
+                    rows="4"
+                    placeholder="Décrivez votre besoin agricole...">
+                  </textarea>
+                </div>
+              </div>
+
+              <!-- NOMBRE D'ARBRES -->
+              <div class="col-lg-6 mb-3">
+                <div class="form-group">
+                  <label style="font-weight: 600; margin-bottom: 8px;">
+                    <i class="fas fa-tree" style="color: #4CAF50; margin-right: 6px;"></i>
+                    Nombre d'arbres
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="nombreArbres"
+                    placeholder="Ex: 50">
+                </div>
+              </div>
+
+              <!-- LIEU -->
+              <div class="col-lg-6 mb-3">
+                <div class="form-group">
+                  <label style="font-weight: 600; margin-bottom: 8px;">
+                    <i class="fas fa-map-marker-alt" style="color: #4CAF50; margin-right: 6px;"></i>
+                    Lieu
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="lieu"
+                    placeholder="Ex: Nabeul">
+                </div>
+              </div>
+
+              <!-- METRAGE -->
+              <div class="col-lg-12 mb-4">
+                <div class="form-group">
+                  <label style="font-weight: 600; margin-bottom: 8px;">
+                    <i class="fas fa-ruler-combined" style="color: #4CAF50; margin-right: 6px;"></i>
+                    Métrage
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="metrage"
+                    placeholder="Ex: 2000 m²">
+                </div>
+              </div>
+
+              <!-- SUBMIT -->
+              <div class="col-lg-12">
+                <button
+                  type="submit"
+                  class="btn btn-theme animation"
+                  [disabled]="isLoading">
+                  <span *ngIf="!isLoading">
+                    <i class="fas fa-plus-circle" style="margin-right: 8px;"></i>
+                    Ajouter le besoin
+                  </span>
+                  <span *ngIf="isLoading">
+                    <i class="fas fa-spinner fa-spin" style="margin-right: 8px;"></i>
+                    Chargement...
+                  </span>
+                </button>
+              </div>
+
             </div>
+          </form>
+
         </div>
-    </div>
+      </div>
 
-    <!-- Zone Ajouter Besoin -->
-    <div class="contact-area default-padding"
-         style="background-image: url(assets/img/shape/28.png);">
-        <div class="container">
-            <div class="row align-center">
+      <!-- Info Side -->
+      <div class="col-lg-4">
+        <div class="footer-item contact" style="background: #f8f9fa; padding: 30px; border-radius: 8px;">
 
-                <!-- Formulaire Besoin -->
-                <div class="col-lg-7 mb-md-50">
-                    <div class="contact-form-style-one">
-                        <h5 class="sub-title">Nouveau besoin</h5>
-                        <h2 class="heading">Ajouter votre besoin</h2>
+          <h4 class="widget-title">Informations</h4>
 
+          <ul>
+            <li style="display: flex; align-items: flex-start; margin-bottom: 15px;">
+              <div class="icon" style="margin-right: 12px;">
+                <i class="fas fa-leaf" style="color: #4CAF50;"></i>
+              </div>
+              <div class="content">
+                <strong>Agriculture intelligente</strong><br>
+                <span style="color: #777;">Gérez vos besoins agricoles facilement.</span>
+              </div>
+            </li>
+            <li style="display: flex; align-items: flex-start; margin-bottom: 15px;">
+              <div class="icon" style="margin-right: 12px;">
+                <i class="fas fa-upload" style="color: #4CAF50;"></i>
+              </div>
+              <div class="content">
+                <strong>Upload d'image</strong><br>
+                <span style="color: #777;">Ajoutez une photo de votre terrain.</span>
+              </div>
+            </li>
+            <li style="display: flex; align-items: flex-start; margin-bottom: 15px;">
+              <div class="icon" style="margin-right: 12px;">
+                <i class="fas fa-check-circle" style="color: #4CAF50;"></i>
+              </div>
+              <div class="content">
+                <strong>Suivi en temps réel</strong><br>
+                <span style="color: #777;">Suivez l'état de vos besoins.</span>
+              </div>
+            </li>
+          </ul>
 
-                        <form [formGroup]="besoinForm" (ngSubmit)="addNewBesoin()">       
-                            <div class="form-row">
-                                <div class="col-md-12 mb-3">
-                                    <label>Image</label>
-                                    <input type="text" class="form-control" formControlName="image" placeholder="URL de l'image">
-                                </div>
+          <div style="margin-top: 25px;">
+            <a routerLink="/listeBesoin" class="btn btn-theme animation" style="width: 100%; text-align: center;">
+              <i class="fas fa-list" style="margin-right: 8px;"></i>
+              Voir tous les besoins
+            </a>
+          </div>
 
-                                <div class="col-md-12 mb-3">
-                                    <label>Description</label>
-                                    <textarea class="form-control" formControlName="description" rows="4" placeholder="Description du besoin"></textarea>
-                                </div>
-
-                                <div class="col-md-6 mb-3">
-                                    <label>Type</label>
-                                    <input type="text" class="form-control" formControlName="type" placeholder="Type de besoin">
-                                </div>
-
-                                <div class="col-md-6 mb-3">
-                                    <label>Nombre d'arbres</label>
-                                    <input type="text" class="form-control" formControlName="nombreArbres" placeholder="Nombre d'arbres">
-                                </div>
-
-                                <div class="col-md-6 mb-3">
-                                    <label>Lieu</label>
-                                    <input type="text" class="form-control" formControlName="lieu" placeholder="Lieu">
-                                </div>
-
-                                <div class="col-md-6 mb-3">
-                                    <label>Métrage</label>
-                                    <input type="text" class="form-control" formControlName="metrage" placeholder="Métrage">
-                                </div>
-
-                            </div>
-
-                            <button class="btn btn-primary" type="submit">
-                                 Ajouter
-                            </button>
-                        </form>
-                    </div>
-                </div>
-
-                <!-- Infos à droite -->
-                <div class="col-lg-5 pl-60 pl-md-15 pl-xs-15">
-                    <div class="contact-style-one-info">
-                        <h2>
-                            Gestion des besoins
-                            <span>
-                                Simple et rapide
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                     viewBox="0 0 500 150"
-                                     preserveAspectRatio="none">
-                                    <path d="M14.4,111.6c0,0,202.9-33.7,471.2,0"></path>
-                                </svg>
-                            </span>
-                        </h2>
-
-                        <p>
-                            Remplissez ce formulaire pour enregistrer un nouveau besoin agricole.
-                        </p>
-
-                        <a routerLink="/listeBesoin" class="btn btn-theme">
-                            Voir les besoins
-                        </a>
-                    </div>
-                </div>
-
-            </div>
         </div>
-    </div>
+      </div>
 
-    <app-footer></app-footer>
+    </div>
+  </div>
+</div>
+<!-- End Form Area -->
+
+<app-footer></app-footer>

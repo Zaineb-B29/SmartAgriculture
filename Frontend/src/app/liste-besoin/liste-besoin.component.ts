@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 import { CrudService } from '../service/crud.service';
 import { Besoin } from '../Entites/Besoin.Entites';
 import Swal from 'sweetalert2';
@@ -8,14 +9,25 @@ import Swal from 'sweetalert2';
   templateUrl: './liste-besoin.component.html',
   styleUrls: ['./liste-besoin.component.css']
 })
-export class ListeBesoinComponent implements OnInit {
+export class ListeBesoinComponent implements OnInit, OnDestroy {
 
   besoins: Besoin[] = [];
+  timer: any;
 
-  constructor(private services: CrudService) {}
+  constructor(private services: CrudService, private router: Router) {}
 
   ngOnInit(): void {
+    // hide preloader
+    const preloader = document.querySelector('.se-pre-con') as HTMLElement;
+    if (preloader) {
+      preloader.style.display = 'none';
+    }
+
     this.loadBesoins();
+  }
+
+  ngOnDestroy(): void {
+    clearInterval(this.timer);
   }
 
   loadBesoins(): void {

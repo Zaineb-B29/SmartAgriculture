@@ -9,6 +9,9 @@ public class Besoin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String titre;
+    @Lob
+    @Column(columnDefinition = "LONGTEXT")
     private String image;
     private String description;
     private String type;

@@ -18,6 +18,7 @@ export class CrudService {
   loginFournisseururl = `${this.apiUrl}/fournisseur/login`;
   contactUrl = `${this.apiUrl}/contact`;
   GoogleUrl = 'http://localhost:8081/api/client/login-google';
+  fastApiUrl = "http://127.0.0.1:8081"
 
 constructor(private http: HttpClient) { }
   // ===== CLIENT =====
@@ -95,20 +96,47 @@ constructor(private http: HttpClient) { }
     return this.http.post(this.GoogleUrl, null, { params });
   }
 
-/* ================= BESOIN ================= */
-addBesoin(clientId: number, besoin: Besoin): Observable<any> {
-  return this.http.post<any>(`${this.apiUrl}/besoin/client/${clientId}`, besoin);
-}
 
-getBesoins(): Observable<Besoin[]> {
-  return this.http.get<Besoin[]>(`${this.apiUrl}/besoin`);
-}
+  improveDescription(descriptionData: any): Observable<any> {
+    return this.http.post(`${this.fastApiUrl}/improve-description`, descriptionData);
+  }
+  createBesoin(clientId: number, besoin: Besoin): Observable<Besoin> {
+    return this.http.post<Besoin>(`${this.apiUrl}/client/${clientId}`, besoin);
+  }
 
-getBesoinById(id: number): Observable<Besoin> {
-  return this.http.get<Besoin>(`${this.apiUrl}/besoin/${id}`);
-}
+  getBesoins(): Observable<Besoin[]> {
+    return this.http.get<Besoin[]>(`${this.apiUrl}/besoin`);
+  }
+  getBesoinById(id: number): Observable<Besoin> {
+    return this.http.get<Besoin>(`${this.apiUrl}/besoin/${id}`);
+  }
 
-deleteBesoin(id: number): Observable<any> {
-  return this.http.delete(`${this.apiUrl}/besoin/${id}`);
-}
+  deleteBesoin(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/besoin/${id}`);
+  }
+
+  addBesoin(clientId: number, request: FormData) {
+    return this.http.post(`${this.apiUrl}/besoin/client/${clientId}`, request);
+  }
+
+ // addBesoin(clientId: number,request:any): Observable<any> {
+   // return this.http.post<any>(`${this.apiUrl}/besoin/client/${this.userDetails().id}`, request);
+  //}
+  userDetails(){
+    let token:any=localStorage.getItem('myToken'); 
+    let decodeToken= this.helper.decodeToken(token); 
+     return decodeToken.data; 
+   }
+  
+   isLoggedIn(){
+
+      let token = localStorage.getItem("myToken");
+
+      if (token) {
+        return true ;
+      } else {
+        return false;
+      }
+    }
+  
 }

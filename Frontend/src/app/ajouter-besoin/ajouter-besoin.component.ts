@@ -1,8 +1,7 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
-import { Besoin } from '../Entites/Besoin.Entites';
 import { CrudService } from '../service/crud.service';
 
 @Component({
@@ -10,99 +9,86 @@ import { CrudService } from '../service/crud.service';
   templateUrl: './ajouter-besoin.component.html',
   styleUrls: ['./ajouter-besoin.component.css']
 })
-export class AjouterBesoinComponent {
+export class AjouterBesoinComponent implements OnInit {
+
   besoinForm: FormGroup;
+  selectedFile!: File;
+  isLoading = false;
 
   constructor(
-    private services: CrudService,
+    private fb: FormBuilder,
     private router: Router,
-    private fb: FormBuilder
+    private crudService: CrudService
   ) {
     this.besoinForm = this.fb.group({
-      image: new FormControl('', [Validators.required]),
-      description: new FormControl('', [Validators.required, Validators.minLength(5)]),
-      type: new FormControl('', [Validators.required]),
-      nombreArbres: new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')]),
-      lieu: new FormControl('', [Validators.required]),
-      metrage: new FormControl('', [Validators.required])
+      image: [null, Validators.required],
+      titre: ['', Validators.required],
+      description: ['', Validators.required],
+      nombreArbres: ['', Validators.required],
+      lieu: ['', Validators.required],
+      metrage: ['', Validators.required]
     });
   }
 
-  ngOnInit(): void {}
-
-  get image() { return this.besoinForm.get('image'); }
-  get description() { return this.besoinForm.get('description'); }
-  get type() { return this.besoinForm.get('type'); }
-  get nombreArbres() { return this.besoinForm.get('nombreArbres'); }
-  get lieu() { return this.besoinForm.get('lieu'); }
-  get metrage() { return this.besoinForm.get('metrage'); }
-
-  getErrorMessage(control: any, fieldName: string) {
-    if (control.hasError('required')) {
-      return `Le champ ${fieldName} est obligatoire`;
+  ngOnInit(): void {
+    if (!this.crudService.isLoggedIn()) {
+      this.router.navigate(['/user-type']);
     }
-    if (control.hasError('minlength')) {
-      return `Le champ ${fieldName} doit contenir au moins ${control.errors.minlength.requiredLength} caractères`;
-    }
-    if (control.hasError('pattern')) {
-      if (fieldName === 'nombreArbres') {
-        return `Le champ ${fieldName} doit contenir uniquement des chiffres`;
-      }
-      return 'Format invalide';
-    }
-    return '';
   }
 
-  addNewBesoin() {
-    if (this.besoinForm.invalid) {
-      Object.keys(this.besoinForm.controls).forEach(key => {
-        const control = this.besoinForm.get(key);
-        if (control?.invalid) {
-          const errorMessage = this.getErrorMessage(control, key);
-          Swal.fire({
-            icon: 'error',
-            title: 'Champ invalide',
-            text: errorMessage
-          });
-        }
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];
+    this.besoinForm.patchValue({
+      image: this.selectedFile
+    });
+  }
+
+  onSubmit() {
+    if (this.besoinForm.invalid || !this.selectedFile) {
+      this.besoinForm.markAllAsTouched();
+      Swal.fire({
+        icon: 'error',
+        title: 'Erreur',
+        text: 'Tous les champs sont obligatoires'
       });
       return;
     }
 
-    const data = this.besoinForm.value;
-    const besoin = new Besoin(
-      undefined,
-      data.image,
-      data.description,
-      data.type,
-      data.nombreArbres,
-      data.lieu,
-      data.metrage
-    );
+    this.isLoading = true;
 
-    const clientId = 4; // Remplacez par l'ID du client connecté
+    const formData = new FormData();
+    formData.append('image', this.selectedFile);
+    formData.append('titre', this.besoinForm.value.titre);
+    formData.append('description', this.besoinForm.value.description);
+    formData.append('nombreArbres', this.besoinForm.value.nombreArbres);
+    formData.append('lieu', this.besoinForm.value.lieu);
+    formData.append('metrage', this.besoinForm.value.metrage);
 
-    this.services.addBesoin(clientId, besoin).subscribe({
+    const clientId = this.crudService.userDetails().id;
+
+    this.crudService.addBesoin(clientId, formData).subscribe({
       next: () => {
+        this.isLoading = false;
+        this.besoinForm.reset();
+
         Swal.fire({
           icon: 'success',
           title: 'Succès',
-          text: 'Besoin ajouté avec succès !',
-          timer: 2000,
-          showConfirmButton: false
+          text: 'Besoin ajouté avec succès'
         }).then(() => {
-          this.router.navigate(['/liste-besoins']).then(() => {
-            window.location.reload();
-          });
-        });
+          window.location.href = '/listeBesoin';
+          window.location.reload();
+});
       },
+
       error: (err) => {
-        console.error(err);
+        this.isLoading = false;
         Swal.fire({
           icon: 'error',
           title: 'Erreur',
-          text: 'Une erreur s’est produite lors de l’ajout du besoin'
+          text: 'Upload échoué'
         });
+        console.error(err);
       }
     });
   }

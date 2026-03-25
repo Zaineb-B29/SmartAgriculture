@@ -2,79 +2,115 @@
 
 <app-header></app-header>
 
-<div class="breadcrumb-area text-center shadow dark bg-fixed text-light"
-     style="background-image: url(assets/img/banner/18.jpg);">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 offset-lg-2">
-                <h1>Liste des besoins</h1>
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li>
-                            <a routerLink="/">
-                                <i class="fas fa-home"></i> Accueil
-                            </a>
-                        </li>
-                        <li class="active">Liste des besoins</li>
-                    </ol>
-                </nav>
-            </div>
-        </div>
+<!-- Breadcrumb -->
+<div class="breadcrumb-area shadow dark bg-cover text-center text-light"
+     style="background-image: url(assets/img/banner/3.jpg);">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <h1>Liste des Besoins</h1>
+        <ul class="breadcrumb">
+          <li><a routerLink="/"><i class="fas fa-home"></i> Accueil</a></li>
+          <li>Liste des besoins</li>
+        </ul>
+      </div>
     </div>
+  </div>
 </div>
 
-<div class="besoin-section">
-    <div class="container">
-        <div class="row">
-            <div class="col-12" *ngIf="besoins.length === 0">
-                <div class="empty-box">
-                    Aucun besoin disponible.
-                </div>
+<!-- Besoins -->
+<div class="validtheme-shop-area default-padding">
+  <div class="container">
+
+    <!-- Top bar -->
+    <div class="shop-listing-contentes">
+      <div class="row item-flex center">
+        <div class="col-lg-7">
+          <p class="besoin-count">
+            <i class="fas fa-leaf"></i>
+            {{ besoins.length }} besoin(s) disponible(s)
+          </p>
+        </div>
+        <div class="col-lg-5 text-right">
+          <a href="/ajouterBesoin" class="btn btn-theme">
+            <i class="fas fa-plus-circle"></i>
+            Ajouter un besoin
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty -->
+    <div class="row" *ngIf="besoins.length === 0">
+      <div class="col-lg-12 text-center empty-state">
+        <i class="fas fa-inbox"></i>
+        <h4>Aucun besoin disponible.</h4>
+      </div>
+    </div>
+
+    <!-- LIST -->
+    <div class="row">
+
+      <div class="col-lg-6 col-md-6 col-sm-12" *ngFor="let besoin of besoins">
+
+        <div class="besoin-card">
+
+          <!-- Image -->
+          <div class="besoin-image">
+            <img [src]="besoin.image" alt="Image besoin">
+          </div>
+
+          <!-- Content -->
+          <div class="besoin-content">
+
+            <div>
+              <h4 class="besoin-title">{{ besoin.titre }}</h4>
+              <p class="besoin-description">{{ besoin.description }}</p>
             </div>
 
-            <div class="col-12" *ngFor="let besoin of besoins">
-                <div class="besoin-card">
-                    <div class="besoin-image">
-                        <img [src]="besoin.image" alt="Image besoin">
-                    </div>
+            <!-- Details -->
+            <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 20px;">
 
-                    <div class="besoin-content">
-                        <div class="besoin-header">
-                            <h3>{{ besoin.type }}</h3>
-                        </div>
+              <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 10px 16px; min-width: 150px;">
+                <span style="display: block; font-size: 12px; color: #64748b; margin-bottom: 4px;">
+                  <i class="fas fa-tree" style="color: #4CAF50; margin-right: 4px;"></i>
+                  Nombre d'arbres
+                </span>
+                <span style="font-size: 15px; font-weight: 600; color: #0f172a;">{{ besoin.nombreArbres }}</span>
+              </div>
 
-                        <p class="besoin-description">
-                            {{ besoin.description }}
-                        </p>
+              <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 10px 16px; min-width: 150px;">
+                <span style="display: block; font-size: 12px; color: #64748b; margin-bottom: 4px;">
+                  <i class="fas fa-map-marker-alt" style="color: #4CAF50; margin-right: 4px;"></i>
+                  Lieu
+                </span>
+                <span style="font-size: 15px; font-weight: 600; color: #0f172a;">{{ besoin.lieu }}</span>
+              </div>
 
-                        <div class="besoin-details">
-                            <div class="detail-item">
-                                <span class="label">Nombre d'arbres</span>
-                                <span class="value">{{ besoin.nombreArbres }}</span>
-                            </div>
+              <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 10px 16px; min-width: 150px;">
+                <span style="display: block; font-size: 12px; color: #64748b; margin-bottom: 4px;">
+                  <i class="fas fa-ruler-combined" style="color: #4CAF50; margin-right: 4px;"></i>
+                  Métrage
+                </span>
+                <span style="font-size: 15px; font-weight: 600; color: #0f172a;">{{ besoin.metrage }}</span>
+              </div>
 
-                            <div class="detail-item">
-                                <span class="label">Lieu</span>
-                                <span class="value">{{ besoin.lieu }}</span>
-                            </div>
-
-                            <div class="detail-item">
-                                <span class="label">Métrage</span>
-                                <span class="value">{{ besoin.metrage }}</span>
-                            </div>
-                        </div>
-
-                        <div class="besoin-actions">
-                            <button class="btn-delete" (click)="supprimerBesoin(besoin.id)">
-                                Supprimer
-                            </button>
-                        </div>
-                    </div>
-                </div>
             </div>
+
+            <!-- Action -->
+            <div class="besoin-actions">
+              
+            </div>
+
+          </div>
 
         </div>
+
+      </div>
+
     </div>
+
+  </div>
 </div>
 
 <app-footer></app-footer>

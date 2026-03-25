@@ -24,12 +24,7 @@ public class BesoinServiceImpl implements BesoinService{
                 .orElseThrow(() -> new RuntimeException("Client not found"));
 
         besoin.setClient(client);
-        besoin.setDescription(besoin.getDescription());
-        besoin.setType(besoin.getType());
-        besoin.setImage(besoin.getImage());
-        besoin.setNombreArbres(besoin.getNombreArbres());
-        besoin.setLieu(besoin.getLieu());
-        besoin.setMetrage(besoin.getMetrage());
+
         return besoinRepository.save(besoin);
     }
 
