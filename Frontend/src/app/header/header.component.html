@@ -40,40 +40,37 @@
                     
                     <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
                         <li>
-                            <a routerLink="/">Accueil</a>
+                            <a href="/">Accueil</a>
                         </li>
                         <li>
+                            <a href="/about">Qui sommes-nous?</a>
+                        </li>
+                        <li *ngIf="IsClientIn">
                             <a href="/ajouterBesoin">Ajouter un besoin</a>
                         </li>
                         <li>
                             <a href="/listeBesoin">Liste des besoins</a>
                         </li>
                         <li>
-                            <a routerLink="/about">À propos</a>
-                        </li>
-                        <li>
-                            <a routerLink="/contact">Contact</a>
+                            <a href="/contact">Contact</a>
                         </li>
                     </ul>
                 </div>
-
                 <div class="attr-right">
-                    <div class="attr-nav">
-                        <ul>
-                            <li class="contact">
-                                <div class="call">
-                                    <div class="icon">
-                                        <i class="fas fa-phone"></i>
-                                    </div>
-                                    <div class="info">
-                                        <p>Have any Questions?</p>
-                                        <h5><a href="mailto:info@agrul.com">info@agrul.com</a></h5>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+                <a *ngIf="!IsClientIn && !IsFournisseurIn && !IsExpertIn"
+                href="/loginClient"
+                class="btn btn-theme connexion-btn">
+                    <span>Connexion</span>
+                </a>
+
+                <button *ngIf="IsClientIn || IsFournisseurIn || IsExpertIn"
+                        (click)="logout()"
+                        class="btn btn-danger connexion-btn">
+                    <span>Déconnexion</span>
+                </button>
+
+            </div>
+ 
 
                 <!-- Overlay screen for menu -->
                 <div class="overlay-screen"></div>

@@ -40,7 +40,7 @@
       </div>
     </div>
 
-    <!-- Empty -->
+    <!-- Empty state -->
     <div class="row" *ngIf="besoins.length === 0">
       <div class="col-lg-12 text-center empty-state">
         <i class="fas fa-inbox"></i>
@@ -48,7 +48,7 @@
       </div>
     </div>
 
-    <!-- LIST -->
+    <!-- Liste des besoins -->
     <div class="row">
 
       <div class="col-lg-6 col-md-6 col-sm-12" *ngFor="let besoin of besoins">
@@ -60,7 +60,7 @@
             <img [src]="besoin.image" alt="Image besoin">
           </div>
 
-          <!-- Content -->
+          <!-- Contenu -->
           <div class="besoin-content">
 
             <div>
@@ -68,7 +68,7 @@
               <p class="besoin-description">{{ besoin.description }}</p>
             </div>
 
-            <!-- Details -->
+            <!-- Détails -->
             <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 20px;">
 
               <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 10px 16px; min-width: 150px;">
@@ -97,9 +97,22 @@
 
             </div>
 
-            <!-- Action -->
+            <!-- Actions -->
             <div class="besoin-actions">
-              
+
+              <!-- Bouton Prix proposé — visible uniquement si fournisseur connecté -->
+              <div class="besoin-actions text-center">
+
+                <button
+                  *ngIf="isFournisseurIn"
+                  class="btn btn-success btn-prix"
+                  (click)="proposerPrix(besoin)">
+                  <i class="fas fa-tag"></i>
+                  Prix proposé
+                </button>
+
+              </div>
+
             </div>
 
           </div>

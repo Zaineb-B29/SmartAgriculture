@@ -125,7 +125,7 @@ export class LoginFournisseurComponent {
     this.service.loginFournisseur(fournisseur).subscribe({
 
       next: (res) => {
-        localStorage.setItem("token", res.token);
+        localStorage.setItem("myTokenFournisseur", res.token);
         localStorage.setItem("type", "FOURNISSEUR");
 
         Swal.fire({

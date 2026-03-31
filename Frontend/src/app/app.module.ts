@@ -19,6 +19,7 @@ import { LoginExpertComponent } from './login-expert/login-expert.component';
 import { LoginFournisseurComponent } from './login-fournisseur/login-fournisseur.component';
 import { AjouterBesoinComponent } from './ajouter-besoin/ajouter-besoin.component';
 import { ListeBesoinComponent } from './liste-besoin/liste-besoin.component';
+import { AjouterPrixProposerComponent } from './ajouter-prix-proposer/ajouter-prix-proposer.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { ListeBesoinComponent } from './liste-besoin/liste-besoin.component';
     LoginFournisseurComponent,
     AjouterBesoinComponent,
     ListeBesoinComponent,
+    AjouterPrixProposerComponent,
 
   ],
   imports: [

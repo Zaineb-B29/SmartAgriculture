@@ -7,6 +7,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Contact } from '../Entites/Contact.Entites';
 import { Besoin } from '../Entites/Besoin.Entites';
+import { PrixProposer } from '../Entites/PrixProposer.Entites';
 @Injectable({
   providedIn: 'root'
 })
@@ -138,5 +139,40 @@ constructor(private http: HttpClient) { }
         return false;
       }
     }
-  
+//isFournisseurIn
+  isFournisseurIn(){
+    let token = localStorage.getItem("myTokenFournisseur");
+    if (token) {
+      return true ;
+    } else {
+      return false;
+    }
+  }
+//isExpertIn
+  isExpertIn(){
+    let token = localStorage.getItem("myTokenExpert");
+    if (token) {
+      return true ;
+    } else {
+      return false;
+    }
+  }
+//isClientIn
+  isClientIn(){
+    let token = localStorage.getItem("myTokenClient");
+    if (token) {
+      return true ;
+    } else {
+      return false;
+    }
+  }
+
+  //ajout du prix proposé 
+  proposerPrix(fournisseurId: number, besoinId: number, prix: string): Observable<any> {
+    return this.http.post(
+      `${this.apiUrl}/prixproposer/fournisseur/${fournisseurId}/besoin/${besoinId}`,
+      prix,
+      { headers: { 'Content-Type': 'application/json' } }
+    );
+  }
 }
