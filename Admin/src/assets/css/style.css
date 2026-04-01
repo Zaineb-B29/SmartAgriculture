@@ -1451,3 +1451,227 @@ body.sidebar-main .iq-sidebar-logo a span {
   transform: rotate(180deg);
 }
 
+
+
+
+
+
+
+/* =====================================
+   CLEAN LIGHT THEME (CORRECTED)
+   ===================================== */
+
+/* ROOT */
+:root {
+    --iq-primary: #2e7d32;
+    --iq-primary-light: #66bb6a;
+    --iq-body-bg: #f5f7f6;
+    --iq-card-bg: #ffffff;
+    --iq-text-dark: #1b1b1b;
+    --iq-border: #e0e0e0;
+
+    /* disable dark */
+    --iq-dark-primary-bg: #2e7d32;
+    --iq-dark-card: #ffffff;
+    --iq-dark-body-bg: #f5f7f6;
+    --iq-dark-body-text: #1b1b1b;
+}
+
+/* BODY */
+body {
+    background: var(--iq-body-bg);
+    color: var(--iq-text-dark);
+}
+
+/* =====================
+   NAVBAR
+   ===================== */
+.iq-top-navbar {
+    background: #ffffff !important;
+    border-bottom: 1px solid var(--iq-border);
+}
+
+/* TITLE */
+.navbar-breadcrumb h4 {
+    color: var(--iq-primary) !important;
+}
+
+.navbar-breadcrumb p span {
+    color: var(--iq-primary) !important;
+}
+
+/* ICONS NAV ONLY */
+.navbar-list i,
+.search-link i {
+    color: var(--iq-primary) !important;
+}
+
+/* =====================
+   SIDEBAR
+   ===================== */
+.iq-sidebar {
+    background: #ffffff !important;
+    border-right: 1px solid var(--iq-border);
+}
+
+.iq-sidebar-menu span,
+.iq-sidebar-menu i {
+    color: var(--iq-primary) !important;
+}
+
+.iq-sidebar-menu a:hover {
+    background: #e8f5e9;
+}
+
+.iq-sidebar-menu li.active > a {
+    background: #e8f5e9;
+    border-left: 4px solid var(--iq-primary);
+}
+
+/* =====================
+   LOGO
+   ===================== */
+.smart-title {
+    color: var(--iq-primary) !important;
+}
+
+.smart-highlight {
+    color: var(--iq-primary-light) !important;
+}
+
+/* =====================
+   CARDS (NEUTRAL)
+   ===================== */
+.iq-card {
+    background: var(--iq-card-bg);
+    border: 1px solid var(--iq-border);
+    border-radius: 12px;
+    box-shadow: none;
+}
+
+/* IMPORTANT: NO GLOBAL COLOR */
+.iq-card h3,
+.iq-card h5 {
+    color: var(--iq-text-dark);
+}
+
+/* =====================
+   PROGRESS BAR (neutral)
+   ===================== */
+.iq-progress-bar > span {
+    background: #ccc;
+}
+
+/* =====================
+   BUTTONS
+   ===================== */
+.btn-primary {
+    background: var(--iq-primary);
+    border: none;
+}
+
+.btn-primary:hover {
+    background: #1b5e20;
+}
+
+/* =====================
+   INPUTS
+   ===================== */
+.form-control {
+    border: 1px solid var(--iq-border);
+    border-radius: 8px;
+}
+
+.form-control:focus {
+    border-color: var(--iq-primary);
+    box-shadow: none;
+}
+
+/* =====================
+   LINKS
+   ===================== */
+a {
+    color: var(--iq-primary);
+}
+
+a:hover {
+    color: #1b5e20;
+}
+
+/* =====================
+   LOGIN PAGE
+   ===================== */
+#sign-in-page-box {
+    background: #ffffff;
+}
+
+.overlay {
+    background: linear-gradient(135deg, #2e7d32, #1b5e20);
+}
+
+/* =====================
+   HOVER
+   ===================== */
+.iq-card:hover {
+    border-color: var(--iq-primary);
+}
+
+
+/* FIX card-title visibility */
+.card-title {
+    color: #1b1b1b !important;
+    font-weight: 600;
+}
+
+/* if inside colored/green areas */
+.bg-primary .card-title,
+.iq-sub-dropdown .card-title {
+    color: #ffffff !important;
+}
+
+
+
+/* =========================
+   FORM LABELS (VISIBLE)
+   ========================= */
+label {
+    color: #1b1b1b !important;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+/* =========================
+   INPUT TEXT (VISIBLE)
+   ========================= */
+.form-control {
+    color: #1b1b1b !important;
+    background: #ffffff !important;
+    border: 1px solid #dcdcdc !important;
+}
+
+/* placeholder */
+.form-control::placeholder {
+    color: #999 !important;
+}
+
+/* focus state */
+.form-control:focus {
+    border-color: #2e7d32 !important;
+    box-shadow: 0 0 0 2px rgba(46,125,50,0.1);
+}
+
+/* =========================
+   CARD HEADER TITLE FIX
+   ========================= */
+.card-title {
+    color: #2e7d32 !important;
+    font-weight: 700;
+}
+
+/* =========================
+   INPUT SPACING CLEAN
+   ========================= */
+.form-group,
+.col-md-6 {
+    margin-bottom: 12px;
+}

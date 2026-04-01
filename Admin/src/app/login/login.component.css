@@ -1,0 +1,58 @@
+/* LOGIN TITLE GREEN */
+h1.text-center {
+    color: #2e7d32 !important;
+    font-weight: 700;
+}
+
+
+/* =====================================
+   SWITCH LOGIN COLORS
+   ===================================== */
+
+/* LEFT FORM → GREEN */
+.sign-in-container {
+    background: linear-gradient(135deg, #2e7d32, #1b5e20) !important;
+    color: #ffffff;
+}
+
+/* TEXT INSIDE FORM */
+.sign-in-container h1,
+.sign-in-container p,
+.sign-in-container label {
+    color: #ffffff !important;
+}
+
+/* INPUTS → WHITE (contrast) */
+.sign-in-container .form-control {
+    background: #ffffff !important;
+    color: #1b1b1b !important;
+    border: none;
+}
+
+/* BUTTON */
+.sign-in-container .btn-primary {
+    background: #ffffff !important;
+    color: #2e7d32 !important;
+    font-weight: 600;
+}
+
+.sign-in-container .btn-primary:hover {
+    background: #e8f5e9 !important;
+}
+
+/* RIGHT SIDE (LOGO) → WHITE */
+.overlay {
+    background: #ffffff !important;
+}
+
+/* LOGO AREA CLEAN */
+.overlay-panel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* OPTIONAL: ADD BORDER BETWEEN */
+.sign-in-container {
+    border-right: 1px solid rgba(255,255,255,0.2);
+}

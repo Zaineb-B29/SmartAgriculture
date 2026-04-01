@@ -1,0 +1,60 @@
+/* =====================================
+   FIX INVISIBLE PROFILE + NOTIFICATIONS
+   ===================================== */
+
+/* DROPDOWN BACKGROUND */
+.iq-sub-dropdown {
+    background: #ffffff !important;
+    border: 1px solid #e0e0e0;
+}
+
+/* FORCE TEXT VISIBLE */
+.iq-sub-dropdown h5,
+.iq-sub-dropdown h6,
+.iq-sub-dropdown p,
+.iq-sub-dropdown span,
+.iq-sub-dropdown small {
+    color: #1b1b1b !important;
+}
+
+/* HEADER (keep green but readable) */
+.iq-sub-dropdown .bg-primary {
+    background: #2e7d32 !important;
+}
+
+.iq-sub-dropdown .bg-primary h5,
+.iq-sub-dropdown .bg-primary span {
+    color: #ffffff !important;
+}
+
+/* ITEMS */
+.iq-sub-card {
+    background: #ffffff !important;
+    color: #1b1b1b !important;
+}
+
+.iq-sub-card:hover {
+    background: #e8f5e9 !important;
+}
+
+/* PROFILE BLOCK FIX */
+.iq-user-dropdown {
+    background: #ffffff !important;
+}
+
+/* ICON FIX */
+.iq-card-icon i {
+    color: #2e7d32 !important;
+}
+
+/* REMOVE WHITE TEXT FROM TEMPLATE */
+.text-white {
+    color: inherit !important;
+}
+
+/* LINKS */
+.iq-sub-dropdown a {
+    color: #1b1b1b !important;
+}
+
+

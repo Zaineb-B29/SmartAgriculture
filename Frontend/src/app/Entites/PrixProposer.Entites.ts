@@ -3,7 +3,7 @@ import { Fournisseur } from './Fournisseur.Entites';
 
 export class PrixProposer {
   id?: number;
-  prix?: string;
+  Prix?: string;
   besoin?: Besoin;
   fournisseur?: Fournisseur;
 }

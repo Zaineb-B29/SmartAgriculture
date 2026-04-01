@@ -51,7 +51,7 @@
     <!-- Liste des besoins -->
     <div class="row">
 
-      <div class="col-lg-6 col-md-6 col-sm-12" *ngFor="let besoin of besoins">
+      <div class="col-lg-4 col-md-6 col-sm-12 d-flex" *ngFor="let besoin of besoins">
 
         <div class="besoin-card">
 
@@ -64,35 +64,41 @@
           <div class="besoin-content">
 
             <div>
-              <h4 class="besoin-title">{{ besoin.titre }}</h4>
+              <br><h4 class="besoin-title" style="font-weight: bolder;">{{ besoin.titre }}</h4>
               <p class="besoin-description">{{ besoin.description }}</p>
             </div>
 
             <!-- Détails -->
-            <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 20px;">
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px;">
 
-              <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 10px 16px; min-width: 150px;">
-                <span style="display: block; font-size: 12px; color: #64748b; margin-bottom: 4px;">
-                  <i class="fas fa-tree" style="color: #4CAF50; margin-right: 4px;"></i>
+              <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 6px 10px; min-width: 120px;">
+                <span style="display: block; font-size: 11px; color: #64748b; margin-bottom: 2px;">
+                  <i class="fas fa-tree" style="color: #4CAF50; margin-right: 3px;"></i>
                   Nombre d'arbres
                 </span>
-                <span style="font-size: 15px; font-weight: 600; color: #0f172a;">{{ besoin.nombreArbres }}</span>
+                <span style="font-size: 13px; font-weight: 600; color: #0f172a;">
+                  {{ besoin.nombreArbres }}
+                </span>
               </div>
 
-              <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 10px 16px; min-width: 150px;">
-                <span style="display: block; font-size: 12px; color: #64748b; margin-bottom: 4px;">
-                  <i class="fas fa-map-marker-alt" style="color: #4CAF50; margin-right: 4px;"></i>
+              <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 6px 10px; min-width: 120px;">
+                <span style="display: block; font-size: 11px; color: #64748b; margin-bottom: 2px;">
+                  <i class="fas fa-map-marker-alt" style="color: #4CAF50; margin-right: 3px;"></i>
                   Lieu
                 </span>
-                <span style="font-size: 15px; font-weight: 600; color: #0f172a;">{{ besoin.lieu }}</span>
+                <span style="font-size: 13px; font-weight: 600; color: #0f172a;">
+                  {{ besoin.lieu }}
+                </span>
               </div>
 
-              <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 10px 16px; min-width: 150px;">
-                <span style="display: block; font-size: 12px; color: #64748b; margin-bottom: 4px;">
-                  <i class="fas fa-ruler-combined" style="color: #4CAF50; margin-right: 4px;"></i>
+              <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 6px 10px; min-width: 120px;">
+                <span style="display: block; font-size: 11px; color: #64748b; margin-bottom: 2px;">
+                  <i class="fas fa-ruler-combined" style="color: #4CAF50; margin-right: 3px;"></i>
                   Métrage
                 </span>
-                <span style="font-size: 15px; font-weight: 600; color: #0f172a;">{{ besoin.metrage }}</span>
+                <span style="font-size: 13px; font-weight: 600; color: #0f172a;">
+                  {{ besoin.metrage }}
+                </span>
               </div>
 
             </div>
@@ -113,6 +119,70 @@
 
               </div>
 
+            </div>
+            <!-- CLIENT — Prix proposés -->
+            <div class="besoin-prix-list" *ngIf="isClientIn">
+
+              <!-- Replace your fieldset/legend with this -->
+              <div style="position: relative; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px 10px 10px; margin-top: 16px;">
+                
+                <!-- Legend label -->
+                <span style="position: absolute; top: -10px; left: 10px; background: #f8fafc; padding: 0 6px; font-size: 13px; font-weight: 600; color: #16a34a;">
+                  <i class="fas fa-tags" style="margin-right: 4px;"></i>
+                  Prix proposés
+                </span>
+                <ng-container *ngIf="propositionsMap[besoin.id!]?.length > 0; else noPrix">
+
+                  <div class="prix-item" *ngFor="let p of propositionsMap[besoin.id!]">
+
+                    <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; width:100%;">
+
+                      <!-- Fournisseur -->
+                      <span style="font-size:15px;">
+                        <i class="fas fa-user"></i>
+                        {{ p.fournisseur?.nom }}
+                      </span>
+
+                      <!-- Prix -->
+                      <span style="font-weight:600; color:#16a34a;">
+                        {{ p.Prix }} TND
+                      </span>
+
+                      <button 
+                        
+                        style="
+                          display: inline-block;
+                          padding: 4px 12px;
+                          font-size: 16px;
+                          line-height: 1.4;
+                          border-radius: 25px;
+                          background: #16a34a;
+                          color: white;
+                          white-space: nowrap;
+                          cursor: pointer;
+                          opacity: 0.7;
+                          border: none;
+                        ">
+                        <i class="fas fa-calendar-check" style="font-size: 12px; margin-right: 3px;"></i>
+                        Réserver
+                      </button>
+                    </div><br>
+                  </div>
+                </ng-container>
+
+              </div>
+
+              <ng-template #noPrix>
+                <p class="prix-empty">Aucun prix proposé</p>
+              </ng-template>
+
+            </div>
+            <!-- FOURNISSEUR — Proposer un prix -->
+            <div class="besoin-actions" *ngIf="isFournisseurIn">
+              <button class="btn btn-prix"
+                      (click)="proposerPrix(besoin)">
+                <i class="fas fa-tag"></i> Prix proposé
+              </button>
             </div>
 
           </div>

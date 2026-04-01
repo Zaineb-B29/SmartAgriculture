@@ -69,4 +69,9 @@ public class BesoinRestController {
         Optional<Besoin> besoin = besoinService.AfficherBesoinById(id);
         return besoin;
     }
+
+    @GetMapping("/client/{clientId}")
+    public ResponseEntity<List<Besoin>> getMesBesoins(@PathVariable Long clientId) {
+        return ResponseEntity.ok(besoinService.getBesoinsByClient(clientId));
+    }
 }

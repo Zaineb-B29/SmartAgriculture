@@ -20,6 +20,7 @@ import { LoginFournisseurComponent } from './login-fournisseur/login-fournisseur
 import { AjouterBesoinComponent } from './ajouter-besoin/ajouter-besoin.component';
 import { ListeBesoinComponent } from './liste-besoin/liste-besoin.component';
 import { AjouterPrixProposerComponent } from './ajouter-prix-proposer/ajouter-prix-proposer.component';
+import { MesPropositionsComponent } from './mes-propositions/mes-propositions.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { AjouterPrixProposerComponent } from './ajouter-prix-proposer/ajouter-pr
     AjouterBesoinComponent,
     ListeBesoinComponent,
     AjouterPrixProposerComponent,
+    MesPropositionsComponent,
 
   ],
   imports: [

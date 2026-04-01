@@ -43,4 +43,13 @@ public class PrixProposerServiceImpl implements PrixProposerService {
     public List<PrixProposer> afficherPrixProposer() {
         return prixProposerRepository.findAll();
     }
+    @Override
+    public List<PrixProposer> getByBesoin(Long besoinId) {
+        return prixProposerRepository.findByBesoinId(besoinId);
+    }
+
+    @Override
+    public List<PrixProposer> getByFournisseur(Long fournisseurId) {
+        return prixProposerRepository.findByFournisseurId(fournisseurId);
+    }
 }

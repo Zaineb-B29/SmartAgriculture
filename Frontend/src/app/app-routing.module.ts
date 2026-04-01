@@ -11,6 +11,7 @@ import { LoginExpertComponent } from './login-expert/login-expert.component';
 import { LoginFournisseurComponent } from './login-fournisseur/login-fournisseur.component';
 import { AjouterBesoinComponent } from './ajouter-besoin/ajouter-besoin.component';
 import { ListeBesoinComponent } from './liste-besoin/liste-besoin.component';
+import { MesPropositionsComponent } from './mes-propositions/mes-propositions.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -24,6 +25,7 @@ const routes: Routes = [
   {path:'loginExpert', component: LoginExpertComponent},
   {path:'ajouterBesoin', component: AjouterBesoinComponent},
   {path:'listeBesoin', component:ListeBesoinComponent},
+  {path:'mesPropositions', component:MesPropositionsComponent}
 
 
 ]

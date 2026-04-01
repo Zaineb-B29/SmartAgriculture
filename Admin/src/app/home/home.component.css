@@ -1,0 +1,9 @@
+.clickable-card {
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.clickable-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+}

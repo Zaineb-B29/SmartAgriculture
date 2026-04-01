@@ -45,12 +45,16 @@
                         <li>
                             <a href="/about">Qui sommes-nous?</a>
                         </li>
-                        <li *ngIf="IsClientIn">
+                        <li *ngIf="IsClientIn || !IsFournisseurIn">
                             <a href="/ajouterBesoin">Ajouter un besoin</a>
+                        </li>
+                        <li *ngIf="IsFournisseurIn">
+                            <a href="/mesPropositions">Mes propositions</a>
                         </li>
                         <li>
                             <a href="/listeBesoin">Liste des besoins</a>
                         </li>
+                        
                         <li>
                             <a href="/contact">Contact</a>
                         </li>

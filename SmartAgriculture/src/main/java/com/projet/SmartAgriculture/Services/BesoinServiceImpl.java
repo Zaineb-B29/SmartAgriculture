@@ -37,4 +37,9 @@ public class BesoinServiceImpl implements BesoinService{
     public Optional<Besoin> AfficherBesoinById(Long id) {
         return besoinRepository.findById(id);
     }
+
+    @Override
+    public List<Besoin> getBesoinsByClient(Long clientId) {
+        return besoinRepository.findByClientId(clientId);
+    }
 }

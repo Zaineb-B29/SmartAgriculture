@@ -30,4 +30,14 @@ public class PrixProposerRestController {
     public ResponseEntity<List<PrixProposer>> afficherPrix() {
         return ResponseEntity.ok(prixProposerService.afficherPrixProposer());
     }
+
+    @GetMapping("/besoin/{besoinId}")
+    public ResponseEntity<List<PrixProposer>> getByBesoin(@PathVariable Long besoinId) {
+        return ResponseEntity.ok(prixProposerService.getByBesoin(besoinId));
+    }
+
+    @GetMapping("/fournisseur/{fournisseurId}")
+    public ResponseEntity<List<PrixProposer>> getByFournisseur(@PathVariable Long fournisseurId) {
+        return ResponseEntity.ok(prixProposerService.getByFournisseur(fournisseurId));
+    }
 }

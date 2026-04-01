@@ -9,5 +9,5 @@ public interface BesoinService {
     Besoin ajouterBesoin(Long clientId, Besoin besoin);
     List<Besoin> AfficherBesoin();
     Optional<Besoin> AfficherBesoinById(Long id);
-
+    List<Besoin> getBesoinsByClient(Long clientId);
 }

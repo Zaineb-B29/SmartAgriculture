@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Client } from '../Entites/Client.Entites';
 import { ExpertAgricole } from '../Entites/ExpertAgricole.Entites';
 import { Fournisseur } from '../Entites/Fournisseur.Entites';
@@ -123,11 +123,17 @@ constructor(private http: HttpClient) { }
  // addBesoin(clientId: number,request:any): Observable<any> {
    // return this.http.post<any>(`${this.apiUrl}/besoin/client/${this.userDetails().id}`, request);
   //}
-  userDetails(){
-    let token:any=localStorage.getItem('myToken'); 
-    let decodeToken= this.helper.decodeToken(token); 
-     return decodeToken.data; 
-   }
+  userDetails() {
+  let token: any =
+    localStorage.getItem('myTokenClient') ||
+    localStorage.getItem('myTokenFournisseur') ||
+    localStorage.getItem('myTokenExpert');
+
+  if (!token) return null;
+
+  let decodeToken = this.helper.decodeToken(token);
+  return decodeToken.data;
+}
   
    isLoggedIn(){
 
@@ -175,4 +181,25 @@ constructor(private http: HttpClient) { }
       { headers: { 'Content-Type': 'application/json' } }
     );
   }
+
+
+  //✔ CLIENT → get ONLY his besoins
+  getMesBesoins(): Observable<Besoin[]> {
+    const user = this.userDetails();
+    return this.http.get<Besoin[]>(`${this.apiUrl}/besoin/client/${user.id}`);
+  }
+
+  //✔ CLIENT → get prix for ONE besoin
+  getPrixByBesoin(besoinId: number): Observable<PrixProposer[]> {
+    return this.http.get<PrixProposer[]>(`${this.apiUrl}/prixproposer/besoin/${besoinId}`);
+  }
+
+  getMesPropositions(): Observable<PrixProposer[]> {
+  const token = localStorage.getItem('myTokenFournisseur');
+  if (!token) return of([]);
+  const payload = JSON.parse(atob(token.split('.')[1]));
+  const fournisseurId = payload.data.id;
+  return this.http.get<PrixProposer[]>(`${this.apiUrl}/prixproposer/fournisseur/${fournisseurId}`);
+}
+
 }
