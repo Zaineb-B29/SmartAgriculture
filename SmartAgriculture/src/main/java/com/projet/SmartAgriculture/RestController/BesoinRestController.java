@@ -1,6 +1,7 @@
 package com.projet.SmartAgriculture.RestController;
 
 import com.projet.SmartAgriculture.Entity.Besoin;
+import com.projet.SmartAgriculture.Repository.ExpertAgricoleRepository;
 import com.projet.SmartAgriculture.Services.BesoinService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,8 @@ public class BesoinRestController {
 
     @Autowired
     BesoinService besoinService;
+    @Autowired
+    ExpertAgricoleRepository expertAgricoleRepository;
 
     @PostMapping("/client/{clientId}")
     public ResponseEntity<Besoin> createBesoin(
@@ -73,5 +76,24 @@ public class BesoinRestController {
     @GetMapping("/client/{clientId}")
     public ResponseEntity<List<Besoin>> getMesBesoins(@PathVariable Long clientId) {
         return ResponseEntity.ok(besoinService.getBesoinsByClient(clientId));
+    }
+
+    @PutMapping("/verify/{besoinId}/expert/{expertId}")
+    public ResponseEntity<Besoin> verifyBesoin(
+            @PathVariable Long besoinId,
+            @PathVariable Long expertId,
+            @RequestBody Besoin besoinRequest
+    ) {
+        Besoin besoin = besoinService.verifyBesoin(
+                besoinId,
+                expertId,
+                besoinRequest.getDescriptionExpert()
+        );
+        return ResponseEntity.ok(besoin);
+    }
+
+    @GetMapping("/valide")
+    public List<Besoin> getBesoinsValides() {
+        return besoinService.AfficherBesoinValide();
     }
 }

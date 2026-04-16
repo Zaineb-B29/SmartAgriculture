@@ -1,90 +1,124 @@
-<!-- Header -->
 <header>
-    
-    <!-- Start Navigation -->
-    <nav class="navbar mobile-sidenav inc-shape navbar-common navbar-sticky navbar-default validnavs">
+  <nav class="navbar mobile-sidenav inc-shape navbar-common navbar-sticky navbar-default validnavs">
 
-        <!-- Start Top Search -->
-        <div class="top-search">
-            <div class="container-xl">
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="fas fa-search"></i></span>
-                    <input type="text" class="form-control" placeholder="Search">
-                    <span class="input-group-addon close-search"><i class="fas fa-times"></i></span>
-                </div>
-            </div>
+    <!-- Top Search -->
+    <div class="top-search">
+      <div class="container-xl">
+        <div class="input-group">
+          <span class="input-group-addon"><i class="fas fa-search"></i></span>
+          <input type="text" class="form-control" placeholder="Search">
+          <span class="input-group-addon close-search"><i class="fas fa-times"></i></span>
         </div>
-        <!-- End Top Search -->
+      </div>
+    </div>
 
-        <div class="container d-flex justify-content-between align-items-center">            
+    <div class="container d-flex justify-content-between align-items-center">
 
-            <!-- Start Header Navigation -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
-                    <i class="fas fa-bars"></i>
-                </button>
-                <a class="navbar-brand" routerLink="/">
-                    <img src="assets/img/logo.png" class="logo" alt="Logo">
-                </a>
-            </div>
-            <!-- End Header Navigation -->
+      <!-- Logo -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
+          <i class="fas fa-bars"></i>
+        </button>
+        <a class="navbar-brand brand-custom" href="/">
+          <img src="assets/img/logo SA.png" alt="Logo">
+          <span>
+            <img style="width: 200px; height: 25px;" src="assets/img/text.png" alt="Logo">
+          </span>
+        </a>
+      </div>
 
-            <!-- Main Nav -->
-            <div class="main-nav-content">
-                <div class="collapse navbar-collapse" id="navbar-menu">
+      <!-- Menu -->
+      <div class="main-nav-content">
+        <div class="collapse navbar-collapse" id="navbar-menu">
+          <img src="assets/img/logo.png" alt="Logo">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
+            <i class="fas fa-times"></i>
+          </button>
 
-                    <img src="assets/img/logo.png" alt="Logo">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
-                        <i class="fas fa-times"></i>
-                    </button>
-                    
-                    <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
-                        <li>
-                            <a href="/">Accueil</a>
-                        </li>
-                        <li>
-                            <a href="/about">Qui sommes-nous?</a>
-                        </li>
-                        <li *ngIf="IsClientIn || !IsFournisseurIn">
-                            <a href="/ajouterBesoin">Ajouter un besoin</a>
-                        </li>
-                        <li *ngIf="IsFournisseurIn">
-                            <a href="/mesPropositions">Mes propositions</a>
-                        </li>
-                        <li>
-                            <a href="/listeBesoin">Liste des besoins</a>
-                        </li>
-                        
-                        <li>
-                            <a href="/contact">Contact</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="attr-right">
-                <a *ngIf="!IsClientIn && !IsFournisseurIn && !IsExpertIn"
-                href="/loginClient"
-                class="btn btn-theme connexion-btn">
-                    <span>Connexion</span>
-                </a>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/">Accueil</a></li>
+            <li><a href="/about">Qui sommes-nous?</a></li>
+            <li><a href="/contact">Contact</a></li>
 
-                <button *ngIf="IsClientIn || IsFournisseurIn || IsExpertIn"
-                        (click)="logout()"
-                        class="btn btn-danger connexion-btn">
-                    <span>Déconnexion</span>
-                </button>
+            <li *ngIf="IsClientIn">
+              <a href="/ajouterBesoin">Ajouter un besoin</a>
+            </li>
+            <li *ngIf="IsFournisseurIn">
+              <a href="/mesPropositions">Mes propositions</a>
+            </li>
+            <li *ngIf="IsClientIn || IsFournisseurIn || IsExpertIn">
+              <a href="/listeBesoin">Liste des besoins</a>
+            </li>
+          </ul>
+        </div>
 
-            </div>
- 
+        <!-- Right buttons -->
+        <div class="attr-right">
 
-                <!-- Overlay screen for menu -->
-                <div class="overlay-screen"></div>
-                <!-- End Overlay screen for menu -->
+          <!-- NOT CONNECTED → ouvre le modal -->
+          <button *ngIf="!IsClientIn && !IsFournisseurIn && !IsExpertIn"
+                  (click)="openLoginModal()"
+                  class="btn btn-theme connexion-btn">
+            <span>Connexion</span>
+          </button>
 
-            </div>
-            <!-- Main Nav -->
+          <!-- CONNECTED -->
+          <button *ngIf="IsClientIn || IsFournisseurIn || IsExpertIn"
+                  (click)="logout()"
+                  class="btn btn-danger connexion-btn">
+            <span>Déconnexion</span>
+          </button>
 
-        </div>   
-    </nav>
-    <!-- End Navigation -->
+        </div>
+        <div class="overlay-screen"></div>
+      </div>
+    </div>
+  </nav>
 </header>
-<!-- End Header -->
+
+<!-- ===== MODAL CHOIX CONNEXION ===== -->
+<div class="modal-overlay" *ngIf="showLoginModal" (click)="closeLoginModal()">
+  <div class="modal-box" (click)="$event.stopPropagation()">
+
+    <button class="modal-close" (click)="closeLoginModal()">
+      <i class="fas fa-times"></i>
+    </button>
+
+    <h2 class="modal-title">Se connecter en tant que</h2>
+    <p class="modal-subtitle">Choisissez votre profil pour continuer</p>
+
+    <div class="login-cards">
+
+      <!-- CLIENT -->
+      <a href="/loginClient" class="login-card">
+        <div class="card-icon client-icon">
+          <i class="fas fa-user"></i>
+        </div>
+        <h3>Client</h3>
+        <p>Publiez vos besoins agricoles</p>
+        <span class="card-arrow"><i class="fas fa-arrow-right"></i></span>
+      </a>
+
+      <!-- EXPERT -->
+      <a href="/loginExpert" class="login-card">
+        <div class="card-icon expert-icon">
+          <i class="fas fa-user"></i>
+        </div>
+        <h3>Expert Agricole</h3>
+        <p>Validez et conseillez les besoins</p>
+        <span class="card-arrow"><i class="fas fa-arrow-right"></i></span>
+      </a>
+
+      <!-- FOURNISSEUR -->
+      <a href="/loginFournisseur" class="login-card">
+        <div class="card-icon fournisseur-icon">
+          <i class="fas fa-user"></i>   <!-- ✅ au lieu de fa-truck -->
+        </div>
+        <h3>Fournisseur</h3>
+        <p>Proposez vos prix et services</p>
+        <span class="card-arrow"><i class="fas fa-arrow-right"></i></span>
+      </a>
+
+    </div>
+  </div>
+</div>

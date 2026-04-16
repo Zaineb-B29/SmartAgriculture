@@ -67,6 +67,13 @@
 .besoin-description {
   color: #475569;
   font-size: 14px;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+
+  min-height: 63px; /* ~3 lines */
 }
 
 /* Details */
@@ -102,3 +109,8 @@
   background: #b91c1c;
 }
 
+.besoin-text {
+  min-height: 120px; /* adjust after testing */
+  display: flex;
+  flex-direction: column;
+}

@@ -1,5 +1,4 @@
 <div class="se-pre-con"></div>
-
 <app-header></app-header>
 
 <!-- Breadcrumb -->
@@ -32,7 +31,9 @@
           </p>
         </div>
         <div class="col-lg-5 text-right">
-          <a href="/ajouterBesoin" class="btn btn-theme">
+          <a *ngIf="isClientIn"
+            href="/ajouterBesoin"
+            class="btn btn-theme">
             <i class="fas fa-plus-circle"></i>
             Ajouter un besoin
           </a>
@@ -63,111 +64,104 @@
           <!-- Contenu -->
           <div class="besoin-content">
 
-            <div>
-              <br><h4 class="besoin-title" style="font-weight: bolder;">{{ besoin.titre }}</h4>
-              <p class="besoin-description">{{ besoin.description }}</p>
+            <div class="besoin-text">
+              <h4 class="besoin-title">
+                {{ besoin.titre }}
+              </h4>
+
+              <p class="besoin-description">
+                {{ besoin.etat && besoin.descriptionExpert ? besoin.descriptionExpert : besoin.description }}
+              </p>
             </div>
 
             <!-- Détails -->
             <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px;">
 
               <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 6px 10px; min-width: 120px;">
-                <span style="display: block; font-size: 11px; color: #64748b; margin-bottom: 2px;">
-                  <i class="fas fa-tree" style="color: #4CAF50; margin-right: 3px;"></i>
-                  Nombre d'arbres
+                <span style="font-size: 11px; color: #64748b;">
+                  <i class="fas fa-tree" style="color:#4CAF50;"></i>
                 </span>
-                <span style="font-size: 13px; font-weight: 600; color: #0f172a;">
+                <span style="font-weight:600;">
                   {{ besoin.nombreArbres }}
                 </span>
               </div>
 
               <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 6px 10px; min-width: 120px;">
-                <span style="display: block; font-size: 11px; color: #64748b; margin-bottom: 2px;">
-                  <i class="fas fa-map-marker-alt" style="color: #4CAF50; margin-right: 3px;"></i>
-                  Lieu
+                <span style="font-size: 11px; color: #64748b;">
+                  <i class="fas fa-map-marker-alt" style="color:#4CAF50;"></i>
+          
                 </span>
-                <span style="font-size: 13px; font-weight: 600; color: #0f172a;">
+                <span style="font-weight:600;">
                   {{ besoin.lieu }}
                 </span>
               </div>
 
               <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 6px 10px; min-width: 120px;">
-                <span style="display: block; font-size: 11px; color: #64748b; margin-bottom: 2px;">
-                  <i class="fas fa-ruler-combined" style="color: #4CAF50; margin-right: 3px;"></i>
-                  Métrage
+                <span style="font-size: 11px; color: #64748b;">
+                  <i class="fas fa-ruler-combined" style="color:#4CAF50;"></i>
+                  
                 </span>
-                <span style="font-size: 13px; font-weight: 600; color: #0f172a;">
+                <span style="font-weight:600;">
                   {{ besoin.metrage }}
                 </span>
               </div>
 
             </div>
 
-            <!-- Actions -->
-            <div class="besoin-actions">
-
-              <!-- Bouton Prix proposé — visible uniquement si fournisseur connecté -->
-              <div class="besoin-actions text-center">
-
-                <button
-                  *ngIf="isFournisseurIn"
-                  class="btn btn-success btn-prix"
-                  (click)="proposerPrix(besoin)">
-                  <i class="fas fa-tag"></i>
-                  Prix proposé
-                </button>
-
-              </div>
-
+            <!-- FOURNISSEUR -->
+            <div class="besoin-actions text-center">
+              <button 
+                *ngIf="isFournisseurIn"
+                class="btn btn-success btn-prix"
+                (click)="proposerPrix(besoin)">
+                <i class="fas fa-tag"></i>
+                Prix proposé
+              </button>
             </div>
-            <!-- CLIENT — Prix proposés -->
+
+            <!-- CLIENT -->
             <div class="besoin-prix-list" *ngIf="isClientIn">
 
-              <!-- Replace your fieldset/legend with this -->
               <div style="position: relative; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px 10px 10px; margin-top: 16px;">
-                
-                <!-- Legend label -->
+
                 <span style="position: absolute; top: -10px; left: 10px; background: #f8fafc; padding: 0 6px; font-size: 13px; font-weight: 600; color: #16a34a;">
-                  <i class="fas fa-tags" style="margin-right: 4px;"></i>
+                  <i class="fas fa-tags"></i>
                   Prix proposés
                 </span>
+
                 <ng-container *ngIf="propositionsMap[besoin.id!]?.length > 0; else noPrix">
 
                   <div class="prix-item" *ngFor="let p of propositionsMap[besoin.id!]">
 
-                    <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; width:100%;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
 
-                      <!-- Fournisseur -->
-                      <span style="font-size:15px;">
+                      <span>
                         <i class="fas fa-user"></i>
                         {{ p.fournisseur?.nom }}
                       </span>
 
-                      <!-- Prix -->
                       <span style="font-weight:600; color:#16a34a;">
                         {{ p.Prix }} TND
                       </span>
 
-                      <button 
-                        
-                        style="
-                          display: inline-block;
-                          padding: 4px 12px;
-                          font-size: 16px;
-                          line-height: 1.4;
-                          border-radius: 25px;
-                          background: #16a34a;
-                          color: white;
-                          white-space: nowrap;
-                          cursor: pointer;
-                          opacity: 0.7;
-                          border: none;
-                        ">
-                        <i class="fas fa-calendar-check" style="font-size: 12px; margin-right: 3px;"></i>
-                        Réserver
+                      <button
+                        (click)="reserver(p)"
+                        [disabled]="isReserved(p) || besoinDejaReserve(p.besoin?.id!)"
+                        [style.background]="isReserved(p) ? '#888' : besoinDejaReserve(p.besoin?.id!) ? '#f59e0b' : '#16a34a'"
+                        [style.cursor]="isReserved(p) || besoinDejaReserve(p.besoin?.id!) ? 'not-allowed' : 'pointer'"
+                        [style.opacity]="'1'"
+                        style="display:inline-block; padding:4px 12px; font-size:16px;
+                              line-height:1.4; border-radius:25px; color:white;
+                              white-space:nowrap; border:none;">
+                        <i class="fas fa-calendar-check" style="font-size:12px; margin-right:3px;"></i>
+                        {{ isReserved(p) ? 'Réservé ✓' : besoinDejaReserve(p.besoin?.id!) ? 'Non disponible' : 'Réserver' }}
                       </button>
-                    </div><br>
+
+                    </div>
+                    <br>
+
                   </div>
+
                 </ng-container>
 
               </div>
@@ -177,22 +171,35 @@
               </ng-template>
 
             </div>
-            <!-- FOURNISSEUR — Proposer un prix -->
-            <div class="besoin-actions" *ngIf="isFournisseurIn">
-              <button class="btn btn-prix"
-                      (click)="proposerPrix(besoin)">
-                <i class="fas fa-tag"></i> Prix proposé
+
+            <!-- EXPERT -->
+            <div *ngIf="isExpertIn" style="margin-top:15px;">
+
+              <textarea  *ngIf="!besoin.etat"
+                [(ngModel)]="descriptions[besoin.id!]"
+                placeholder="Description expert"
+                style="width:100%; padding:8px; border-radius:6px; border:1px solid #ccc;">
+              </textarea>
+
+              <button
+                *ngIf="!besoin.etat"
+                (click)="verify(besoin.id!)"
+                class="btn btn-primary"
+                style="margin-top:8px;">
+                Valider besoin
               </button>
+
+              <span *ngIf="besoin.etat" style="color:green; font-weight:bold;">
+                ✔ Déjà validé
+              </span>
+
             </div>
 
           </div>
-
         </div>
 
       </div>
-
     </div>
-
   </div>
 </div>
 

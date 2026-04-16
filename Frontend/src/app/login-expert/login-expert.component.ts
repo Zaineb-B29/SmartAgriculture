@@ -125,8 +125,8 @@ export class LoginExpertComponent {
     this.service.loginExpert(expert).subscribe({
 
       next: (res) => {
-        localStorage.setItem("myTokenExpert", res.token);
-        localStorage.setItem("type", "EXPERT");
+        sessionStorage.setItem("myTokenExpert", res.token);
+        sessionStorage.setItem("type", "EXPERT");
 
         Swal.fire({
           icon: 'success',

@@ -19,7 +19,6 @@ import { LoginExpertComponent } from './login-expert/login-expert.component';
 import { LoginFournisseurComponent } from './login-fournisseur/login-fournisseur.component';
 import { AjouterBesoinComponent } from './ajouter-besoin/ajouter-besoin.component';
 import { ListeBesoinComponent } from './liste-besoin/liste-besoin.component';
-import { AjouterPrixProposerComponent } from './ajouter-prix-proposer/ajouter-prix-proposer.component';
 import { MesPropositionsComponent } from './mes-propositions/mes-propositions.component';
 
 @NgModule({
@@ -38,7 +37,6 @@ import { MesPropositionsComponent } from './mes-propositions/mes-propositions.co
     LoginFournisseurComponent,
     AjouterBesoinComponent,
     ListeBesoinComponent,
-    AjouterPrixProposerComponent,
     MesPropositionsComponent,
 
   ],

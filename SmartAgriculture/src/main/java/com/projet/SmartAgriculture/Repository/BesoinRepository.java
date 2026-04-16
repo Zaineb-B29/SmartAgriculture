@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface BesoinRepository extends JpaRepository<Besoin,Long> {
     List<Besoin> findByClientId(Long clientId);
+    List<Besoin> findByEtatTrue();
 }

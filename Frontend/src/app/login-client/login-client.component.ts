@@ -76,8 +76,8 @@ export class LoginClientComponent {
     this.service.loginClient(client).subscribe({
 
       next: (res) => {
-        localStorage.setItem("myTokenClient", res.token);
-        localStorage.setItem("type", "CLIENT");
+        sessionStorage.setItem("myTokenClient", res.token);
+        sessionStorage.setItem("type", "CLIENT");
 
         Swal.fire({
           icon: 'success',
@@ -157,7 +157,7 @@ export class LoginClientComponent {
     this.service.signInWithGoogle(idToken).subscribe(
       res => {
         console.log('Connexion réussie via Google!', res);
-        localStorage.setItem("myTokenClient", res.token);
+        sessionStorage.setItem("myTokenClient", res.token);
         this.router.navigate(['']).then(() => window.location.reload());
       },
       err => {

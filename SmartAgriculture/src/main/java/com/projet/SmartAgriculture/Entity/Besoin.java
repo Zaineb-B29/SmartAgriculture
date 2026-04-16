@@ -1,5 +1,4 @@
 package com.projet.SmartAgriculture.Entity;
-
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -19,6 +18,11 @@ public class Besoin {
     private String lieu;
     private String metrage;
 
+    private String descriptionExpert;
+    private boolean etat;
+
     @ManyToOne
     private Client client;
+    @ManyToOne
+    private ExpertAgricole expert;
 }
