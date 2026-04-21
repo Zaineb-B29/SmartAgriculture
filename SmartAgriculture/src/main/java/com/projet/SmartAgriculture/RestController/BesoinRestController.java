@@ -1,7 +1,6 @@
 package com.projet.SmartAgriculture.RestController;
 
 import com.projet.SmartAgriculture.Entity.Besoin;
-import com.projet.SmartAgriculture.Repository.ExpertAgricoleRepository;
 import com.projet.SmartAgriculture.Services.BesoinService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +21,6 @@ public class BesoinRestController {
 
     @Autowired
     BesoinService besoinService;
-    @Autowired
-    ExpertAgricoleRepository expertAgricoleRepository;
 
     @PostMapping("/client/{clientId}")
     public ResponseEntity<Besoin> createBesoin(
@@ -42,35 +39,27 @@ public class BesoinRestController {
         besoin.setLieu(lieu);
         besoin.setMetrage(metrage);
 
-        // 📷 save image
         try {
             String fileName = file.getOriginalFilename();
             Path path = Paths.get("D:/pfe/Frontend/src/assets/img/uploads/" + fileName);
-
             Files.createDirectories(path.getParent());
             Files.write(path, file.getBytes());
-
-            // store relative Angular assets path
             besoin.setImage("assets/img/uploads/" + fileName);
-
         } catch (IOException e) {
             throw new RuntimeException("Error upload image");
         }
 
-        Besoin created = besoinService.ajouterBesoin(clientId, besoin);
-
-        return ResponseEntity.ok(created);
+        return ResponseEntity.ok(besoinService.ajouterBesoin(clientId, besoin));
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     public List<Besoin> AfficherBesoin() {
         return besoinService.AfficherBesoin();
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Optional<Besoin> getBesoinById(@PathVariable("id") Long id) {
-        Optional<Besoin> besoin = besoinService.AfficherBesoinById(id);
-        return besoin;
+    @GetMapping("/{id}")
+    public Optional<Besoin> getBesoinById(@PathVariable Long id) {
+        return besoinService.AfficherBesoinById(id);
     }
 
     @GetMapping("/client/{clientId}")
@@ -84,16 +73,37 @@ public class BesoinRestController {
             @PathVariable Long expertId,
             @RequestBody Besoin besoinRequest
     ) {
-        Besoin besoin = besoinService.verifyBesoin(
+        return ResponseEntity.ok(besoinService.verifyBesoin(
                 besoinId,
                 expertId,
                 besoinRequest.getDescriptionExpert()
-        );
-        return ResponseEntity.ok(besoin);
+        ));
     }
 
     @GetMapping("/valide")
     public List<Besoin> getBesoinsValides() {
         return besoinService.AfficherBesoinValide();
+    }
+
+    @PutMapping("/expert/update/{besoinsId}/expert/{expertId}")
+    public ResponseEntity<Besoin> updateBesoinByExpert(
+            @PathVariable Long besoinsId,
+            @PathVariable Long expertId,
+            @RequestParam String descriptionExpert,
+            @RequestParam Double quantite          // kept as-is per your interface
+    ) {
+        return ResponseEntity.ok(
+                besoinService.updateBesoinByExpert(besoinsId, expertId, descriptionExpert, quantite)
+        );
+    }
+
+    @GetMapping("/en-attente")
+    public ResponseEntity<List<Besoin>> getBesoinsEnAttente() {
+        return ResponseEntity.ok(besoinService.getBesoinsEnAttente());
+    }
+
+    @GetMapping("/expert/{expertId}")
+    public ResponseEntity<List<Besoin>> getBesoinsByExpert(@PathVariable Long expertId) {
+        return ResponseEntity.ok(besoinService.getBesoinsByExpert(expertId));
     }
 }

@@ -101,30 +101,8 @@ export class CrudService {
     return this.http.post(this.GoogleUrl, null, { params });
   }
 
-  /* ================= BESOIN ================= */
-  improveDescription(descriptionData: any): Observable<any> {
-    return this.http.post(`${this.fastApiUrl}/improve-description`, descriptionData);
-  }
-
-  createBesoin(clientId: number, besoin: Besoin): Observable<Besoin> {
-    return this.http.post<Besoin>(`${this.apiUrl}/client/${clientId}`, besoin);
-  }
-
-  getBesoins(): Observable<Besoin[]> {
-    return this.http.get<Besoin[]>(`${this.apiUrl}/besoin`);
-  }
-
-  getBesoinById(id: number): Observable<Besoin> {
-    return this.http.get<Besoin>(`${this.apiUrl}/besoin/${id}`);
-  }
-
-  deleteBesoin(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/besoin/${id}`);
-  }
-
-  addBesoin(clientId: number, request: FormData) {
-    return this.http.post(`${this.apiUrl}/besoin/client/${clientId}`, request);
-  }
+  
+ 
 
   /* ================= USER DETAILS & AUTH ================= */
   userDetails() {
@@ -168,10 +146,7 @@ export class CrudService {
     );
   }
 
-  getMesBesoins(): Observable<Besoin[]> {
-    const user = this.userDetails();
-    return this.http.get<Besoin[]>(`${this.apiUrl}/besoin/client/${user.id}`);
-  }
+
 
   getPrixByBesoin(besoinId: number): Observable<PrixProposer[]> {
     return this.http.get<PrixProposer[]>(`${this.apiUrl}/prixproposer/besoin/${besoinId}`);
@@ -196,15 +171,74 @@ export class CrudService {
     return this.http.get<any[]>(`${this.apiUrl}/reserver/client/${clientId}`);
   }
 
-  verifyBesoin(besoinId: number, descriptionExpert: string) {
-    const user = this.userDetails();
-    return this.http.put(
-      `${this.apiUrl}/besoin/verify/${besoinId}/expert/${user.id}`,
-      { descriptionExpert }
-    );
-  }
-  /*for THE VALDATED BESOINS(pour fournisseur)*/ 
-  getBesoinsValides(): Observable<Besoin[]> {
-    return this.http.get<Besoin[]>(`${this.apiUrl}/besoin/valide`);
-  }
+
+
+/* ================= BESOIN ================= */
+improveDescription(descriptionData: any): Observable<any> {
+  return this.http.post(`${this.fastApiUrl}/improve-description`, descriptionData);
+}
+
+createBesoin(clientId: number, besoin: Besoin): Observable<Besoin> {
+  return this.http.post<Besoin>(`${this.apiUrl}/client/${clientId}`, besoin);
+}
+
+getBesoins(): Observable<Besoin[]> {
+  return this.http.get<Besoin[]>(`${this.apiUrl}/besoin`);
+}
+
+getBesoinById(id: number): Observable<Besoin> {
+  return this.http.get<Besoin>(`${this.apiUrl}/besoin/${id}`);
+}
+
+deleteBesoin(id: number): Observable<any> {
+  return this.http.delete(`${this.apiUrl}/besoin/${id}`);
+}
+
+addBesoin(clientId: number, request: FormData) {
+  return this.http.post(`${this.apiUrl}/besoin/client/${clientId}`, request);
+}
+
+getMesBesoins(): Observable<Besoin[]> {
+  const user = this.userDetails();
+  return this.http.get<Besoin[]>(`${this.apiUrl}/besoin/client/${user.id}`);
+}
+
+getBesoinsValides(): Observable<Besoin[]> {
+  return this.http.get<Besoin[]>(`${this.apiUrl}/besoin/valide`);
+}
+
+getBesoinsEnAttente(): Observable<Besoin[]> {
+  return this.http.get<Besoin[]>(`${this.apiUrl}/besoin/en-attente`);
+}
+
+getBesoinsByExpert(expertId: number): Observable<Besoin[]> {
+  return this.http.get<Besoin[]>(`${this.apiUrl}/besoin/expert/${expertId}`);
+}
+
+// Étape 1 : Expert valide rapidement (etat=true, statut=EN_ATTENTE_VALIDATION)
+verifyBesoin(besoinId: number, descriptionExpert: string): Observable<any> {
+  const user = this.userDetails();
+  return this.http.put(
+    `${this.apiUrl}/besoin/verify/${besoinId}/expert/${user.id}`,
+    { descriptionExpert }
+  );
+}
+
+// Étape 2 : Expert complète avec description détaillée + quantité (statut=VALIDE_PAR_EXPERT)
+updateBesoinByExpert(
+  besoinsId: number,
+  expertId: number,
+  descriptionExpert: string,
+  quantite: number
+): Observable<Besoin> {
+  const params = new HttpParams()
+    .set('descriptionExpert', descriptionExpert)
+    .set('quantite', quantite.toString());
+
+  return this.http.put<Besoin>(
+    `${this.apiUrl}/besoin/expert/update/${besoinsId}/expert/${expertId}`,
+    null,
+    { params }
+  );
+}
 }

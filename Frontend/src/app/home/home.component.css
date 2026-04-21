@@ -1,0 +1,11 @@
+.breadcrumb-area .breadcrumb li::after {
+  content: "\f105";
+  font-family: "Font Awesome 5 Free"; /* or Pro, depending on your license */
+  font-weight: 900; /* Free uses 900 for solid icons */
+  position: absolute;
+  right: -5px;
+  top: 50%;
+  transform: translateY(-50%); /* Better vertical centering */
+  font-size: 14px;
+  color: #fff; /* fallback if var(--white) isn’t defined */
+}

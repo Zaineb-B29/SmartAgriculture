@@ -1,0 +1,296 @@
+<div class="se-pre-con"></div>
+<app-header></app-header>
+
+<!-- Breadcrumb -->
+<div class="breadcrumb-area shadow dark bg-cover text-center text-light"
+     style="background-image: url(assets/img/banner/3.jpg);">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <h1>Besoins en Attente de Validation</h1>
+        <ul class="breadcrumb">
+          <li><a href="/"><i class="fas fa-home"></i> Accueil</a></li>
+          <li>Besoins en attente</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Same styles as liste-besoin for identical appearance -->
+<style>
+  .besoin-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+    border: 1px solid #eef2f7;
+    transition: transform 0.3s;
+  }
+  .besoin-card:hover {
+    transform: translateY(-5px);
+  }
+  .besoin-image {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .besoin-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .besoin-content {
+    flex: 1;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .besoin-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .besoin-title {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0;
+    color: #1e293b;
+  }
+  .besoin-description {
+    color: #475569;
+    font-size: 13px;
+    line-height: 1.55;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 60px;
+    margin: 0;
+  }
+  .besoin-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+  }
+  .besoin-meta .chip {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 5px 10px;
+    font-size: 12px;
+    color: #475569;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .besoin-meta .chip i {
+    color: #4CAF50;
+    font-size: 11px;
+  }
+  .besoin-action {
+    margin-top: auto;
+    padding-top: 4px;
+  }
+  .btn-action {
+    width: 100%;
+    padding: 9px 0;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .btn-action-green {
+    background: #4CAF50;
+    color: white;
+  }
+  .btn-action-green:hover { background: #3d8b40; }
+  .btn-action-cancel {
+    background: #f1f5f9;
+    color: #475569;
+  }
+  .btn-action-cancel:hover { background: #e2e8f0; }
+
+  /* Validation form panel */
+  .validation-panel {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .validation-panel label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .validation-panel label i { color: #4CAF50; }
+  .validation-panel textarea,
+  .validation-panel input {
+    width: 100%;
+    font-size: 13px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    background: white;
+    color: #1e293b;
+    resize: vertical;
+    font-family: inherit;
+  }
+  .validation-panel textarea:focus,
+  .validation-panel input:focus {
+    outline: none;
+    border-color: #4CAF50;
+  }
+
+  /* Empty / count */
+  .empty-state { padding: 60px 0; color: #94a3b8; }
+  .empty-state i { font-size: 56px; display: block; margin-bottom: 16px; opacity: .35; }
+  .besoin-count { font-size: 14px; color: #555; margin: 0; }
+  .besoin-count i { color: #4CAF50; margin-right: 6px; }
+</style>
+
+<div class="validtheme-shop-area default-padding">
+  <div class="container">
+
+    <!-- Top bar -->
+    <div class="shop-listing-contentes">
+      <div class="row align-items-center" style="margin-bottom:24px;">
+        <div class="col-lg-12">
+          <p class="besoin-count">
+            <i class="fas fa-leaf"></i>
+            <strong>{{ besoins.length }}</strong> besoin(s) en attente de validation
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty state -->
+    <div class="row" *ngIf="besoins.length === 0">
+      <div class="col-12 text-center empty-state">
+        <i class="fas fa-inbox"></i>
+        <h5>Aucun besoin en attente de validation.</h5>
+      </div>
+    </div>
+
+    <!-- ✅ Grid — *ngFor on col, no ng-container wrapper -->
+    <div class="row">
+      <div class="col-lg-4 col-md-6 col-sm-12 d-flex mb-4"
+           *ngFor="let besoin of besoins">
+
+        <div class="besoin-card w-100">
+
+          <!-- Image -->
+          <div class="besoin-image">
+            <img [src]="besoin.image" alt="Image besoin">
+          </div>
+
+          <!-- Content -->
+          <div class="besoin-content">
+
+            <!-- Text block — grows to fill space -->
+            <div class="besoin-text">
+
+              <!-- Title + badge -->
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
+                <h4 class="besoin-title" style="flex:1;">{{ besoin.titre }}</h4>
+                <span style="font-size:11px; background:#fef9c3; color:#854d0e;
+                             border-radius:20px; padding:3px 9px; white-space:nowrap;
+                             font-weight:600; flex-shrink:0;">
+                  <i class="fas fa-clock" style="margin-right:3px;"></i>En attente
+                </span>
+              </div>
+
+              <p class="besoin-description">{{ besoin.description }}</p>
+
+            </div>
+
+            <!-- Meta chips -->
+            <div class="besoin-meta">
+              <span class="chip"><i class="fas fa-tree"></i>{{ besoin.nombreArbres }}</span>
+              <span class="chip"><i class="fas fa-map-marker-alt"></i>{{ besoin.lieu }}</span>
+              <span class="chip"><i class="fas fa-ruler-combined"></i>{{ besoin.metrage }}</span>
+              <span class="chip" *ngIf="besoin.dateSoumission">
+                <i class="fas fa-calendar-alt"></i>
+                {{ besoin.dateSoumission | date:'dd/MM/yyyy' }}
+              </span>
+            </div>
+
+            <!-- Client info -->
+            <p *ngIf="besoin.client"
+               style="font-size:12px; color:#64748b; margin:0; display:flex; align-items:center; gap:5px;">
+              <i class="fas fa-user" style="color:#cbd5e1;"></i>
+              Client : <strong>{{ besoin.client?.nom }} {{ besoin.client?.prenom }}</strong>
+            </p>
+
+            <!-- ── Action button — always pinned at bottom ── -->
+            <div class="besoin-action">
+
+              <!-- When form is closed: green "Valider" button -->
+              <button *ngIf="!showFormMap[besoin.id!]"
+                      class="btn-action btn-action-green"
+                      (click)="toggleForm(besoin.id!)">
+                <i class="fas fa-edit"></i> Valider ce besoin
+              </button>
+
+              <!-- When form is open: cancel button -->
+              <button *ngIf="showFormMap[besoin.id!]"
+                      class="btn-action btn-action-cancel"
+                      (click)="toggleForm(besoin.id!)">
+                <i class="fas fa-times"></i> Annuler
+              </button>
+
+            </div>
+
+            <!-- Validation form — expands below the button when open -->
+            <!-- ✅ No quantite field -->
+            <div class="validation-panel" *ngIf="showFormMap[besoin.id!]">
+
+              <div>
+                <label>
+                  <i class="fas fa-comment-medical"></i>
+                  Description Expert
+                </label>
+                <textarea
+                  [(ngModel)]="descriptions[besoin.id!]"
+                  placeholder="Votre diagnostic et recommandations..."
+                  rows="4">
+                </textarea>
+              </div>
+
+              <button class="btn-action btn-action-green"
+                      (click)="updateBesoin(besoin)">
+                <i class="fas fa-check-circle"></i> Confirmer la validation
+              </button>
+
+            </div>
+
+          </div><!-- /besoin-content -->
+        </div><!-- /besoin-card -->
+
+      </div><!-- /col -->
+    </div><!-- /row -->
+
+  </div>
+</div>
+
+<app-footer></app-footer>

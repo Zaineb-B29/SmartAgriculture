@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -20,6 +21,7 @@ import { LoginFournisseurComponent } from './login-fournisseur/login-fournisseur
 import { AjouterBesoinComponent } from './ajouter-besoin/ajouter-besoin.component';
 import { ListeBesoinComponent } from './liste-besoin/liste-besoin.component';
 import { MesPropositionsComponent } from './mes-propositions/mes-propositions.component';
+import { ListeBesoinEnAttenteComponent } from './liste-besoin-en-attente/liste-besoin-en-attente.component';
 
 @NgModule({
   declarations: [
@@ -38,12 +40,14 @@ import { MesPropositionsComponent } from './mes-propositions/mes-propositions.co
     AjouterBesoinComponent,
     ListeBesoinComponent,
     MesPropositionsComponent,
+    ListeBesoinEnAttenteComponent,
 
   ],
   imports: [
     BrowserModule,
+    CommonModule,
     AppRoutingModule,
-    FormsModule,
+    FormsModule,  
     ReactiveFormsModule,
     HttpClientModule
   ],

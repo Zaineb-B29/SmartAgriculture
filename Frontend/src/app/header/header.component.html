@@ -49,6 +49,9 @@
             <li *ngIf="IsClientIn || IsFournisseurIn || IsExpertIn">
               <a href="/listeBesoin">Liste des besoins</a>
             </li>
+            <li *ngIf="IsExpertIn">
+              <a href="/listeBesoinEnAttente">Liste des besoins en attente</a>
+            </li>
           </ul>
         </div>
 

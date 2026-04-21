@@ -9,7 +9,7 @@
       <div class="col-lg-12">
         <h1>Liste des Besoins</h1>
         <ul class="breadcrumb">
-          <li><a routerLink="/"><i class="fas fa-home"></i> Accueil</a></li>
+          <li><a href="/"><i class="fas fa-home"></i> Accueil</a></li>
           <li>Liste des besoins</li>
         </ul>
       </div>
@@ -17,23 +17,237 @@
   </div>
 </div>
 
-<!-- Besoins -->
+<style>
+  .breadcrumb-area .breadcrumb li:not(:last-child)::after {
+  content: "\f105"; /* Font Awesome right arrow */
+  font-family: "Font Awesome 5 Free"; /* or Pro if licensed */
+  font-weight: 900; /* Free solid icons use 900 */
+  position: absolute;
+  right: -5px;
+  top: 50%;
+  transform: translateY(-50%); /* centers vertically */
+  font-size: 14px;
+  color: #fff; /* fallback if var(--white) isn’t defined */
+}
+
+  .btn-add-besoin {
+    background-color: #4CAF50 !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 20px !important;
+    padding: 8px 20px !important;
+    font-size: 13px !important;
+    text-decoration: none !important;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 500;
+  }
+  .btn-add-besoin:hover,
+  .btn-add-besoin:focus,
+  .btn-add-besoin:active,
+  .btn-add-besoin:visited {
+    background-color: #4CAF50 !important;
+    color: white !important;
+    text-decoration: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+  }
+
+  /* Section headers */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 32px 0 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #eef2f7;
+  }
+  .section-header h5 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: #1e293b;
+  }
+  .section-badge {
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 20px;
+    padding: 3px 10px;
+  }
+  .badge-green  { background: #dcfce7; color: #16a34a; }
+  .badge-amber  { background: #fef9c3; color: #854d0e; }
+
+  /* Card */
+  .besoin-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+    border: 1px solid #eef2f7;
+    transition: transform 0.3s;
+  }
+  .besoin-card:hover { transform: translateY(-5px); }
+
+  .besoin-image { width: 100%; height: 200px; overflow: hidden; flex-shrink: 0; }
+  .besoin-image img { width: 100%; height: 100%; object-fit: cover; }
+
+  .besoin-content {
+    flex: 1;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .besoin-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .besoin-title {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0;
+    color: #1e293b;
+  }
+
+  .besoin-description {
+    color: #475569;
+    font-size: 13px;
+    line-height: 1.55;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 60px;
+    margin: 0;
+  }
+
+  /* Meta chips */
+  .besoin-meta { display: flex; flex-wrap: wrap; gap: 7px; }
+  .besoin-meta .chip {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 5px 10px;
+    font-size: 12px;
+    color: #475569;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .besoin-meta .chip i { color: #4CAF50; font-size: 11px; }
+
+  /* Prix section */
+  .prix-section {
+    position: relative;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 14px 12px 10px;
+  }
+  .prix-section-label {
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    background: #f8fafc;
+    padding: 0 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #16a34a;
+  }
+  .prix-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 0;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .prix-row:last-child { border-bottom: none; }
+  .prix-supplier {
+    font-size: 12px;
+    color: #334155;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .prix-amount { font-size: 13px; font-weight: 600; color: #16a34a; white-space: nowrap; }
+  .prix-empty  { font-size: 12px; color: #94a3b8; font-style: italic; margin: 0; }
+
+  /* Pending info box */
+  .pending-info {
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 12px;
+    color: #92400e;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: auto;
+  }
+
+  /* Bottom action */
+  .besoin-action { margin-top: auto; padding-top: 4px; }
+  .btn-action {
+    width: 100%;
+    padding: 9px 0;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .btn-action-green { background: #4CAF50; color: white; }
+  .btn-action-green:hover { background: #3d8b40; }
+
+  .btn-reserve {
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    font-weight: 500;
+  }
+
+  /* Empty / count */
+  .empty-state { padding: 40px 0; color: #94a3b8; text-align: center; }
+  .empty-state i { font-size: 48px; display: block; margin-bottom: 12px; opacity: .3; }
+  .besoin-count { font-size: 14px; color: #555; margin: 0; }
+  .besoin-count i { color: #4CAF50; margin-right: 6px; }
+</style>
+
 <div class="validtheme-shop-area default-padding">
   <div class="container">
 
-    <!-- Top bar -->
+    <!-- ── Top bar ── -->
     <div class="shop-listing-contentes">
-      <div class="row item-flex center">
-        <div class="col-lg-7">
+      <div class="row align-items-center" style="margin-bottom: 8px;">
+        <div class="col-lg-8 col-md-7">
           <p class="besoin-count">
             <i class="fas fa-leaf"></i>
-            {{ besoins.length }} besoin(s) disponible(s)
+            <strong>
+              {{ besoinsValides.length }}
+            </strong>Besoin(s) validé(s) 
           </p>
         </div>
-        <div class="col-lg-5 text-right">
-          <a *ngIf="isClientIn"
-            href="/ajouterBesoin"
-            class="btn btn-theme">
+        <div class="col-lg-4 col-md-5 text-right" *ngIf="isClientIn">
+          <a routerLink="/ajouterBesoin" class="btn-add-besoin">
             <i class="fas fa-plus-circle"></i>
             Ajouter un besoin
           </a>
@@ -41,165 +255,157 @@
       </div>
     </div>
 
-    <!-- Empty state -->
-    <div class="row" *ngIf="besoins.length === 0">
-      <div class="col-lg-12 text-center empty-state">
-        <i class="fas fa-inbox"></i>
-        <h4>Aucun besoin disponible.</h4>
+    <!-- ════════════════════════════════════════
+         CLIENT VIEW — two sections
+         ════════════════════════════════════════ -->
+    <ng-container *ngIf="isClientIn || isExpertIn">
+
+      <!-- ── Section 1 : Besoins validés ── -->
+      <!--<div class="section-header">
+        <i class="fas fa-check-circle" style="color:#16a34a; font-size:16px;"></i>
+        <h5>Besoins validés par l'expert</h5>
+        <span class="section-badge badge-green">{{ besoinsValides.length }}</span>
+      </div>-->
+
+      <div class="row" *ngIf="besoinsValides.length === 0">
+        <div class="col-12 empty-state">
+          <i class="fas fa-inbox"></i>
+          <p>Aucun besoin validé pour le moment.</p>
+        </div>
       </div>
-    </div>
 
-    <!-- Liste des besoins -->
-    <div class="row">
+      <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-12 d-flex mb-4"
+             *ngFor="let besoin of besoinsValides">
 
-      <div class="col-lg-4 col-md-6 col-sm-12 d-flex" *ngFor="let besoin of besoins">
-
-        <div class="besoin-card">
-
-          <!-- Image -->
-          <div class="besoin-image">
-            <img [src]="besoin.image" alt="Image besoin">
-          </div>
-
-          <!-- Contenu -->
-          <div class="besoin-content">
-
-            <div class="besoin-text">
-              <h4 class="besoin-title">
-                {{ besoin.titre }}
-              </h4>
-
-              <p class="besoin-description">
-                {{ besoin.etat && besoin.descriptionExpert ? besoin.descriptionExpert : besoin.description }}
-              </p>
+          <div class="besoin-card w-100">
+            <div class="besoin-image">
+              <img [src]="besoin.image" alt="Image besoin">
             </div>
+            <div class="besoin-content">
 
-            <!-- Détails -->
-            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px;">
-
-              <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 6px 10px; min-width: 120px;">
-                <span style="font-size: 11px; color: #64748b;">
-                  <i class="fas fa-tree" style="color:#4CAF50;"></i>
-                </span>
-                <span style="font-weight:600;">
-                  {{ besoin.nombreArbres }}
-                </span>
+              <div class="besoin-text">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
+                  <h4 class="besoin-title" style="flex:1;">{{ besoin.titre }}</h4>
+                  <span class="section-badge badge-green" style="flex-shrink:0;">
+                    <i class="fas fa-check-circle" style="margin-right:3px;"></i>Validé
+                  </span>
+                </div>
+                <p class="besoin-description">
+                  {{ besoin.descriptionExpert ? besoin.descriptionExpert : besoin.description }}
+                </p>
               </div>
 
-              <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 6px 10px; min-width: 120px;">
-                <span style="font-size: 11px; color: #64748b;">
-                  <i class="fas fa-map-marker-alt" style="color:#4CAF50;"></i>
-          
-                </span>
-                <span style="font-weight:600;">
-                  {{ besoin.lieu }}
-                </span>
+              <div class="besoin-meta">
+                <span class="chip"><i class="fas fa-tree"></i>{{ besoin.nombreArbres }}</span>
+                <span class="chip"><i class="fas fa-map-marker-alt"></i>{{ besoin.lieu }}</span>
+                <span class="chip"><i class="fas fa-ruler-combined"></i>{{ besoin.metrage }}</span>
               </div>
 
-              <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 6px 10px; min-width: 120px;">
-                <span style="font-size: 11px; color: #64748b;">
-                  <i class="fas fa-ruler-combined" style="color:#4CAF50;"></i>
-                  
-                </span>
-                <span style="font-weight:600;">
-                  {{ besoin.metrage }}
-                </span>
-              </div>
-
-            </div>
-
-            <!-- FOURNISSEUR -->
-            <div class="besoin-actions text-center">
-              <button 
-                *ngIf="isFournisseurIn"
-                class="btn btn-success btn-prix"
-                (click)="proposerPrix(besoin)">
-                <i class="fas fa-tag"></i>
-                Prix proposé
-              </button>
-            </div>
-
-            <!-- CLIENT -->
-            <div class="besoin-prix-list" *ngIf="isClientIn">
-
-              <div style="position: relative; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px 10px 10px; margin-top: 16px;">
-
-                <span style="position: absolute; top: -10px; left: 10px; background: #f8fafc; padding: 0 6px; font-size: 13px; font-weight: 600; color: #16a34a;">
-                  <i class="fas fa-tags"></i>
-                  Prix proposés
+              <!-- Prix proposés -->
+              <div class="prix-section">
+                <span class="prix-section-label">
+                  <i class="fas fa-tags"></i> Prix proposés
                 </span>
 
-                <ng-container *ngIf="propositionsMap[besoin.id!]?.length > 0; else noPrix">
-
-                  <div class="prix-item" *ngFor="let p of propositionsMap[besoin.id!]">
-
-                    <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
-
-                      <span>
-                        <i class="fas fa-user"></i>
-                        {{ p.fournisseur?.nom }}
-                      </span>
-
-                      <span style="font-weight:600; color:#16a34a;">
-                        {{ p.Prix }} TND
-                      </span>
-
-                      <button
-                        (click)="reserver(p)"
-                        [disabled]="isReserved(p) || besoinDejaReserve(p.besoin?.id!)"
-                        [style.background]="isReserved(p) ? '#888' : besoinDejaReserve(p.besoin?.id!) ? '#f59e0b' : '#16a34a'"
-                        [style.cursor]="isReserved(p) || besoinDejaReserve(p.besoin?.id!) ? 'not-allowed' : 'pointer'"
-                        [style.opacity]="'1'"
-                        style="display:inline-block; padding:4px 12px; font-size:16px;
-                              line-height:1.4; border-radius:25px; color:white;
-                              white-space:nowrap; border:none;">
-                        <i class="fas fa-calendar-check" style="font-size:12px; margin-right:3px;"></i>
-                        {{ isReserved(p) ? 'Réservé ✓' : besoinDejaReserve(p.besoin?.id!) ? 'Non disponible' : 'Réserver' }}
-                      </button>
-
-                    </div>
-                    <br>
-
+                <ng-container *ngIf="propositionsMap[besoin.id!]?.length > 0; else noPrixValide">
+                  <div class="prix-row" *ngFor="let p of propositionsMap[besoin.id!]">
+                    <span class="prix-supplier">
+                      <i class="fas fa-user" style="color:#cbd5e1; margin-right:4px;"></i>
+                      {{ p.fournisseur?.nom }}
+                    </span>
+                    <span class="prix-amount">{{ p.Prix }} TND</span>
+                    <button
+                      class="btn-reserve"
+                      (click)="reserver(p)"
+                      [disabled]="isReserved(p) || besoinDejaReserve(p.besoin?.id!)"
+                      [ngStyle]="{
+                        'background': isReserved(p) ? '#e2e8f0' : besoinDejaReserve(p.besoin?.id!) ? '#fef3c7' : '#4CAF50',
+                        'color':      isReserved(p) ? '#94a3b8' : besoinDejaReserve(p.besoin?.id!) ? '#92400e' : 'white',
+                        'cursor':    (isReserved(p) || besoinDejaReserve(p.besoin?.id!)) ? 'not-allowed' : 'pointer'
+                      }">
+                      <i class="fas fa-calendar-check" style="margin-right:3px;"></i>
+                      {{ isReserved(p) ? 'Réservé ✓' : besoinDejaReserve(p.besoin?.id!) ? 'Non dispo' : 'Réserver' }}
+                    </button>
                   </div>
-
                 </ng-container>
 
+                <ng-template #noPrixValide>
+                  <p class="prix-empty">Aucun prix proposé pour le moment.</p>
+                </ng-template>
               </div>
 
-              <ng-template #noPrix>
-                <p class="prix-empty">Aucun prix proposé</p>
-              </ng-template>
-
             </div>
-
-            <!-- EXPERT -->
-            <div *ngIf="isExpertIn" style="margin-top:15px;">
-
-              <textarea  *ngIf="!besoin.etat"
-                [(ngModel)]="descriptions[besoin.id!]"
-                placeholder="Description expert"
-                style="width:100%; padding:8px; border-radius:6px; border:1px solid #ccc;">
-              </textarea>
-
-              <button
-                *ngIf="!besoin.etat"
-                (click)="verify(besoin.id!)"
-                class="btn btn-primary"
-                style="margin-top:8px;">
-                Valider besoin
-              </button>
-
-              <span *ngIf="besoin.etat" style="color:green; font-weight:bold;">
-                ✔ Déjà validé
-              </span>
-
-            </div>
-
           </div>
-        </div>
 
+        </div>
       </div>
-    </div>
+
+      
+
+     
+
+    </ng-container>
+
+    <!-- ════════════════════════════════════════
+         FOURNISSEUR VIEW
+         ════════════════════════════════════════ -->
+    <ng-container *ngIf="isFournisseurIn">
+
+      <div class="row" *ngIf="besoins.length === 0">
+        <div class="col-12 empty-state">
+          <i class="fas fa-inbox"></i>
+          <p>Aucun besoin validé disponible.</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-12 d-flex mb-4"
+             *ngFor="let besoin of besoins">
+
+          <div class="besoin-card w-100">
+            <div class="besoin-image">
+              <img [src]="besoin.image" alt="Image besoin">
+            </div>
+            <div class="besoin-content">
+
+              <div class="besoin-text">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
+                  <h4 class="besoin-title" style="flex:1;">{{ besoin.titre }}</h4>
+                  <span class="section-badge badge-green" style="flex-shrink:0;">
+                    <i class="fas fa-check-circle" style="margin-right:3px;"></i>Validé
+                  </span>
+                </div>
+                <p class="besoin-description">
+                  {{ besoin.descriptionExpert ? besoin.descriptionExpert : besoin.description }}
+                </p>
+              </div>
+
+              <div class="besoin-meta">
+                <span class="chip"><i class="fas fa-tree"></i>{{ besoin.nombreArbres }}</span>
+                <span class="chip"><i class="fas fa-map-marker-alt"></i>{{ besoin.lieu }}</span>
+                <span class="chip"><i class="fas fa-ruler-combined"></i>{{ besoin.metrage }}</span>
+              </div>
+
+              <div class="besoin-action">
+                <button class="btn-action btn-action-green" (click)="proposerPrix(besoin)">
+                  <i class="fas fa-tag"></i> Proposer un prix
+                </button>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </ng-container>
+
+    <!-- ════════════════════════════════════════
+         EXPERT VIEW
+         ════════════════════════════════════════ -->
+    
+
   </div>
 </div>
 
