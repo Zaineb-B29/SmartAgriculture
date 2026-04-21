@@ -215,6 +215,17 @@ getBesoinsByExpert(expertId: number): Observable<Besoin[]> {
   return this.http.get<Besoin[]>(`${this.apiUrl}/besoin/expert/${expertId}`);
 }
 
+
+
+getMesBesoinsValides(): Observable<Besoin[]> {
+  const user = this.userDetails();
+  return this.http.get<Besoin[]>(`${this.apiUrl}/besoin/client/${user.id}/valide`);
+}
+ 
+getMesBesoinsEnAttente(): Observable<Besoin[]> {
+  const user = this.userDetails();
+  return this.http.get<Besoin[]>(`${this.apiUrl}/besoin/client/${user.id}/en-attente`);
+}
 // Étape 1 : Expert valide rapidement (etat=true, statut=EN_ATTENTE_VALIDATION)
 verifyBesoin(besoinId: number, descriptionExpert: string): Observable<any> {
   const user = this.userDetails();

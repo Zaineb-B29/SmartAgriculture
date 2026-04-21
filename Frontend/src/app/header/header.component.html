@@ -40,25 +40,35 @@
             <li><a href="/about">Qui sommes-nous?</a></li>
             <li><a href="/contact">Contact</a></li>
 
+            <!-- CLIENT only -->
             <li *ngIf="IsClientIn">
               <a href="/ajouterBesoin">Ajouter un besoin</a>
+            </li>
+            <li *ngIf="IsClientIn">
+              <a href="/listeBesoin">Liste des besoins</a>
+            </li>
+
+            <!-- FOURNISSEUR only -->
+            <li *ngIf="IsFournisseurIn">
+              <a href="/listeBesoin">Liste des besoins</a>
             </li>
             <li *ngIf="IsFournisseurIn">
               <a href="/mesPropositions">Mes propositions</a>
             </li>
-            <li *ngIf="IsClientIn || IsFournisseurIn || IsExpertIn">
-              <a href="/listeBesoin">Liste des besoins</a>
-            </li>
+
+            <!-- EXPERT only -->
+            <!-- Expert sees validated besoins via /listeBesoin (the component handles the split) -->
             <li *ngIf="IsExpertIn">
-              <a href="/listeBesoinEnAttente">Liste des besoins en attente</a>
+              <a href="/listeBesoin">Besoins à valider</a>
             </li>
+
           </ul>
         </div>
 
         <!-- Right buttons -->
         <div class="attr-right">
 
-          <!-- NOT CONNECTED → ouvre le modal -->
+          <!-- NOT CONNECTED -->
           <button *ngIf="!IsClientIn && !IsFournisseurIn && !IsExpertIn"
                   (click)="openLoginModal()"
                   class="btn btn-theme connexion-btn">
@@ -115,7 +125,7 @@
       <!-- FOURNISSEUR -->
       <a href="/loginFournisseur" class="login-card">
         <div class="card-icon fournisseur-icon">
-          <i class="fas fa-user"></i>   <!-- ✅ au lieu de fa-truck -->
+          <i class="fas fa-user"></i>
         </div>
         <h3>Fournisseur</h3>
         <p>Proposez vos prix et services</p>

@@ -19,16 +19,16 @@
 
 <style>
   .breadcrumb-area .breadcrumb li:not(:last-child)::after {
-  content: "\f105"; /* Font Awesome right arrow */
-  font-family: "Font Awesome 5 Free"; /* or Pro if licensed */
-  font-weight: 900; /* Free solid icons use 900 */
-  position: absolute;
-  right: -5px;
-  top: 50%;
-  transform: translateY(-50%); /* centers vertically */
-  font-size: 14px;
-  color: #fff; /* fallback if var(--white) isn’t defined */
-}
+    content: "\f105";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    position: absolute;
+    right: -5px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    color: #fff;
+  }
 
   .btn-add-besoin {
     background-color: #4CAF50 !important;
@@ -54,7 +54,7 @@
     outline: none !important;
   }
 
-  /* Section headers */
+  /* ── Section headers ── */
   .section-header {
     display: flex;
     align-items: center;
@@ -77,8 +77,9 @@
   }
   .badge-green  { background: #dcfce7; color: #16a34a; }
   .badge-amber  { background: #fef9c3; color: #854d0e; }
+  .badge-blue   { background: #dbeafe; color: #1d4ed8; }
 
-  /* Card */
+  /* ── Card ── */
   .besoin-card {
     display: flex;
     flex-direction: column;
@@ -91,6 +92,11 @@
     transition: transform 0.3s;
   }
   .besoin-card:hover { transform: translateY(-5px); }
+
+  .besoin-card.card-pending {
+    border: 1px solid #fde68a;
+    box-shadow: 0 4px 20px rgba(251,191,36,0.12);
+  }
 
   .besoin-image { width: 100%; height: 200px; overflow: hidden; flex-shrink: 0; }
   .besoin-image img { width: 100%; height: 100%; object-fit: cover; }
@@ -129,7 +135,7 @@
     margin: 0;
   }
 
-  /* Meta chips */
+  /* ── Meta chips ── */
   .besoin-meta { display: flex; flex-wrap: wrap; gap: 7px; }
   .besoin-meta .chip {
     background: #f8fafc;
@@ -144,7 +150,7 @@
   }
   .besoin-meta .chip i { color: #4CAF50; font-size: 11px; }
 
-  /* Prix section */
+  /* ── Prix section ── */
   .prix-section {
     position: relative;
     background: #f8fafc;
@@ -183,7 +189,7 @@
   .prix-amount { font-size: 13px; font-weight: 600; color: #16a34a; white-space: nowrap; }
   .prix-empty  { font-size: 12px; color: #94a3b8; font-style: italic; margin: 0; }
 
-  /* Pending info box */
+  /* ── Pending info box ── */
   .pending-info {
     background: #fffbeb;
     border: 1px solid #fde68a;
@@ -194,10 +200,23 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    margin-top: auto;
   }
 
-  /* Bottom action */
+  /* ── Expert validation box ── */
+  .expert-info {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 12px;
+    color: #1d4ed8;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.5;
+  }
+
+  /* ── Bottom action ── */
   .besoin-action { margin-top: auto; padding-top: 4px; }
   .btn-action {
     width: 100%;
@@ -212,8 +231,12 @@
     justify-content: center;
     gap: 6px;
   }
-  .btn-action-green { background: #4CAF50; color: white; }
-  .btn-action-green:hover { background: #3d8b40; }
+  .btn-action-green  { background: #4CAF50; color: white; }
+  .btn-action-green:hover  { background: #3d8b40; }
+  .btn-action-blue   { background: #2563eb; color: white; }
+  .btn-action-blue:hover   { background: #1d4ed8; }
+  .btn-action-amber  { background: #f59e0b; color: white; }
+  .btn-action-amber:hover  { background: #d97706; }
 
   .btn-reserve {
     font-size: 11px;
@@ -225,7 +248,20 @@
     font-weight: 500;
   }
 
-  /* Empty / count */
+  /* ── Fournisseur prix count badge ── */
+  .prix-count-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    background: #dcfce7;
+    color: #16a34a;
+    border-radius: 20px;
+    padding: 3px 9px;
+    font-weight: 600;
+  }
+
+  /* ── Empty / count ── */
   .empty-state { padding: 40px 0; color: #94a3b8; text-align: center; }
   .empty-state i { font-size: 48px; display: block; margin-bottom: 12px; opacity: .3; }
   .besoin-count { font-size: 14px; color: #555; margin: 0; }
@@ -235,19 +271,21 @@
 <div class="validtheme-shop-area default-padding">
   <div class="container">
 
-    <!-- ── Top bar ── -->
-    <div class="shop-listing-contentes">
+    <!-- ── Top bar (client only) ── -->
+    <div class="shop-listing-contentes" *ngIf="isClientIn">
       <div class="row align-items-center" style="margin-bottom: 8px;">
         <div class="col-lg-8 col-md-7">
           <p class="besoin-count">
             <i class="fas fa-leaf"></i>
-            <strong>
-              {{ besoinsValides.length }}
-            </strong>Besoin(s) validé(s) 
+            <strong>{{ besoinsValides.length + besoinsEnAttente.length }}</strong> besoin(s) total
+            |
+            <strong style="color: green">{{ besoinsValides.length }}</strong> validé(s)
+            |
+            <strong style="color: orange">{{ besoinsEnAttente.length }}</strong> en attente
           </p>
         </div>
         <div class="col-lg-4 col-md-5 text-right" *ngIf="isClientIn">
-          <a routerLink="/ajouterBesoin" class="btn-add-besoin">
+          <a href="/ajouterBesoin" class="btn-add-besoin">
             <i class="fas fa-plus-circle"></i>
             Ajouter un besoin
           </a>
@@ -255,17 +293,18 @@
       </div>
     </div>
 
+
     <!-- ════════════════════════════════════════
-         CLIENT VIEW — two sections
+         CLIENT VIEW
          ════════════════════════════════════════ -->
-    <ng-container *ngIf="isClientIn || isExpertIn">
+    <ng-container *ngIf="isClientIn">
 
       <!-- ── Section 1 : Besoins validés ── -->
-      <!--<div class="section-header">
+      <div class="section-header">
         <i class="fas fa-check-circle" style="color:#16a34a; font-size:16px;"></i>
         <h5>Besoins validés par l'expert</h5>
         <span class="section-badge badge-green">{{ besoinsValides.length }}</span>
-      </div>-->
+      </div>
 
       <div class="row" *ngIf="besoinsValides.length === 0">
         <div class="col-12 empty-state">
@@ -277,7 +316,6 @@
       <div class="row">
         <div class="col-lg-4 col-md-6 col-sm-12 d-flex mb-4"
              *ngFor="let besoin of besoinsValides">
-
           <div class="besoin-card w-100">
             <div class="besoin-image">
               <img [src]="besoin.image" alt="Image besoin">
@@ -307,7 +345,6 @@
                 <span class="prix-section-label">
                   <i class="fas fa-tags"></i> Prix proposés
                 </span>
-
                 <ng-container *ngIf="propositionsMap[besoin.id!]?.length > 0; else noPrixValide">
                   <div class="prix-row" *ngFor="let p of propositionsMap[besoin.id!]">
                     <span class="prix-supplier">
@@ -329,7 +366,6 @@
                     </button>
                   </div>
                 </ng-container>
-
                 <ng-template #noPrixValide>
                   <p class="prix-empty">Aucun prix proposé pour le moment.</p>
                 </ng-template>
@@ -337,32 +373,131 @@
 
             </div>
           </div>
-
         </div>
       </div>
 
-      
+      <!-- ── Section 2 : Besoins en attente ── -->
+      <div class="section-header" style="margin-top: 40px;">
+        <i class="fas fa-hourglass-half" style="color:#d97706; font-size:16px;"></i>
+        <h5>Besoins en attente de validation</h5>
+        <span class="section-badge badge-amber">{{ besoinsEnAttente.length }}</span>
+      </div>
 
-     
-
-    </ng-container>
-
-    <!-- ════════════════════════════════════════
-         FOURNISSEUR VIEW
-         ════════════════════════════════════════ -->
-    <ng-container *ngIf="isFournisseurIn">
-
-      <div class="row" *ngIf="besoins.length === 0">
+      <div class="row" *ngIf="besoinsEnAttente.length === 0">
         <div class="col-12 empty-state">
-          <i class="fas fa-inbox"></i>
-          <p>Aucun besoin validé disponible.</p>
+          <i class="fas fa-clock"></i>
+          <p>Aucun besoin en attente pour le moment.</p>
         </div>
       </div>
 
       <div class="row">
         <div class="col-lg-4 col-md-6 col-sm-12 d-flex mb-4"
-             *ngFor="let besoin of besoins">
+             *ngFor="let besoin of besoinsEnAttente">
+          <div class="besoin-card card-pending w-100">
+            <div class="besoin-image">
+              <img [src]="besoin.image" alt="Image besoin">
+            </div>
+            <div class="besoin-content">
 
+              <div class="besoin-text">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
+                  <h4 class="besoin-title" style="flex:1;">{{ besoin.titre }}</h4>
+                  <span class="section-badge badge-amber" style="flex-shrink:0;">
+                    <i class="fas fa-hourglass-half" style="margin-right:3px;"></i>En attente
+                  </span>
+                </div>
+                <p class="besoin-description">{{ besoin.description }}</p>
+              </div>
+
+              <div class="besoin-meta">
+                <span class="chip"><i class="fas fa-tree"></i>{{ besoin.nombreArbres }}</span>
+                <span class="chip"><i class="fas fa-map-marker-alt"></i>{{ besoin.lieu }}</span>
+                <span class="chip"><i class="fas fa-ruler-combined"></i>{{ besoin.metrage }}</span>
+              </div>
+
+              <div class="pending-info">
+                <i class="fas fa-info-circle" style="flex-shrink:0;"></i>
+                Votre demande est en cours d'examen par un expert agricole. Vous serez notifié dès validation.
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </ng-container>
+
+
+    <!-- ════════════════════════════════════════
+         EXPERT VIEW
+         ════════════════════════════════════════ -->
+    <ng-container *ngIf="isExpertIn">
+
+      <!-- ── Besoins en attente de validation ── -->
+      <div class="section-header">
+        <i class="fas fa-hourglass-half" style="color:#d97706; font-size:16px;"></i>
+        <h5>Besoins à valider</h5>
+        <span class="section-badge badge-amber">{{ besoinsEnAttente.length }}</span>
+      </div>
+
+      <div class="row" *ngIf="besoinsEnAttente.length === 0">
+        <div class="col-12 empty-state">
+          <i class="fas fa-inbox"></i>
+          <p>Aucun besoin en attente de validation.</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-12 d-flex mb-4"
+             *ngFor="let besoin of besoinsEnAttente">
+          <div class="besoin-card card-pending w-100">
+            <div class="besoin-image">
+              <img [src]="besoin.image" alt="Image besoin">
+            </div>
+            <div class="besoin-content">
+
+              <div class="besoin-text">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
+                  <h4 class="besoin-title" style="flex:1;">{{ besoin.titre }}</h4>
+                  <span class="section-badge badge-amber" style="flex-shrink:0;">En attente</span>
+                </div>
+                <p class="besoin-description">{{ besoin.description }}</p>
+              </div>
+
+              <div class="besoin-meta">
+                <span class="chip"><i class="fas fa-tree"></i>{{ besoin.nombreArbres }}</span>
+                <span class="chip"><i class="fas fa-map-marker-alt"></i>{{ besoin.lieu }}</span>
+                <span class="chip"><i class="fas fa-ruler-combined"></i>{{ besoin.metrage }}</span>
+              </div>
+
+              <div class="besoin-action" style="display:flex; gap:8px; flex-direction:column;">
+                <button class="btn-action btn-action-green" (click)="validerBesoin(besoin)">
+                  <i class="fas fa-check"></i> Valider ce besoin
+                </button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Besoins déjà validés ── -->
+      <div class="section-header" style="margin-top: 40px;">
+        <i class="fas fa-check-circle" style="color:#16a34a; font-size:16px;"></i>
+        <h5>Besoins déjà validés</h5>
+        <span class="section-badge badge-green">{{ besoinsValides.length }}</span>
+      </div>
+
+      <div class="row" *ngIf="besoinsValides.length === 0">
+        <div class="col-12 empty-state">
+          <i class="fas fa-inbox"></i>
+          <p>Aucun besoin validé pour le moment.</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-12 d-flex mb-4"
+             *ngFor="let besoin of besoinsValides">
           <div class="besoin-card w-100">
             <div class="besoin-image">
               <img [src]="besoin.image" alt="Image besoin">
@@ -372,9 +507,7 @@
               <div class="besoin-text">
                 <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
                   <h4 class="besoin-title" style="flex:1;">{{ besoin.titre }}</h4>
-                  <span class="section-badge badge-green" style="flex-shrink:0;">
-                    <i class="fas fa-check-circle" style="margin-right:3px;"></i>Validé
-                  </span>
+                  <span class="section-badge badge-green" style="flex-shrink:0;">Validé</span>
                 </div>
                 <p class="besoin-description">
                   {{ besoin.descriptionExpert ? besoin.descriptionExpert : besoin.description }}
@@ -387,24 +520,83 @@
                 <span class="chip"><i class="fas fa-ruler-combined"></i>{{ besoin.metrage }}</span>
               </div>
 
-              <div class="besoin-action">
-                <button class="btn-action btn-action-green" (click)="proposerPrix(besoin)">
-                  <i class="fas fa-tag"></i> Proposer un prix
-                </button>
-              </div>
 
             </div>
           </div>
-
         </div>
       </div>
 
     </ng-container>
 
+
     <!-- ════════════════════════════════════════
-         EXPERT VIEW
+         FOURNISSEUR VIEW
          ════════════════════════════════════════ -->
-    
+    <ng-container *ngIf="isFournisseurIn">
+
+      <div class="section-header">
+        <i class="fas fa-leaf" style="color:#16a34a; font-size:16px;"></i>
+        <h5>Besoins disponibles</h5>
+        <span class="section-badge badge-green">{{ besoins.length }}</span>
+      </div>
+
+      <div class="row" *ngIf="besoins.length === 0">
+        <div class="col-12 empty-state">
+          <i class="fas fa-inbox"></i>
+          <p>Aucun besoin validé disponible pour le moment.</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-12 d-flex mb-4"
+             *ngFor="let besoin of besoins">
+          <div class="besoin-card w-100">
+            <div class="besoin-image">
+              <img [src]="besoin.image" alt="Image besoin">
+            </div>
+            <div class="besoin-content">
+
+              <div class="besoin-text">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
+                  <h4 class="besoin-title" style="flex:1;">{{ besoin.titre }}</h4>
+                  <span class="section-badge badge-green" style="flex-shrink:0;">Validé</span>
+                </div>
+                <p class="besoin-description">
+                  {{ besoin.descriptionExpert ? besoin.descriptionExpert : besoin.description }}
+                </p>
+              </div>
+
+              <div class="besoin-meta">
+                <span class="chip"><i class="fas fa-tree"></i>{{ besoin.nombreArbres }}</span>
+                <span class="chip"><i class="fas fa-map-marker-alt"></i>{{ besoin.lieu }}</span>
+                <span class="chip"><i class="fas fa-ruler-combined"></i>{{ besoin.metrage }}</span>
+              </div>
+
+              <!-- Prix count for this fournisseur -->
+              <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                <span class="prix-count-badge">
+                  <i class="fas fa-tags"></i>
+                  {{ getPrixCountForBesoin(besoin.id!) }} offre(s) soumise(s)
+                </span>
+                <span *ngIf="aDejaPropose(besoin.id!)"
+                      style="font-size:11px; color:#16a34a; font-weight:600;">
+                  <i class="fas fa-check-circle"></i> Votre offre : {{ getMonPrix(besoin.id!) }} TND
+                </span>
+              </div>
+
+              <div class="besoin-action">
+                <button class="btn-action btn-action-green" (click)="proposerPrix(besoin)">
+                  <i class="fas fa-tag"></i>
+                  {{ aDejaPropose(besoin.id!) ? 'Modifier mon prix' : 'Proposer un prix' }}
+                </button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </ng-container>
 
   </div>
 </div>

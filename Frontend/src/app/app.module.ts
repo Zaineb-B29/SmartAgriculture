@@ -22,6 +22,7 @@ import { AjouterBesoinComponent } from './ajouter-besoin/ajouter-besoin.componen
 import { ListeBesoinComponent } from './liste-besoin/liste-besoin.component';
 import { MesPropositionsComponent } from './mes-propositions/mes-propositions.component';
 import { ListeBesoinEnAttenteComponent } from './liste-besoin-en-attente/liste-besoin-en-attente.component';
+import { AjouterSuiviFournisComponent } from './ajouter-suivi-fournis/ajouter-suivi-fournis.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { ListeBesoinEnAttenteComponent } from './liste-besoin-en-attente/liste-b
     ListeBesoinComponent,
     MesPropositionsComponent,
     ListeBesoinEnAttenteComponent,
+    AjouterSuiviFournisComponent,
 
   ],
   imports: [

@@ -14,4 +14,7 @@ public interface BesoinService {
     Besoin updateBesoinByExpert(Long besoinId, Long expertId, String descriptionExpert, Double quantite);
     List<Besoin> getBesoinsEnAttente();
     List<Besoin> getBesoinsByExpert(Long expertId);
+    List<Besoin> getBesoinsValidesByClient(Long clientId);
+    List<Besoin> getBesoinsByClientAndStatut(Long clientId, String statut);
+
 }

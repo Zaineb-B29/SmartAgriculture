@@ -13,6 +13,7 @@ import { AjouterBesoinComponent } from './ajouter-besoin/ajouter-besoin.componen
 import { ListeBesoinComponent } from './liste-besoin/liste-besoin.component';
 import { MesPropositionsComponent } from './mes-propositions/mes-propositions.component';
 import { ListeBesoinEnAttenteComponent } from './liste-besoin-en-attente/liste-besoin-en-attente.component';
+import { AjouterSuiviFournisComponent } from './ajouter-suivi-fournis/ajouter-suivi-fournis.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -27,9 +28,9 @@ const routes: Routes = [
   {path:'ajouterBesoin', component: AjouterBesoinComponent},
   {path:'listeBesoin', component:ListeBesoinComponent},
   {path:'mesPropositions', component:MesPropositionsComponent},
-  {path:'listeBesoinEnAttente', component:ListeBesoinEnAttenteComponent}
-
-
+  {path: 'ajouterSuiviFournis', component: AjouterSuiviFournisComponent },
+  {path: 'ajouterSuiviFournis/:reservationId', component: AjouterSuiviFournisComponent },
+  { path: 'listeBesoinEnAttente', component: ListeBesoinEnAttenteComponent },
 ]
 
 @NgModule({

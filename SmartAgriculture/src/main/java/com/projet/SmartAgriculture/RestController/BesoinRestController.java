@@ -106,4 +106,17 @@ public class BesoinRestController {
     public ResponseEntity<List<Besoin>> getBesoinsByExpert(@PathVariable Long expertId) {
         return ResponseEntity.ok(besoinService.getBesoinsByExpert(expertId));
     }
+
+    @GetMapping("/client/{clientId}/valide")
+    public ResponseEntity<List<Besoin>> getBesoinsValidesByClient(@PathVariable Long clientId) {
+        return ResponseEntity.ok(besoinService.getBesoinsValidesByClient(clientId));
+    }
+
+    @GetMapping("/client/{clientId}/en-attente")
+    public ResponseEntity<List<Besoin>> getBesoinsByClientEnAttente(@PathVariable Long clientId) {
+        return ResponseEntity.ok(
+                besoinService.getBesoinsByClientAndStatut(clientId, "EN_ATTENTE_VALIDATION")
+        );
+    }
+
 }

@@ -23,7 +23,7 @@ public class Besoin {
     private String lieu;
     private String metrage;
     private String descriptionExpert;
-    private boolean etat;
+    private Boolean etat;
 
     private String statut;
     private LocalDateTime dateSoumission;

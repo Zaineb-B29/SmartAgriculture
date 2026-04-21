@@ -40,9 +40,8 @@ public class BesoinServiceImpl implements BesoinService {
 
     @Override
     public List<Besoin> AfficherBesoinValide() {
-        return besoinRepository.findByEtatTrue();
+        return besoinRepository.findByStatut("VALIDE_PAR_EXPERT");
     }
-
     @Override
     public Optional<Besoin> AfficherBesoinById(Long id) {
         return besoinRepository.findById(id);
@@ -50,15 +49,17 @@ public class BesoinServiceImpl implements BesoinService {
 
     @Override
     public List<Besoin> getBesoinsByClient(Long clientId) {
-        return besoinRepository.findByClientId(clientId);
-    }
+        return besoinRepository.findByClientId(clientId)
+                .stream()
+                .filter(b -> "VALIDE_PAR_EXPERT".equals(b.getStatut()))
+                .toList();    }
 
     @Override
     public Besoin verifyBesoin(Long besoinId, Long expertId, String descriptionExpert) {
         Besoin besoin = besoinRepository.findById(besoinId)
                 .orElseThrow(() -> new RuntimeException("Besoin not found"));
 
-        if (besoin.isEtat()) {
+        if (besoin.getEtat()) {
             throw new RuntimeException("Besoin already verified");
         }
 
@@ -68,8 +69,9 @@ public class BesoinServiceImpl implements BesoinService {
         besoin.setEtat(true);
         besoin.setDescriptionExpert(descriptionExpert);
         besoin.setExpert(expert);
-        besoin.setStatut("EN_ATTENTE_VALIDATION");
-        besoin.setDateSoumission(LocalDateTime.now());
+        besoin.setStatut("VALIDE_PAR_EXPERT");
+        besoin.setDateValidationExpert(LocalDateTime.now());
+
         return besoinRepository.save(besoin);
     }
 
@@ -84,18 +86,29 @@ public class BesoinServiceImpl implements BesoinService {
         besoin.setExpert(expert);
         besoin.setDescriptionExpert(descriptionExpert);
         besoin.setStatut("VALIDE_PAR_EXPERT");
-        besoin.setEtat(true);                          // ✅ was missing — this is the root cause
+        besoin.setEtat(true);
         besoin.setDateValidationExpert(LocalDateTime.now());
         return besoinRepository.save(besoin);
     }
 
     @Override
     public List<Besoin> getBesoinsEnAttente() {
-        return besoinRepository.findByEtatFalse();
+        return besoinRepository.findByStatut("EN_ATTENTE_VALIDATION");
     }
 
     @Override
     public List<Besoin> getBesoinsByExpert(Long expertId) {
         return besoinRepository.findByExpertId(expertId);
     }
+
+    @Override
+    public List<Besoin> getBesoinsValidesByClient(Long clientId) {
+        return besoinRepository.findByClientIdAndEtatTrue(clientId);
+    }
+
+    @Override
+    public List<Besoin> getBesoinsByClientAndStatut(Long clientId, String statut) {
+        return besoinRepository.findByClientIdAndStatut(clientId, statut);
+    }
+
 }
