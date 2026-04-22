@@ -41,6 +41,16 @@ public class SuiviRestController {
         );
     }
 
+    @PostMapping("/{id}/upload")
+    public Suivi upload(
+            @PathVariable Long id,
+            @RequestParam("typeSuivi") String typeSuivi,
+            @RequestParam("avantFiles") List<MultipartFile> avantFiles,
+            @RequestParam("apresFiles") List<MultipartFile> apresFiles
+    ) {
+        return suiviService.createSuiviAvecUpload(id, typeSuivi, avantFiles, apresFiles);
+    }
+
     @GetMapping
     public List<Suivi> affichersuivi() {
         return suiviService.affichiersuivi();

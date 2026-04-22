@@ -3,18 +3,18 @@
 /* ───────────────────────────────
    ROOT / TOKENS
 ──────────────────────────────── */
-:host {
-  --sage:        #2d6a4f;
-  --sage-dark:   #1d5c3f;
-  --sage-light:  #52b788;
-  --sage-mid:    #95d5b2;
-  --sage-pale:   #d8f3dc;
-  --soil:        #5c3d2e;
-  --cream:       #faf8f3;
-  --text:        #1a1a18;
-  --muted:       #6b7059;
-  --border:      rgba(45, 106, 79, 0.18);
-  --radius:      10px;
+:root {
+  --sage: #2d6a4f;
+  --sage-dark: #1d5c3f;
+  --sage-light: #52b788;
+  --sage-mid: #95d5b2;
+  --sage-pale: #d8f3dc;
+  --soil: #5c3d2e;
+  --cream: #faf8f3;
+  --text: #1a1a18;
+  --muted: #6b7059;
+  --border: rgba(45, 106, 79, 0.18);
+  --radius: 10px;
   font-family: 'DM Sans', sans-serif;
 }
 

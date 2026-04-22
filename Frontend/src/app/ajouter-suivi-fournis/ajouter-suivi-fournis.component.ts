@@ -91,8 +91,8 @@ export class AjouterSuiviFournisComponent implements OnInit {
     const formData = new FormData();
     formData.append('typeSuivi', this.currentType);
 
-    this.avantFiles.forEach(f => formData.append('avant', f));
-    this.apresFiles.forEach(f => formData.append('apres', f));
+    this.avantFiles.forEach(f => formData.append('avantFiles', f));
+    this.apresFiles.forEach(f => formData.append('apresFiles', f));
 
     this.http
       .post<Suivi>(

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, interval, Observable, of, Subscription, switchMap } from 'rxjs';
 import { Client } from '../Entites/Client.Entites';
 import { ExpertAgricole } from '../Entites/ExpertAgricole.Entites';
 import { Fournisseur } from '../Entites/Fournisseur.Entites';
@@ -251,5 +251,39 @@ updateBesoinByExpert(
     null,
     { params }
   );
+}
+
+/* ================= NOTIFICATIONS PRIX PROPOSÉ ================= */
+private pollingSubscription!: Subscription;
+private unreadContactsSubject = new BehaviorSubject<PrixProposer[]>([]);
+public unreadContacts$ = this.unreadContactsSubject.asObservable();
+
+startPolling(intervalMs: number): void {
+  if (this.pollingSubscription) return;
+  // Load immediately on start
+  this.getUnreadPrixProposer().subscribe(data => this.unreadContactsSubject.next(data));
+  // Then poll every intervalMs
+  this.pollingSubscription = interval(intervalMs).pipe(
+    switchMap(() => this.getUnreadPrixProposer())
+  ).subscribe({
+    next: (data) => this.unreadContactsSubject.next(data),
+    error: (err) => console.error('Polling error:', err)
+  });
+}
+
+stopPolling(): void {
+  this.pollingSubscription?.unsubscribe();
+}
+
+getUnreadPrixProposer(): Observable<PrixProposer[]> {
+  return this.http.get<PrixProposer[]>(`${this.apiUrl}/prixproposer/unread`);
+}
+
+markAsRead(id: number): Observable<void> {
+  return this.http.patch<void>(`${this.apiUrl}/prixproposer/${id}/mark-as-read`, {});
+}
+
+markAllAsRead(): Observable<void> {
+  return this.http.patch<void>(`${this.apiUrl}/prixproposer/mark-all-read`, {});
 }
 }

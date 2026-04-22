@@ -11,6 +11,9 @@ public class PrixProposer {
     private Long id;
     private String Prix;
 
+    @Column(name = "is_read", columnDefinition = "boolean default false")
+    private boolean isRead = false;
+
     @ManyToOne
     private Besoin besoin;
 

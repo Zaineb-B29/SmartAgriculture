@@ -28,7 +28,7 @@ const routes: Routes = [
   {path:'ajouterBesoin', component: AjouterBesoinComponent},
   {path:'listeBesoin', component:ListeBesoinComponent},
   {path:'mesPropositions', component:MesPropositionsComponent},
-  {path: 'ajouterSuiviFournis', component: AjouterSuiviFournisComponent },
+  {path: 'suivi', component: AjouterSuiviFournisComponent },
   {path: 'ajouterSuiviFournis/:reservationId', component: AjouterSuiviFournisComponent },
   { path: 'listeBesoinEnAttente', component: ListeBesoinEnAttenteComponent },
 ]

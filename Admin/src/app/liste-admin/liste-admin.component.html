@@ -39,7 +39,7 @@
                 </thead>
 
                 <tbody>
-                  <tr *ngFor="let admin of listeAdmin">
+                  <tr *ngFor="let admin of listeAdmin |paginate:{itemsPerPage:3,currentPage:p}">
                     <td>{{ admin.id }}</td>
                     <td>{{ admin.nom }}</td>
                     <td>{{ admin.prenom }}</td>
@@ -65,6 +65,7 @@
                   </tr>
                 </tbody>
               </table>
+              <pagination-controls style="text-align: right;" (pageChange)="p = $event"></pagination-controls>
             </div>
 
           </div>

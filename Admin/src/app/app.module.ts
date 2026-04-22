@@ -25,6 +25,7 @@ import { HomeComponent } from './home/home.component';
 import { ProfilComponent } from './profil/profil.component';
 import { UpdateProfilComponent } from './update-profil/update-profil.component';
 import { ContactComponent } from './contact/contact.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 @NgModule({
@@ -56,7 +57,8 @@ import { ContactComponent } from './contact/contact.component';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxPaginationModule
   ],
   providers: [],
   bootstrap: [AppComponent]

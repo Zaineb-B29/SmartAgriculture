@@ -53,6 +53,9 @@
               <a href="/listeBesoin">Liste des besoins</a>
             </li>
             <li *ngIf="IsFournisseurIn">
+              <a href="/suivi">Suivi</a>
+            </li>
+            <li *ngIf="IsFournisseurIn">
               <a href="/mesPropositions">Mes propositions</a>
             </li>
 
@@ -67,7 +70,44 @@
 
         <!-- Right buttons -->
         <div class="attr-right">
+          <!-- NOTIFICATION BELL - CLIENT only -->
+          <div *ngIf="IsClientIn" class="notification-wrapper">
 
+            <button class="notification-bell" (click)="toggleNotifications()">
+              <i class="fas fa-bell"></i>
+              <span *ngIf="unreadCount > 0" class="notif-badge">{{ unreadCount }}</span>
+            </button>
+
+            <div *ngIf="showNotifications" class="notif-dropdown">
+
+              <div class="notif-header">
+                <strong>Notifications</strong>
+                <button *ngIf="unreadCount > 0" class="notif-mark-all" (click)="markAllAsRead()">
+                  <span *ngIf="!loading">Tout marquer comme lu</span>
+                  <span *ngIf="loading">...</span>
+                </button>
+              </div>
+
+              <ul class="notif-list">
+
+                <li *ngIf="unreadContacts.length === 0" class="notif-empty">
+                  <i class="fas fa-bell-slash"></i>
+                  Aucune nouvelle notification
+                </li>
+
+                <li *ngFor="let notif of unreadContacts" class="notif-item">
+                  <div class="notif-text">
+                    <i class="fas fa-tag" style="color: #4CAF50; margin-right: 5px;"></i>
+                    <strong>{{ notif.fournisseur?.nom }}</strong> a proposé
+                    <span class="notif-price">{{ notif.Prix }} DT</span>
+                    <div class="notif-sub">Besoin : {{ notif.besoin?.description }}</div>
+                  </div>
+                  <button class="notif-read-btn" (click)="markAsRead(notif.id!)">✓</button>
+                </li>
+
+              </ul>
+            </div>
+          </div>
           <!-- NOT CONNECTED -->
           <button *ngIf="!IsClientIn && !IsFournisseurIn && !IsExpertIn"
                   (click)="openLoginModal()"

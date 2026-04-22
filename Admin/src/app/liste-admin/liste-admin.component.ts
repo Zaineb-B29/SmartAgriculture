@@ -12,6 +12,8 @@ import { CrudService } from '../service/crud.service';
 export class ListeAdminComponent {
   listeAdmin: Admin[] = [];
   role: string;
+  p:number=1;
+  collection:any[];
 
   constructor(private service: CrudService, private router: Router) {}
 
