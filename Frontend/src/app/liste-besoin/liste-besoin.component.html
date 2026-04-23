@@ -150,45 +150,6 @@
   }
   .besoin-meta .chip i { color: #4CAF50; font-size: 11px; }
 
-  /* ── Prix section ── */
-  .prix-section {
-    position: relative;
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    padding: 14px 12px 10px;
-  }
-  .prix-section-label {
-    position: absolute;
-    top: -10px;
-    left: 10px;
-    background: #f8fafc;
-    padding: 0 6px;
-    font-size: 12px;
-    font-weight: 600;
-    color: #16a34a;
-  }
-  .prix-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 8px;
-    padding: 5px 0;
-    border-bottom: 1px solid #f0f0f0;
-  }
-  .prix-row:last-child { border-bottom: none; }
-  .prix-supplier {
-    font-size: 12px;
-    color: #334155;
-    flex: 1;
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  .prix-amount { font-size: 13px; font-weight: 600; color: #16a34a; white-space: nowrap; }
-  .prix-empty  { font-size: 12px; color: #94a3b8; font-style: italic; margin: 0; }
-
   /* ── Pending info box ── */
   .pending-info {
     background: #fffbeb;
@@ -200,20 +161,6 @@
     display: flex;
     align-items: center;
     gap: 8px;
-  }
-
-  /* ── Expert validation box ── */
-  .expert-info {
-    background: #eff6ff;
-    border: 1px solid #bfdbfe;
-    border-radius: 8px;
-    padding: 10px 12px;
-    font-size: 12px;
-    color: #1d4ed8;
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    line-height: 1.5;
   }
 
   /* ── Bottom action ── */
@@ -237,6 +184,11 @@
   .btn-action-blue:hover   { background: #1d4ed8; }
   .btn-action-amber  { background: #f59e0b; color: white; }
   .btn-action-amber:hover  { background: #d97706; }
+  .btn-action-disabled {
+    background: #e2e8f0 !important;
+    color: #94a3b8 !important;
+    cursor: not-allowed !important;
+  }
 
   .btn-reserve {
     font-size: 11px;
@@ -261,11 +213,83 @@
     font-weight: 600;
   }
 
+  /* ── Mon offre badge ── */
+  .mon-offre-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    background: #eff6ff;
+    color: #1d4ed8;
+    border-radius: 20px;
+    padding: 3px 9px;
+    font-weight: 600;
+    border: 1px solid #bfdbfe;
+  }
+
   /* ── Empty / count ── */
   .empty-state { padding: 40px 0; color: #94a3b8; text-align: center; }
   .empty-state i { font-size: 48px; display: block; margin-bottom: 12px; opacity: .3; }
   .besoin-count { font-size: 14px; color: #555; margin: 0; }
   .besoin-count i { color: #4CAF50; margin-right: 6px; }
+
+  /* ── Expert strip ── */
+  .expert-strip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 8px;
+    padding: 8px 10px;
+  }
+  .expert-avatar-circle {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: #dbeafe;
+    color: #1d4ed8;
+    font-size: 11px; font-weight: 600;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* ── Offers collapsible (client) ── */
+  .offers-section {
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .offers-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 8px 10px;
+    background: #f8fafc;
+    cursor: pointer;
+    user-select: none;
+  }
+  .offers-title {
+    font-size: 11px; font-weight: 600; color: #475569;
+    display: flex; align-items: center; gap: 5px;
+  }
+  .offers-count-pill {
+    background: #dcfce7; color: #16a34a;
+    font-size: 10px; font-weight: 600;
+    padding: 1px 7px; border-radius: 20px;
+  }
+  .chevron-icon { transition: transform 0.2s; display: inline-flex; }
+  .offer-row {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 10px;
+    border-top: 1px solid #f0f0f0;
+  }
+  .offer-avatar-circle {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: #dcfce7; color: #16a34a;
+    font-size: 10px; font-weight: 600;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .prix-empty { font-size: 12px; color: #94a3b8; font-style: italic; margin: 0; }
 </style>
 
 <div class="validtheme-shop-area default-padding">
@@ -325,9 +349,7 @@
               <div class="besoin-text">
                 <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
                   <h4 class="besoin-title" style="flex:1;">{{ besoin.titre }}</h4>
-                  <span class="section-badge badge-green" style="flex-shrink:0;">
-                    <i class="fas fa-check-circle" style="margin-right:3px;"></i>Validé
-                  </span>
+                  <span class="section-badge badge-green" style="flex-shrink:0;">✓ Validé</span>
                 </div>
                 <p class="besoin-description">
                   {{ besoin.descriptionExpert ? besoin.descriptionExpert : besoin.description }}
@@ -340,35 +362,73 @@
                 <span class="chip"><i class="fas fa-ruler-combined"></i>{{ besoin.metrage }}</span>
               </div>
 
-              <!-- Prix proposés -->
-              <div class="prix-section">
-                <span class="prix-section-label">
-                  <i class="fas fa-tags"></i> Prix proposés
+              <!-- ── Expert strip ── -->
+              <div class="expert-strip" *ngIf="besoin.expert">
+                <div class="expert-avatar-circle">
+                  {{ besoin.expert?.nom?.charAt(0) }}{{ besoin.expert?.prenom?.charAt(0) }}
+                </div>
+                <div style="flex:1; min-width:0;">
+                  <span style="font-size:10px; color:#94a3b8; display:block;">Validé par l'expert</span>
+                  <span style="font-size:12px; font-weight:600; color:#1e293b;">
+                    {{ besoin.expert?.nom }} {{ besoin.expert?.prenom }}
+                  </span>
+                </div>
+                <span style="font-size:10px; color:#94a3b8;" *ngIf="besoin.dateValidationExpert">
+                  {{ besoin.dateValidationExpert | date:'dd/MM/yyyy' }}
                 </span>
-                <ng-container *ngIf="propositionsMap[besoin.id!]?.length > 0; else noPrixValide">
-                  <div class="prix-row" *ngFor="let p of propositionsMap[besoin.id!]">
-                    <span class="prix-supplier">
-                      <i class="fas fa-user" style="color:#cbd5e1; margin-right:4px;"></i>
-                      {{ p.fournisseur?.nom }}
+              </div>
+
+              <!-- ── Offres fournisseurs (collapsible) ── -->
+              <div class="offers-section">
+                <div class="offers-header" (click)="toggleOffers(besoin.id!)">
+                  <span class="offers-title">
+                    <i class="fas fa-tags" style="font-size:11px;"></i>
+                    Offres des fournisseurs
+                    <span class="offers-count-pill">
+                      {{ propositionsMap[besoin.id!]?.length || 0 }} offre(s)
                     </span>
-                    <span class="prix-amount">{{ p.Prix }} TND</span>
-                    <button
-                      class="btn-reserve"
-                      (click)="reserver(p)"
-                      [disabled]="isReserved(p) || besoinDejaReserve(p.besoin?.id!)"
-                      [ngStyle]="{
-                        'background': isReserved(p) ? '#e2e8f0' : besoinDejaReserve(p.besoin?.id!) ? '#fef3c7' : '#4CAF50',
-                        'color':      isReserved(p) ? '#94a3b8' : besoinDejaReserve(p.besoin?.id!) ? '#92400e' : 'white',
-                        'cursor':    (isReserved(p) || besoinDejaReserve(p.besoin?.id!)) ? 'not-allowed' : 'pointer'
-                      }">
-                      <i class="fas fa-calendar-check" style="margin-right:3px;"></i>
-                      {{ isReserved(p) ? 'Réservé ✓' : besoinDejaReserve(p.besoin?.id!) ? 'Non dispo' : 'Réserver' }}
-                    </button>
-                  </div>
+                  </span>
+                  <span class="chevron-icon"
+                        [style.transform]="openOffersMap[besoin.id!] ? 'rotate(180deg)' : 'rotate(0deg)'">
+                    <i class="fas fa-chevron-down" style="font-size:10px;"></i>
+                  </span>
+                </div>
+
+                <ng-container *ngIf="openOffersMap[besoin.id!]">
+                  <ng-container *ngIf="propositionsMap[besoin.id!]?.length > 0; else noPrixValide">
+                    <div class="offer-row" *ngFor="let p of propositionsMap[besoin.id!]">
+                      <div class="offer-avatar-circle">
+                        {{ p.fournisseur?.nom?.charAt(0) }}{{ p.fournisseur?.prenom?.charAt(0) }}
+                      </div>
+                      <div style="flex:1; min-width:0;">
+                        <p style="font-size:12px; font-weight:600; color:#1e293b; margin:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+                          {{ p.fournisseur?.nom }} {{ p.fournisseur?.prenom }}
+                        </p>
+                        <p style="font-size:10px; color:#94a3b8; margin:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+                          <i class="fas fa-map-marker-alt" style="margin-right:3px;"></i>
+                          {{ p.fournisseur?.adresse || 'Adresse non renseignée' }}
+                        </p>
+                      </div>
+                      <span style="font-size:13px; font-weight:600; color:#16a34a; white-space:nowrap; flex-shrink:0;">
+                        {{ p.Prix }} TND
+                      </span>
+                      <button
+                        class="btn-reserve"
+                        (click)="reserver(p)"
+                        [disabled]="isReserved(p) || besoinDejaReserve(p.besoin?.id!)"
+                        [ngStyle]="{
+                          'background': isReserved(p) ? '#dcfce7' : besoinDejaReserve(p.besoin?.id!) ? '#fef9c3' : '#4CAF50',
+                          'color':      isReserved(p) ? '#16a34a' : besoinDejaReserve(p.besoin?.id!) ? '#854d0e' : 'white',
+                          'cursor':    (isReserved(p) || besoinDejaReserve(p.besoin?.id!)) ? 'not-allowed' : 'pointer'
+                        }">
+                        {{ isReserved(p) ? 'Réservé ✓' : besoinDejaReserve(p.besoin?.id!) ? 'Non dispo' : 'Réserver' }}
+                      </button>
+                    </div>
+                  </ng-container>
+                  <ng-template #noPrixValide>
+                    <p class="prix-empty" style="padding:10px 12px;">Aucune offre pour le moment.</p>
+                  </ng-template>
                 </ng-container>
-                <ng-template #noPrixValide>
-                  <p class="prix-empty">Aucun prix proposé pour le moment.</p>
-                </ng-template>
               </div>
 
             </div>
@@ -433,7 +493,6 @@
          ════════════════════════════════════════ -->
     <ng-container *ngIf="isExpertIn">
 
-      <!-- ── Besoins en attente de validation ── -->
       <div class="section-header">
         <i class="fas fa-hourglass-half" style="color:#d97706; font-size:16px;"></i>
         <h5>Besoins à valider</h5>
@@ -520,7 +579,6 @@
                 <span class="chip"><i class="fas fa-ruler-combined"></i>{{ besoin.metrage }}</span>
               </div>
 
-
             </div>
           </div>
         </div>
@@ -559,7 +617,6 @@
               <div class="besoin-text">
                 <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
                   <h4 class="besoin-title" style="flex:1;">{{ besoin.titre }}</h4>
-                  <span class="section-badge badge-green" style="flex-shrink:0;">Validé</span>
                 </div>
                 <p class="besoin-description">
                   {{ besoin.descriptionExpert ? besoin.descriptionExpert : besoin.description }}
@@ -572,22 +629,44 @@
                 <span class="chip"><i class="fas fa-ruler-combined"></i>{{ besoin.metrage }}</span>
               </div>
 
-              <!-- Prix count for this fournisseur -->
+              <!-- ── Expert strip (même design que client) ── -->
+              <div class="expert-strip" *ngIf="besoin.expert">
+                <div class="expert-avatar-circle">
+                  {{ besoin.expert?.nom?.charAt(0) }}{{ besoin.expert?.prenom?.charAt(0) }}
+                </div>
+                <div style="flex:1; min-width:0;">
+                  <span style="font-size:10px; color:#94a3b8; display:block;">Validé par l'expert</span>
+                  <span style="font-size:12px; font-weight:600; color:#1e293b;">
+                    {{ besoin.expert?.nom }} {{ besoin.expert?.prenom }}
+                  </span>
+                </div>
+                <span style="font-size:10px; color:#94a3b8;" *ngIf="besoin.dateValidationExpert">
+                  {{ besoin.dateValidationExpert | date:'dd/MM/yyyy' }}
+                </span>
+              </div>
+
+              <!-- ── Compteur offres + mon offre ── -->
               <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
                 <span class="prix-count-badge">
                   <i class="fas fa-tags"></i>
                   {{ getPrixCountForBesoin(besoin.id!) }} offre(s) soumise(s)
                 </span>
-                <span *ngIf="aDejaPropose(besoin.id!)"
-                      style="font-size:11px; color:#16a34a; font-weight:600;">
-                  <i class="fas fa-check-circle"></i> Votre offre : {{ getMonPrix(besoin.id!) }} TND
+                <span *ngIf="aDejaPropose(besoin.id!)" class="mon-offre-badge">
+                  <i class="fas fa-check-circle"></i>
+                  Mon offre : {{ getMonPrix(besoin.id!) }} TND
                 </span>
               </div>
 
+              <!-- ── Bouton proposer (désactivé si déjà proposé) ── -->
               <div class="besoin-action">
-                <button class="btn-action btn-action-green" (click)="proposerPrix(besoin)">
+                <button
+                  class="btn-action"
+                  [ngClass]="aDejaPropose(besoin.id!) ? 'btn-action-disabled' : 'btn-action-green'"
+                  [disabled]="aDejaPropose(besoin.id!)"
+                  (click)="!aDejaPropose(besoin.id!) && proposerPrix(besoin)"
+                  [title]="aDejaPropose(besoin.id!) ? 'Vous avez déjà soumis une offre pour ce besoin' : 'Proposer un prix'">
                   <i class="fas fa-tag"></i>
-                  {{ aDejaPropose(besoin.id!) ? 'Modifier mon prix' : 'Proposer un prix' }}
+                  {{ aDejaPropose(besoin.id!) ? 'Offre déjà soumise' : 'Proposer un prix' }}
                 </button>
               </div>
 

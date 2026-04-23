@@ -12,7 +12,9 @@ import { CrudService } from '../service/crud.service';
 export class ListeExpertComponent {
 
   listeExperts: ExpertAgricole[] = [];
-
+  p:number=1;
+  collection:any[];
+  
   constructor(
     private service: CrudService,
     private router: Router

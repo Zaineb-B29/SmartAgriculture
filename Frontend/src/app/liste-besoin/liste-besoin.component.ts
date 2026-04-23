@@ -303,4 +303,12 @@ export class ListeBesoinComponent implements OnInit {
     });
   }
 
+  //affichage de validation de besoins pour fournisseur et client
+  openOffersMap: { [besoinId: number]: boolean } = {};
+
+  toggleOffers(besoinId: number): void {
+    this.openOffersMap[besoinId] = !this.openOffersMap[besoinId];
+  }
+
+
 }

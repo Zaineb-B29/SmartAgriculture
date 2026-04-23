@@ -31,7 +31,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let fournisseur of listeFournisseurs">
+              <tr *ngFor="let fournisseur of listeFournisseurs | paginate:{itemsPerPage:10,currentPage:p}">
                 <td>{{ fournisseur.nom }}</td>
                 <td>{{ fournisseur.prenom }}</td>
                 <td>{{ fournisseur.email }}</td>
@@ -50,6 +50,8 @@
               </tr>
             </tbody>
           </table>
+          <pagination-controls style="text-align: right;" (pageChange)="p = $event"></pagination-controls>
+
         </div>
 
       </div>

@@ -90,7 +90,7 @@ public class BesoinRestController {
             @PathVariable Long besoinsId,
             @PathVariable Long expertId,
             @RequestParam String descriptionExpert,
-            @RequestParam Double quantite          // kept as-is per your interface
+            @RequestParam Double quantite
     ) {
         return ResponseEntity.ok(
                 besoinService.updateBesoinByExpert(besoinsId, expertId, descriptionExpert, quantite)
@@ -107,16 +107,19 @@ public class BesoinRestController {
         return ResponseEntity.ok(besoinService.getBesoinsByExpert(expertId));
     }
 
+    // ── Besoins validés d'un client spécifique ──
     @GetMapping("/client/{clientId}/valide")
     public ResponseEntity<List<Besoin>> getBesoinsValidesByClient(@PathVariable Long clientId) {
-        return ResponseEntity.ok(besoinService.getBesoinsValidesByClient(clientId));
+        return ResponseEntity.ok(
+                besoinService.getBesoinsByClientAndStatut(clientId, "VALIDE_PAR_EXPERT")
+        );
     }
 
+    // ── Besoins en attente d'un client spécifique ──
     @GetMapping("/client/{clientId}/en-attente")
-    public ResponseEntity<List<Besoin>> getBesoinsByClientEnAttente(@PathVariable Long clientId) {
+    public ResponseEntity<List<Besoin>> getBesoinsEnAttenteByClient(@PathVariable Long clientId) {
         return ResponseEntity.ok(
                 besoinService.getBesoinsByClientAndStatut(clientId, "EN_ATTENTE_VALIDATION")
         );
     }
-
 }

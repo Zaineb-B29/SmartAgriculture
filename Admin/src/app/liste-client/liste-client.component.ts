@@ -12,7 +12,9 @@ import { Client } from '../Entites/Client.Entites';
 export class ListeClientComponent {
   listeClient: Client[] = [];
   role: string;
-
+  p:number=1;
+  collection:any[];
+  
   constructor(private service: CrudService, private router: Router) {}
 
   ngOnInit(): void {

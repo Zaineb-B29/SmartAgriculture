@@ -29,7 +29,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let expert of listeExperts">
+              <tr *ngFor="let expert of listeExperts | paginate:{itemsPerPage:10,currentPage:p}">
                 <td>{{ expert.nom }}</td>
                 <td>{{ expert.prenom }}</td>
                 <td>{{ expert.email }}</td>
@@ -54,6 +54,8 @@
               </tr>
             </tbody>
           </table>
+          <pagination-controls style="text-align: right;" (pageChange)="p = $event"></pagination-controls>
+
         </div>
       </div>
     </div>

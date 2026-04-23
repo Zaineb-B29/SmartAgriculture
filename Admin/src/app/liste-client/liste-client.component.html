@@ -37,7 +37,7 @@
                 </thead>
 
                 <tbody>
-                  <tr *ngFor="let client of listeClient">
+                  <tr *ngFor="let client of listeClient | paginate:{itemsPerPage:10,currentPage:p}">
                     <td>{{ client.id }}</td>
                     <td>{{ client.nom }}</td>
                     <td>{{ client.prenom }}</td>
@@ -59,6 +59,8 @@
                   </tr>
                 </tbody>
               </table>
+              <pagination-controls style="text-align: right;" (pageChange)="p = $event"></pagination-controls>
+
             </div>
 
           </div>
