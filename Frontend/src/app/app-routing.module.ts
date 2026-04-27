@@ -14,6 +14,8 @@ import { ListeBesoinComponent } from './liste-besoin/liste-besoin.component';
 import { MesPropositionsComponent } from './mes-propositions/mes-propositions.component';
 import { ListeBesoinEnAttenteComponent } from './liste-besoin-en-attente/liste-besoin-en-attente.component';
 import { AjouterSuiviFournisComponent } from './ajouter-suivi-fournis/ajouter-suivi-fournis.component';
+import { ModifierBesoinComponent } from './modifier-besoin/modifier-besoin.component';
+import { SuiviEvolutionComponent } from './suivi-evolution/suivi-evolution.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -30,7 +32,9 @@ const routes: Routes = [
   {path:'mesPropositions', component:MesPropositionsComponent},
   {path: 'suivi', component: AjouterSuiviFournisComponent },
   {path: 'ajouterSuiviFournis/:reservationId', component: AjouterSuiviFournisComponent },
-  { path: 'listeBesoinEnAttente', component: ListeBesoinEnAttenteComponent },
+  {path: 'listeBesoinEnAttente', component: ListeBesoinEnAttenteComponent },
+  {path: 'modifierBesoin/:id', component: ModifierBesoinComponent },
+  {path: 'suiviEvolution/:id', component: SuiviEvolutionComponent },
 ]
 
 @NgModule({

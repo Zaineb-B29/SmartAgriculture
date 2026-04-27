@@ -111,4 +111,32 @@ public class BesoinServiceImpl implements BesoinService {
         return besoinRepository.findByClientIdAndStatut(clientId, statut);
     }
 
+    @Override
+    public void deleteBesoin(Long id) {
+        Besoin besoin = besoinRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Besoin not found"));
+        if ("VALIDE_PAR_EXPERT".equals(besoin.getStatut())) {
+            throw new RuntimeException("Cannot delete a validated besoin");
+        }
+        besoinRepository.deleteById(id);
+    }
+
+    @Override
+    public Besoin updateBesoin(Long id, Besoin updated) {
+        Besoin existing = besoinRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Besoin not found"));
+        if ("VALIDE_PAR_EXPERT".equals(existing.getStatut())) {
+            throw new RuntimeException("Cannot edit a validated besoin");
+        }
+        existing.setTitre(updated.getTitre());
+        existing.setDescription(updated.getDescription());
+        existing.setNombreArbres(updated.getNombreArbres());
+        existing.setLieu(updated.getLieu());
+        existing.setMetrage(updated.getMetrage());
+        if (updated.getImage() != null) {
+            existing.setImage(updated.getImage());
+        }
+        return besoinRepository.save(existing);
+    }
+
 }

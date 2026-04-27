@@ -122,4 +122,42 @@ public class BesoinRestController {
                 besoinService.getBesoinsByClientAndStatut(clientId, "EN_ATTENTE_VALIDATION")
         );
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteBesoin(@PathVariable Long id) {
+        besoinService.deleteBesoin(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/client/update/{id}")
+    public ResponseEntity<Besoin> updateBesoin(
+            @PathVariable Long id,
+            @RequestParam("titre") String titre,
+            @RequestParam("description") String description,
+            @RequestParam("nombreArbres") String nombreArbres,
+            @RequestParam("lieu") String lieu,
+            @RequestParam("metrage") String metrage,
+            @RequestParam(value = "image", required = false) MultipartFile file
+    ) {
+        Besoin updated = new Besoin();
+        updated.setTitre(titre);
+        updated.setDescription(description);
+        updated.setNombreArbres(nombreArbres);
+        updated.setLieu(lieu);
+        updated.setMetrage(metrage);
+
+        if (file != null && !file.isEmpty()) {
+            try {
+                String fileName = file.getOriginalFilename();
+                Path path = Paths.get("D:/pfe/Frontend/src/assets/img/uploads/" + fileName);
+                Files.createDirectories(path.getParent());
+                Files.write(path, file.getBytes());
+                updated.setImage("assets/img/uploads/" + fileName);
+            } catch (IOException e) {
+                throw new RuntimeException("Error upload image");
+            }
+        }
+
+        return ResponseEntity.ok(besoinService.updateBesoin(id, updated));
+    }
 }

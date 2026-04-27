@@ -8,6 +8,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Contact } from '../Entites/Contact.Entites';
 import { Besoin } from '../Entites/Besoin.Entites';
 import { PrixProposer } from '../Entites/PrixProposer.Entites';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -21,8 +22,11 @@ export class CrudService {
   contactUrl = `${this.apiUrl}/contact`;
   GoogleUrl = 'http://localhost:8081/api/client/login-google';
   fastApiUrl = "http://127.0.0.1:8081";
+  router: Router;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private _router: Router) {
+    this.router = _router;
+  }
 
   // ===== CLIENT =====
   addclient(client: Client): Observable<any> {
@@ -190,10 +194,6 @@ getBesoinById(id: number): Observable<Besoin> {
   return this.http.get<Besoin>(`${this.apiUrl}/besoin/${id}`);
 }
 
-deleteBesoin(id: number): Observable<any> {
-  return this.http.delete(`${this.apiUrl}/besoin/${id}`);
-}
-
 addBesoin(clientId: number, request: FormData) {
   return this.http.post(`${this.apiUrl}/besoin/client/${clientId}`, request);
 }
@@ -215,6 +215,23 @@ getBesoinsByExpert(expertId: number): Observable<Besoin[]> {
   return this.http.get<Besoin[]>(`${this.apiUrl}/besoin/expert/${expertId}`);
 }
 
+
+modifierBesoin(besoin: Besoin): void {
+  this.router.navigate(['/modifier-besoin', besoin.id]);
+}
+
+suivreEvolution(besoin: Besoin): void {
+  this.router.navigate(['/suivi-evolution', besoin.id]);
+}
+
+// ── KEEP & REPLACE with this single version ──
+deleteBesoin(id: number): Observable<void> {
+  return this.http.delete<void>(`${this.apiUrl}/besoin/${id}`);
+}
+
+updateBesoin(id: number, formData: FormData): Observable<any> {
+  return this.http.put(`${this.apiUrl}/besoin/client/update/${id}`, formData);
+}
 
 
 getMesBesoinsValides(): Observable<Besoin[]> {

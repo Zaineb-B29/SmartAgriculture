@@ -10,23 +10,17 @@ import Swal from 'sweetalert2';
   templateUrl: './liste-besoin.component.html'
 })
 export class ListeBesoinComponent implements OnInit {
-
   // Fournisseur — all validated besoins
   besoins: Besoin[] = [];
-
   // Client + Expert — split lists
   besoinsValides: Besoin[]   = [];
   besoinsEnAttente: Besoin[] = [];
-
   // Prix per besoin (client view)
   propositionsMap: { [besoinId: number]: PrixProposer[] } = {};
-
   // All propositions by this fournisseur
   mesPropositions: PrixProposer[] = [];
-
   // Count of ALL propositions per besoin (fournisseur view)
   prixCountMap: { [besoinId: number]: number } = {};
-
   isFournisseurIn = false;
   isClientIn      = false;
   isExpertIn      = false;
@@ -309,6 +303,145 @@ export class ListeBesoinComponent implements OnInit {
   toggleOffers(besoinId: number): void {
     this.openOffersMap[besoinId] = !this.openOffersMap[besoinId];
   }
+
+
+  supprimerBesoin(besoin: Besoin): void {
+  Swal.fire({
+    title: 'Supprimer ce besoin ?',
+    text: `"${besoin.titre}" sera définitivement supprimé.`,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#ef4444',
+    cancelButtonText: 'Annuler',
+    confirmButtonText: 'Supprimer'
+  }).then(result => {
+    if (!result.isConfirmed) return;
+    this.service.deleteBesoin(besoin.id!).subscribe({
+      next: () => {
+        Swal.fire('Supprimé', 'Le besoin a été supprimé.', 'success');
+        this.loadBesoins();
+      },
+      error: () => Swal.fire('Erreur', 'Impossible de supprimer ce besoin.', 'error')
+    });
+  });
+  }
+
+  modifierBesoin(besoin: Besoin): void {
+    Swal.fire({
+      title: 'Modifier le besoin',
+      html: `
+        <div style="text-align:left; display:flex; flex-direction:column; gap:10px;">
+          <div>
+            <label style="font-size:12px; font-weight:600; color:#475569;">Titre</label>
+            <input id="swal-titre" class="swal2-input" value="${besoin.titre}" placeholder="Titre" style="margin:4px 0;">
+          </div>
+          <div>
+            <label style="font-size:12px; font-weight:600; color:#475569;">Description</label>
+            <textarea id="swal-desc" class="swal2-textarea" placeholder="Description" style="margin:4px 0;">${besoin.description}</textarea>
+          </div>
+          <div style="display:flex; gap:8px;">
+            <div style="flex:1;">
+              <label style="font-size:12px; font-weight:600; color:#475569;">Nombre d'arbres</label>
+              <input id="swal-arbres" class="swal2-input" value="${besoin.nombreArbres}" placeholder="Nb arbres" style="margin:4px 0;">
+            </div>
+            <div style="flex:1;">
+              <label style="font-size:12px; font-weight:600; color:#475569;">Lieu</label>
+              <input id="swal-lieu" class="swal2-input" value="${besoin.lieu}" placeholder="Lieu" style="margin:4px 0;">
+            </div>
+          </div>
+          <div>
+            <label style="font-size:12px; font-weight:600; color:#475569;">Métrage</label>
+            <input id="swal-metrage" class="swal2-input" value="${besoin.metrage}" placeholder="Métrage" style="margin:4px 0;">
+          </div>
+          <div>
+            <label style="font-size:12px; font-weight:600; color:#475569;">Nouvelle image (optionnel)</label>
+            <input id="swal-image" type="file" class="swal2-input" style="margin:4px 0; padding:6px;">
+          </div>
+        </div>
+      `,
+      showCancelButton: true,
+      confirmButtonText: 'Enregistrer',
+      cancelButtonText: 'Annuler',
+      confirmButtonColor: '#4CAF50',
+      width: '520px',
+      preConfirm: () => {
+        const titre      = (document.getElementById('swal-titre') as HTMLInputElement).value.trim();
+        const desc       = (document.getElementById('swal-desc') as HTMLTextAreaElement).value.trim();
+        const arbres     = (document.getElementById('swal-arbres') as HTMLInputElement).value.trim();
+        const lieu       = (document.getElementById('swal-lieu') as HTMLInputElement).value.trim();
+        const metrage    = (document.getElementById('swal-metrage') as HTMLInputElement).value.trim();
+        const fileInput  = document.getElementById('swal-image') as HTMLInputElement;
+        const file       = fileInput.files?.[0] ?? null;
+
+        if (!titre || !desc || !arbres || !lieu || !metrage) {
+          Swal.showValidationMessage('Tous les champs sont obligatoires.');
+          return false;
+        }
+        return { titre, desc, arbres, lieu, metrage, file };
+      }
+    }).then(result => {
+      if (!result.isConfirmed || !result.value) return;
+
+      const { titre, desc, arbres, lieu, metrage, file } = result.value;
+      const formData = new FormData();
+      formData.append('titre', titre);
+      formData.append('description', desc);
+      formData.append('nombreArbres', arbres);
+      formData.append('lieu', lieu);
+      formData.append('metrage', metrage);
+      if (file) formData.append('image', file);
+
+      this.service.updateBesoin(besoin.id!, formData).subscribe({
+        next: () => {
+          Swal.fire('Modifié', 'Le besoin a été mis à jour.', 'success');
+          this.loadBesoins();
+        },
+        error: () => Swal.fire('Erreur', 'Impossible de modifier ce besoin.', 'error')
+      });
+    });
+  }
+
+
+
+  suivreEvolution(besoin: Besoin): void {
+  const offresCount = this.propositionsMap[besoin.id!]?.length ?? 0;
+  const expertName  = besoin.expert
+    ? `${besoin.expert.nom} ${besoin.expert.prenom}`
+    : 'N/A';
+  const dateVal = besoin.dateValidationExpert
+    ? new Date(besoin.dateValidationExpert).toLocaleDateString('fr-FR')
+    : 'N/A';
+
+  Swal.fire({
+    title: `<i class="fas fa-chart-line" style="color:#2563eb;margin-right:8px;"></i>Évolution du besoin`,
+    html: `
+      <div style="text-align:left; font-size:13px; line-height:2;">
+        <p><strong>📌 Titre :</strong> ${besoin.titre}</p>
+        <p><strong>👨‍🌾 Expert validateur :</strong> ${expertName}</p>
+        <p><strong>📅 Date de validation :</strong> ${dateVal}</p>
+        <p><strong>📝 Analyse expert :</strong><br>
+          <span style="color:#475569; font-style:italic;">
+            ${besoin.descriptionExpert ?? 'Aucune analyse disponible'}
+          </span>
+        </p>
+        <hr style="margin:10px 0; border-color:#e2e8f0;">
+        <p><strong>🏷️ Offres fournisseurs reçues :</strong>
+          <span style="background:#dcfce7; color:#16a34a; border-radius:20px; padding:2px 10px; font-weight:600; margin-left:6px;">
+            ${offresCount}
+          </span>
+        </p>
+        <p style="color:${offresCount > 0 ? '#16a34a' : '#f59e0b'}; font-weight:500;">
+          ${offresCount > 0
+            ? '✅ Des fournisseurs ont soumis des offres. Consultez-les ci-dessous.'
+            : '⏳ En attente d\'offres des fournisseurs.'}
+        </p>
+      </div>
+    `,
+    confirmButtonText: 'Fermer',
+    confirmButtonColor: '#2563eb',
+    width: '480px'
+  });
+}
 
 
 }

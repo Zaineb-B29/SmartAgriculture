@@ -60,7 +60,7 @@
                   <span class="tb-label">Vidéo</span>
                   <span class="tb-sub">Enregistrement</span>
                 </button>
-
+                <!--
                 <button type="button"
                         class="type-btn"
                         [class.active]="currentType === 'TEMPS_REEL'"
@@ -68,7 +68,7 @@
                   <div class="tb-icon">📡</div>
                   <span class="tb-label">Temps réel</span>
                   <span class="tb-sub">Diffusion live</span>
-                </button>
+                </button>-->
 
               </div>
             </div>
@@ -124,8 +124,8 @@
               </button>
 
             </ng-container>
-
-            <!-- TEMPS RÉEL -->
+            <!--
+             TEMPS RÉEL
             <ng-container *ngIf="isTempsReel()">
               <div class="realtime-info">
                 Un lien Google Meet sera automatiquement généré pour permettre une session
@@ -134,7 +134,7 @@
               <button type="button" class="btn-meet" (click)="createTempsReel()">
                 Générer le lien Meet
               </button>
-            </ng-container>
+            </ng-container>-->
 
           </form>
         </div>
@@ -168,8 +168,8 @@
               </div>
             </div>
           </ng-container>
-
-          <!-- Temps réel result -->
+      
+          <!-- Temps réel result
           <ng-container *ngIf="suivi.typeSuivi === 'TEMPS_REEL'">
             <p class="imgs-section-label">Lien de la réunion</p>
             <div class="meet-link-card">
@@ -177,7 +177,7 @@
                 {{ suivi.lienTempsReel }}
               </a>
             </div>
-          </ng-container>
+          </ng-container> -->
 
         </div>
         <!-- /result-panel -->

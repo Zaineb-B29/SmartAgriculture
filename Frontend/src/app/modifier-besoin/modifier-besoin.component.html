@@ -1,0 +1,212 @@
+<div class="se-pre-con"></div>
+<app-header></app-header>
+
+<div class="breadcrumb-area shadow dark bg-cover text-center text-light"
+     style="background-image: url(assets/img/banner/3.jpg);">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <h1>Modifier le Besoin</h1>
+        <ul class="breadcrumb">
+          <li><a href="/listeBesoin"><i class="fas fa-list"></i> Mes besoins</a></li>
+          <li>Modifier</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="validtheme-shop-area default-padding">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-7">
+
+        <div class="contact-form-style-one" style="
+          background:#fff;
+          border-radius:14px;
+          padding:36px;
+          box-shadow:0 4px 24px rgba(0,0,0,0.08);
+          border:1px solid #eef2f7;">
+
+          <!-- Header -->
+          <div style="display:flex; align-items:center; gap:14px; margin-bottom:28px; padding-bottom:18px; border-bottom:2px solid #eef2f7;">
+            <div style="
+              width:46px; height:46px; border-radius:12px;
+              background:linear-gradient(135deg,#4CAF50,#2e7d32);
+              display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+              <i class="fas fa-edit" style="color:white; font-size:18px;"></i>
+            </div>
+            <div>
+              <h4 style="margin:0; font-size:17px; font-weight:700; color:#1e293b;">Modifier le besoin</h4>
+              <p style="margin:0; font-size:12px; color:#94a3b8;">Mettez à jour les informations ci-dessous</p>
+            </div>
+          </div>
+
+          <!-- Current image preview -->
+          <div *ngIf="besoin?.image" style="margin-bottom:20px;">
+            <label style="font-size:12px; font-weight:600; color:#475569; display:block; margin-bottom:8px;">
+              <i class="fas fa-image" style="color:#4CAF50; margin-right:6px;"></i>Image actuelle
+            </label>
+            <div style="width:100%; height:180px; border-radius:10px; overflow:hidden; border:2px solid #eef2f7;">
+              <img [src]="besoin?.image" style="width:100%; height:100%; object-fit:cover;" alt="image actuelle">
+            </div>
+          </div>
+
+          <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+
+              <!-- IMAGE -->
+              <div class="col-lg-12 mb-3">
+                <div class="form-group">
+                  <label style="font-weight:600; font-size:13px; color:#374151; margin-bottom:6px; display:block;">
+                    <i class="fas fa-upload" style="color:#4CAF50; margin-right:6px;"></i>
+                    Nouvelle image <span style="color:#94a3b8; font-weight:400;">(optionnel)</span>
+                  </label>
+                  <input type="file" class="form-control" (change)="onFileSelected($event)"
+                         style="padding:10px; border-radius:8px; border:1px solid #e2e8f0; font-size:13px;">
+                </div>
+              </div>
+
+              <!-- TITRE -->
+              <div class="col-lg-12 mb-3">
+                <div class="form-group">
+                  <label style="font-weight:600; font-size:13px; color:#374151; margin-bottom:6px; display:block;">
+                    <i class="fas fa-tag" style="color:#4CAF50; margin-right:6px;"></i>Titre <span style="color:red">*</span>
+                  </label>
+                  <input type="text" class="form-control" formControlName="titre"
+                         placeholder="Ex: Irrigation verger"
+                         [class.is-invalid]="editForm.get('titre')?.invalid && editForm.get('titre')?.touched"
+                         style="border-radius:8px; border:1px solid #e2e8f0; font-size:13px; padding:10px 14px;">
+                  <div *ngIf="editForm.get('titre')?.invalid && editForm.get('titre')?.touched"
+                       class="text-danger" style="font-size:12px; margin-top:4px;">
+                    Le titre est obligatoire.
+                  </div>
+                </div>
+              </div>
+
+              <!-- DESCRIPTION -->
+              <div class="col-lg-12 mb-3">
+                <div class="form-group">
+                  <label style="font-weight:600; font-size:13px; color:#374151; margin-bottom:6px; display:block;">
+                    <i class="fas fa-align-left" style="color:#4CAF50; margin-right:6px;"></i>Description <span style="color:red">*</span>
+                  </label>
+                  <textarea class="form-control" formControlName="description" rows="4"
+                            placeholder="Décrivez votre besoin agricole..."
+                            [class.is-invalid]="editForm.get('description')?.invalid && editForm.get('description')?.touched"
+                            style="border-radius:8px; border:1px solid #e2e8f0; font-size:13px; padding:10px 14px; resize:vertical;">
+                  </textarea>
+                  <div *ngIf="editForm.get('description')?.invalid && editForm.get('description')?.touched"
+                       class="text-danger" style="font-size:12px; margin-top:4px;">
+                    La description est obligatoire.
+                  </div>
+                </div>
+              </div>
+
+              <!-- NOMBRE D'ARBRES + LIEU -->
+              <div class="col-lg-6 mb-3">
+                <div class="form-group">
+                  <label style="font-weight:600; font-size:13px; color:#374151; margin-bottom:6px; display:block;">
+                    <i class="fas fa-tree" style="color:#4CAF50; margin-right:6px;"></i>Nombre d'arbres <span style="color:red">*</span>
+                  </label>
+                  <input type="text" class="form-control" formControlName="nombreArbres"
+                         placeholder="Ex: 50"
+                         [class.is-invalid]="editForm.get('nombreArbres')?.invalid && editForm.get('nombreArbres')?.touched"
+                         style="border-radius:8px; border:1px solid #e2e8f0; font-size:13px; padding:10px 14px;">
+                  <div *ngIf="editForm.get('nombreArbres')?.invalid && editForm.get('nombreArbres')?.touched"
+                       class="text-danger" style="font-size:12px; margin-top:4px;">
+                    Champ obligatoire.
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-6 mb-3">
+                <div class="form-group">
+                  <label style="font-weight:600; font-size:13px; color:#374151; margin-bottom:6px; display:block;">
+                    <i class="fas fa-map-marker-alt" style="color:#4CAF50; margin-right:6px;"></i>Lieu <span style="color:red">*</span>
+                  </label>
+                  <input type="text" class="form-control" formControlName="lieu"
+                         placeholder="Ex: Nabeul"
+                         [class.is-invalid]="editForm.get('lieu')?.invalid && editForm.get('lieu')?.touched"
+                         style="border-radius:8px; border:1px solid #e2e8f0; font-size:13px; padding:10px 14px;">
+                  <div *ngIf="editForm.get('lieu')?.invalid && editForm.get('lieu')?.touched"
+                       class="text-danger" style="font-size:12px; margin-top:4px;">
+                    Champ obligatoire.
+                  </div>
+                </div>
+              </div>
+
+              <!-- METRAGE -->
+              <div class="col-lg-12 mb-4">
+                <div class="form-group">
+                  <label style="font-weight:600; font-size:13px; color:#374151; margin-bottom:6px; display:block;">
+                    <i class="fas fa-ruler-combined" style="color:#4CAF50; margin-right:6px;"></i>Métrage <span style="color:red">*</span>
+                  </label>
+                  <input type="text" class="form-control" formControlName="metrage"
+                         placeholder="Ex: 2000 m²"
+                         [class.is-invalid]="editForm.get('metrage')?.invalid && editForm.get('metrage')?.touched"
+                         style="border-radius:8px; border:1px solid #e2e8f0; font-size:13px; padding:10px 14px;">
+                  <div *ngIf="editForm.get('metrage')?.invalid && editForm.get('metrage')?.touched"
+                       class="text-danger" style="font-size:12px; margin-top:4px;">
+                    Champ obligatoire.
+                  </div>
+                </div>
+              </div>
+
+              <!-- ACTIONS -->
+              <div class="col-lg-12">
+                <div style="display:flex; gap:12px;">
+                  <button type="button" class="btn"
+                          (click)="goBack()"
+                          style="
+                            flex:1; padding:11px; border-radius:8px;
+                            border:1px solid #e2e8f0; background:#f8fafc;
+                            color:#475569; font-size:13px; font-weight:500; cursor:pointer;">
+                    <i class="fas fa-arrow-left" style="margin-right:6px;"></i>Annuler
+                  </button>
+                  <button type="submit" class="btn btn-theme animation"
+                          [disabled]="isLoading"
+                          style="flex:2; padding:11px; border-radius:8px; font-size:13px; font-weight:600;">
+                    <span *ngIf="!isLoading">
+                      <i class="fas fa-save" style="margin-right:8px;"></i>Enregistrer les modifications
+                    </span>
+                    <span *ngIf="isLoading">
+                      <i class="fas fa-spinner fa-spin" style="margin-right:8px;"></i>Enregistrement...
+                    </span>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </form>
+        </div>
+
+      </div>
+
+      <!-- Side info -->
+      <div class="col-lg-3 mt-4 mt-lg-0">
+        <div style="background:#f8fafc; border-radius:12px; padding:24px; border:1px solid #eef2f7;">
+          <h6 style="font-weight:700; color:#1e293b; margin-bottom:16px; font-size:14px;">
+            <i class="fas fa-info-circle" style="color:#4CAF50; margin-right:8px;"></i>À savoir
+          </h6>
+          <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:14px;">
+            <li style="display:flex; gap:10px; align-items:flex-start;">
+              <i class="fas fa-hourglass-half" style="color:#f59e0b; margin-top:2px; flex-shrink:0;"></i>
+              <span style="font-size:12px; color:#64748b;">Seuls les besoins <strong>en attente</strong> peuvent être modifiés.</span>
+            </li>
+            <li style="display:flex; gap:10px; align-items:flex-start;">
+              <i class="fas fa-image" style="color:#4CAF50; margin-top:2px; flex-shrink:0;"></i>
+              <span style="font-size:12px; color:#64748b;">Laissez le champ image vide pour <strong>conserver l'image actuelle</strong>.</span>
+            </li>
+            <li style="display:flex; gap:10px; align-items:flex-start;">
+              <i class="fas fa-check-circle" style="color:#2563eb; margin-top:2px; flex-shrink:0;"></i>
+              <span style="font-size:12px; color:#64748b;">Après modification, votre besoin restera <strong>en attente</strong> de validation.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

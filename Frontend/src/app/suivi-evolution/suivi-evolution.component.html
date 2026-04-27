@@ -1,0 +1,164 @@
+<div class="se-pre-con" *ngIf="isLoading"></div>
+<app-header></app-header>
+
+<!-- Breadcrumb -->
+<div class="breadcrumb-area shadow dark bg-cover text-center text-light"
+     style="background-image: url(assets/img/banner/3.jpg);">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <h1>Suivi de l'évolution</h1>
+        <ul class="breadcrumb">
+          <li>
+            <a [routerLink]="['/listeBesoin']">
+              <i class="fas fa-list"></i> Mes besoins
+            </a>
+          </li>
+          <li>Évolution</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="validtheme-shop-area default-padding" *ngIf="besoin">
+  <div class="container">
+    <div class="row justify-content-center">
+
+      <div class="col-lg-7">
+
+        <div class="contact-form-style-one" style="
+          background:#fff;
+          border-radius:14px;
+          padding:36px;
+          box-shadow:0 4px 24px rgba(0,0,0,0.08);
+          border:1px solid #eef2f7;">
+
+          <!-- HEADER -->
+          <div style="display:flex; align-items:center; gap:14px; margin-bottom:28px; padding-bottom:18px; border-bottom:2px solid #eef2f7;">
+            <div style="
+              width:46px; height:46px; border-radius:12px;
+              background:linear-gradient(135deg,#4CAF50,#2e7d32);
+              display:flex; align-items:center; justify-content:center;">
+              <i class="fas fa-chart-line" style="color:white; font-size:18px;"></i>
+            </div>
+            <div>
+              <h4 style="margin:0; font-size:17px; font-weight:700; color:#1e293b;">
+                Suivi du besoin
+              </h4>
+              <p style="margin:0; font-size:12px; color:#94a3b8;">
+                Consultez l'évolution de votre demande
+              </p>
+            </div>
+          </div>
+
+          <!-- IMAGE -->
+          <div *ngIf="besoin.image" style="margin-bottom:20px;">
+            <label style="font-size:12px; font-weight:600; color:#475569; display:block; margin-bottom:8px;">
+              <i class="fas fa-image" style="color:#4CAF50; margin-right:6px;"></i>
+              Image du besoin
+            </label>
+
+            <div style="width:100%; height:180px; border-radius:10px; overflow:hidden; border:2px solid #eef2f7;">
+              <img [src]="besoin.image" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+          </div>
+
+          <!-- INFOS -->
+          <div class="row">
+
+            <!-- TITRE -->
+            <div class="col-lg-12 mb-3">
+              <label style="font-weight:600; font-size:13px; color:#374151;">
+                <i class="fas fa-tag" style="color:#4CAF50; margin-right:6px;"></i>
+                Titre
+              </label>
+              <p>{{ besoin.titre }}</p>
+            </div>
+
+            <!-- DESCRIPTION -->
+            <div class="col-lg-12 mb-3">
+              <label style="font-weight:600; font-size:13px; color:#374151;">
+                <i class="fas fa-align-left" style="color:#4CAF50; margin-right:6px;"></i>
+                Description expert
+              </label>
+              <p>{{ besoin.descriptionExpert || 'Aucune analyse disponible' }}</p>
+            </div>
+
+            <!-- NOMBRE + LIEU -->
+            <div class="col-lg-6 mb-3">
+              <label style="font-weight:600; font-size:13px;">
+                <i class="fas fa-tree" style="color:#4CAF50; margin-right:6px;"></i>
+                Nombre d'arbres
+              </label>
+              <p>{{ besoin.nombreArbres }}</p>
+            </div>
+
+            <div class="col-lg-6 mb-3">
+              <label style="font-weight:600; font-size:13px;">
+                <i class="fas fa-map-marker-alt" style="color:#4CAF50; margin-right:6px;"></i>
+                Lieu
+              </label>
+              <p>{{ besoin.lieu }}</p>
+            </div>
+
+            <!-- METRAGE -->
+            <div class="col-lg-12 mb-3">
+              <label style="font-weight:600; font-size:13px;">
+                <i class="fas fa-ruler-combined" style="color:#4CAF50; margin-right:6px;"></i>
+                Métrage
+              </label>
+              <p>{{ besoin.metrage }}</p>
+            </div>
+
+            <!-- OFFRES -->
+            <div class="col-lg-12 mb-4">
+              <label style="font-weight:600; font-size:13px;">
+                <i class="fas fa-tags" style="color:#4CAF50; margin-right:6px;"></i>
+                Offres reçues
+              </label>
+
+              <div style="
+                background:#f0fdf4;
+                border:1px solid #bbf7d0;
+                border-radius:10px;
+                padding:15px;
+                text-align:center;">
+                
+                <h2 style="margin:0; color:#16a34a;">
+                  {{ offresCount }}
+                </h2>
+
+                <p style="margin:0; font-size:12px;">
+                  {{ offresCount > 0 ? 'Offres disponibles' : 'Aucune offre pour le moment' }}
+                </p>
+              </div>
+            </div>
+
+            <!-- BUTTONS -->
+            <div class="col-lg-12">
+              <button (click)="goBack()" class="btn"
+                      style="
+                        width:100%;
+                        padding:11px;
+                        border-radius:8px;
+                        border:1px solid #e2e8f0;
+                        background:#f8fafc;
+                        color:#475569;
+                        font-size:13px;
+                        font-weight:500;">
+                <i class="fas fa-arrow-left"></i> Retour
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

@@ -10,7 +10,7 @@
       <div class="col-lg-12 col-md-12">
         <h1>Ajouter un Besoin</h1>
         <ul class="breadcrumb">
-          <li><a href="/listeBesoin">Voir les besoins</a></li>
+          <li><a routerLink="/listeBesoin">Voir les besoins</a></li>
           <li>Ajouter un besoin</li>
         </ul>
       </div>
@@ -41,14 +41,19 @@
                 <div class="form-group">
                   <label style="font-weight: 600; margin-bottom: 8px;">
                     <i class="fas fa-image" style="color: #4CAF50; margin-right: 6px;"></i>
-                    Image du besoin
+                    Image du besoin <span style="color:red">*</span>
                   </label>
                   <input
                     type="file"
                     class="form-control"
+                    [class.is-invalid]="besoinForm.get('image')?.invalid && besoinForm.get('image')?.touched"
                     formControlName="image"
                     (change)="onFileSelected($event)"
                     style="padding: 10px;">
+                  <div *ngIf="besoinForm.get('image')?.invalid && besoinForm.get('image')?.touched"
+                      class="text-danger" style="font-size: 13px; margin-top: 4px;">
+                    L'image est obligatoire.
+                  </div>
                 </div>
               </div>
 
@@ -57,13 +62,18 @@
                 <div class="form-group">
                   <label style="font-weight: 600; margin-bottom: 8px;">
                     <i class="fas fa-tag" style="color: #4CAF50; margin-right: 6px;"></i>
-                    Titre
+                    Titre <span style="color:red">*</span>
                   </label>
                   <input
                     type="text"
                     class="form-control"
+                    [class.is-invalid]="besoinForm.get('titre')?.invalid && besoinForm.get('titre')?.touched"
                     formControlName="titre"
                     placeholder="Ex: Irrigation verger">
+                  <div *ngIf="besoinForm.get('titre')?.invalid && besoinForm.get('titre')?.touched"
+                      class="text-danger" style="font-size: 13px; margin-top: 4px;">
+                    Le titre est obligatoire.
+                  </div>
                 </div>
               </div>
 
@@ -72,14 +82,19 @@
                 <div class="form-group">
                   <label style="font-weight: 600; margin-bottom: 8px;">
                     <i class="fas fa-align-left" style="color: #4CAF50; margin-right: 6px;"></i>
-                    Description
+                    Description <span style="color:red">*</span>
                   </label>
                   <textarea
                     class="form-control"
+                    [class.is-invalid]="besoinForm.get('description')?.invalid && besoinForm.get('description')?.touched"
                     formControlName="description"
                     rows="4"
                     placeholder="Décrivez votre besoin agricole...">
                   </textarea>
+                  <div *ngIf="besoinForm.get('description')?.invalid && besoinForm.get('description')?.touched"
+                      class="text-danger" style="font-size: 13px; margin-top: 4px;">
+                    La description est obligatoire.
+                  </div>
                 </div>
               </div>
 
@@ -88,13 +103,18 @@
                 <div class="form-group">
                   <label style="font-weight: 600; margin-bottom: 8px;">
                     <i class="fas fa-tree" style="color: #4CAF50; margin-right: 6px;"></i>
-                    Nombre d'arbres
+                    Nombre d'arbres <span style="color:red">*</span>
                   </label>
                   <input
                     type="text"
                     class="form-control"
+                    [class.is-invalid]="besoinForm.get('nombreArbres')?.invalid && besoinForm.get('nombreArbres')?.touched"
                     formControlName="nombreArbres"
                     placeholder="Ex: 50">
+                  <div *ngIf="besoinForm.get('nombreArbres')?.invalid && besoinForm.get('nombreArbres')?.touched"
+                      class="text-danger" style="font-size: 13px; margin-top: 4px;">
+                    Le nombre d'arbres est obligatoire.
+                  </div>
                 </div>
               </div>
 
@@ -103,13 +123,18 @@
                 <div class="form-group">
                   <label style="font-weight: 600; margin-bottom: 8px;">
                     <i class="fas fa-map-marker-alt" style="color: #4CAF50; margin-right: 6px;"></i>
-                    Lieu
+                    Lieu <span style="color:red">*</span>
                   </label>
                   <input
                     type="text"
                     class="form-control"
+                    [class.is-invalid]="besoinForm.get('lieu')?.invalid && besoinForm.get('lieu')?.touched"
                     formControlName="lieu"
                     placeholder="Ex: Nabeul">
+                  <div *ngIf="besoinForm.get('lieu')?.invalid && besoinForm.get('lieu')?.touched"
+                      class="text-danger" style="font-size: 13px; margin-top: 4px;">
+                    Le lieu est obligatoire.
+                  </div>
                 </div>
               </div>
 
@@ -118,13 +143,18 @@
                 <div class="form-group">
                   <label style="font-weight: 600; margin-bottom: 8px;">
                     <i class="fas fa-ruler-combined" style="color: #4CAF50; margin-right: 6px;"></i>
-                    Métrage
+                    Métrage <span style="color:red">*</span>
                   </label>
                   <input
                     type="text"
                     class="form-control"
+                    [class.is-invalid]="besoinForm.get('metrage')?.invalid && besoinForm.get('metrage')?.touched"
                     formControlName="metrage"
                     placeholder="Ex: 2000 m²">
+                  <div *ngIf="besoinForm.get('metrage')?.invalid && besoinForm.get('metrage')?.touched"
+                      class="text-danger" style="font-size: 13px; margin-top: 4px;">
+                    Le métrage est obligatoire.
+                  </div>
                 </div>
               </div>
 
@@ -188,7 +218,7 @@
           </ul>
 
           <div style="margin-top: 25px;">
-            <a href="/listeBesoin" class="btn btn-theme animation" style="width: 100%; text-align: center;">
+            <a routerLink="/listeBesoin" class="btn btn-theme animation" style="width: 100%; text-align: center;">
               <i class="fas fa-list" style="margin-right: 8px;"></i>
               Voir tous les besoins
             </a>

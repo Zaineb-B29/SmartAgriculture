@@ -23,6 +23,9 @@ import { ListeBesoinComponent } from './liste-besoin/liste-besoin.component';
 import { MesPropositionsComponent } from './mes-propositions/mes-propositions.component';
 import { ListeBesoinEnAttenteComponent } from './liste-besoin-en-attente/liste-besoin-en-attente.component';
 import { AjouterSuiviFournisComponent } from './ajouter-suivi-fournis/ajouter-suivi-fournis.component';
+import { ModifierBesoinComponent } from './modifier-besoin/modifier-besoin.component';
+import { SuiviEvolutionComponent } from './suivi-evolution/suivi-evolution.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -43,6 +46,8 @@ import { AjouterSuiviFournisComponent } from './ajouter-suivi-fournis/ajouter-su
     MesPropositionsComponent,
     ListeBesoinEnAttenteComponent,
     AjouterSuiviFournisComponent,
+    ModifierBesoinComponent,
+    SuiviEvolutionComponent,
 
   ],
   imports: [
@@ -51,7 +56,8 @@ import { AjouterSuiviFournisComponent } from './ajouter-suivi-fournis/ajouter-su
     AppRoutingModule,
     FormsModule,  
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    RouterModule
   ],
   providers: [],
   bootstrap: [AppComponent]

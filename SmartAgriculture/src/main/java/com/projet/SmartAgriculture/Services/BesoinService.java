@@ -16,5 +16,6 @@ public interface BesoinService {
     List<Besoin> getBesoinsByExpert(Long expertId);
     List<Besoin> getBesoinsValidesByClient(Long clientId);
     List<Besoin> getBesoinsByClientAndStatut(Long clientId, String statut);
-
+    void deleteBesoin(Long id);
+    Besoin updateBesoin(Long id, Besoin updated);
 }

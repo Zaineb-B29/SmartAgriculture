@@ -31,10 +31,10 @@ export class AjouterBesoinComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (!this.crudService.isLoggedIn()) {
-      this.router.navigate(['/user-type']);
-    }
+  if (!this.crudService.isClientIn()) {  // vérifie spécifiquement le client
+    this.router.navigate(['/loginClient']);
   }
+}
 
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
@@ -76,11 +76,10 @@ export class AjouterBesoinComponent implements OnInit {
           title: 'Succès',
           text: 'Besoin ajouté avec succès'
         }).then(() => {
-          window.location.href = '/listeBesoin';
-          window.location.reload();
-});
+          this.besoinForm.reset();
+          this.router.navigate(['/listeBesoin']);
+        });
       },
-
       error: (err) => {
         this.isLoading = false;
         Swal.fire({
