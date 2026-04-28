@@ -26,6 +26,8 @@ import { ProfilComponent } from './profil/profil.component';
 import { UpdateProfilComponent } from './update-profil/update-profil.component';
 import { ContactComponent } from './contact/contact.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { AdminMessagesComponent } from './admin-messages/admin-messages.component';
+import { MessageComponent } from './message/message.component';
 
 
 @NgModule({
@@ -51,6 +53,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     ProfilComponent,
     UpdateProfilComponent,
     ContactComponent,
+    AdminMessagesComponent,
+    MessageComponent,
   ],
   imports: [
     BrowserModule,

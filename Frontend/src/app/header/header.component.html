@@ -38,9 +38,9 @@
           <ul class="nav navbar-nav navbar-right">
             <li><a href="/">Accueil</a></li>
             <li><a href="/about">Qui sommes-nous?</a></li>
-            <li><a href="/contact">Contact</a></li>
-
-            <!-- CLIENT only -->
+            <li *ngIf="IsClientIn || IsFournisseurIn || IsExpertIn">
+              <a href="javascript:void(0)" (click)="contactAdmin()">Contact</a>
+            </li>            <!-- CLIENT only -->
             <li *ngIf="IsClientIn">
               <a href="/ajouterBesoin">Ajouter un besoin</a>
             </li>

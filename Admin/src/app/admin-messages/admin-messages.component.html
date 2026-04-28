@@ -1,0 +1,88 @@
+<app-menu></app-menu>
+
+<div class="wrapper">
+    <app-header></app-header>
+  <div class="content-page">
+    <div class="container-fluid">
+      <div class="iq-card">
+        <div class="iq-card-header">
+          <h4 class="card-title">💬 Messagerie Admin</h4>
+        </div>
+        <div class="iq-card-body">
+
+          <!-- RECHERCHE -->
+          <div class="row mb-4">
+            <div class="col-md-3">
+              <label>Type d'acteur</label>
+              <select class="form-control" [(ngModel)]="filterType" (change)="onFilterChange()">
+                <option value="ALL">Tous</option>
+                <option value="CLIENT">Clients</option>
+                <option value="EXPERT">Experts</option>
+                <option value="FOURNISSEUR">Fournisseurs</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <label>Rechercher par</label>
+              <select class="form-control" [(ngModel)]="searchBy">
+                <option value="email">Email</option>
+                <option value="id">ID</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label>Valeur</label>
+              <input class="form-control" [(ngModel)]="searchValue"
+                     [placeholder]="searchBy === 'email' ? 'Entrez un email...' : 'Entrez un ID...'"
+                     (input)="applyFilter()">
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+              <button class="btn btn-outline-secondary w-100" (click)="resetFilter()">Réinitialiser</button>
+            </div>
+          </div>
+
+          <!-- TABLEAU -->
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead class="thead-light">
+                <tr>
+                  <th>ID</th>
+                  <th>Type</th>
+                  <th>Nom</th>
+                  <th>Prénom</th>
+                  <th>Email</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngIf="filteredList.length === 0">
+                  <td colspan="6" class="text-center text-muted">Aucun résultat</td>
+                </tr>
+                <tr *ngFor="let u of filteredList">
+                  <td>{{ u.id }}</td>
+                  <td>
+                    <span class="badge"
+                          [style.background]="u._type === 'CLIENT' ? '#e8f5e9' : u._type === 'EXPERT' ? '#e3f2fd' : '#fff3e0'"
+                          [style.color]="u._type === 'CLIENT' ? '#2e7d32' : u._type === 'EXPERT' ? '#1565c0' : '#e65100'">
+                      {{ u._type === 'CLIENT' ? '🌾 Client' : u._type === 'EXPERT' ? '🔬 Expert' : '🚚 Fournisseur' }}
+                    </span>
+                  </td>
+                  <td>{{ u.nom }}</td>
+                  <td>{{ u.prenom }}</td>
+                  <td>{{ u.email }}</td>
+                  <td>
+                    <button class="btn btn-sm btn-success" (click)="ouvrirChat(u._type, u.id)"
+                            style="background:#1D9E75; border-color:#1D9E75;">
+                      💬 Contacter
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

@@ -6,7 +6,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
-import { ContactComponent } from './contact/contact.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { FormsModule } from '@angular/forms';
@@ -26,13 +25,13 @@ import { AjouterSuiviFournisComponent } from './ajouter-suivi-fournis/ajouter-su
 import { ModifierBesoinComponent } from './modifier-besoin/modifier-besoin.component';
 import { SuiviEvolutionComponent } from './suivi-evolution/suivi-evolution.component';
 import { RouterModule } from '@angular/router';
+import { MessageComponent } from './message/message.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     AboutComponent,
-    ContactComponent,
     HeaderComponent,
     FooterComponent,
     RegistreClientComponent,
@@ -48,6 +47,7 @@ import { RouterModule } from '@angular/router';
     AjouterSuiviFournisComponent,
     ModifierBesoinComponent,
     SuiviEvolutionComponent,
+    MessageComponent,
 
   ],
   imports: [

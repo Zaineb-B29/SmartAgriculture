@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Admin } from '../Entites/Admin.Entites';
 import { Client } from '../Entites/Client.Entites';
@@ -136,5 +136,56 @@ export class CrudService {
   /* ================= view contacts ================= */
   getContacts(): Observable<Contact[]> {
   return this.http.get<Contact[]>(this.contactUrl);
+}
+
+// ===== MESSAGES =====
+getConversation(type1: string, id1: number, type2: string, id2: number): Observable<any[]> {
+  return this.http.get<any[]>(`${this.apiUrl}/message/conversation?type1=${type1}&id1=${id1}&type2=${type2}&id2=${id2}`);
+}
+
+envoyerMessage(expType: string, expId: number, destType: string, destId: number, contenu: string): Observable<any> {
+  const params = new HttpParams()
+    .set('expediteurType', expType).set('expediteurId', expId)
+    .set('destinataireType', destType).set('destinataireId', destId)
+    .set('contenu', contenu);
+  return this.http.post<any>(`${this.apiUrl}/message`, null, { params });
+}
+
+envoyerMessageFichier(expType: string, expId: number, destType: string, destId: number, file: File, contenu: string): Observable<any> {
+  const fd = new FormData();
+  fd.append('expediteurType', expType);
+  fd.append('expediteurId', expId.toString());
+  fd.append('destinataireType', destType);
+  fd.append('destinataireId', destId.toString());
+  fd.append('file', file);
+  fd.append('contenu', contenu);
+  return this.http.post<any>(`${this.apiUrl}/message/fichier`, fd);
+}
+
+marquerLus(readerType: string, readerId: number, otherType: string, otherId: number): Observable<void> {
+  const params = new HttpParams()
+    .set('readerType', readerType).set('readerId', readerId)
+    .set('otherType', otherType).set('otherId', otherId);
+  return this.http.patch<void>(`${this.apiUrl}/message/mark-read`, null, { params });
+}
+
+supprimerMessage(id: number): Observable<void> {
+  return this.http.delete<void>(`${this.apiUrl}/message/${id}`);
+}
+
+supprimerConversation(type1: string, id1: number, type2: string, id2: number): Observable<void> {
+  return this.http.delete<void>(
+    `${this.apiUrl}/message/conversation?type1=${type1}&id1=${id1}&type2=${type2}&id2=${id2}`
+  );
+}
+getNouveauxMessages(myType: string, myId: number): Observable<number> {
+  return this.http.get<number>(
+    `${this.apiUrl}/message/unread-count?type=${myType}&id=${myId}`
+  );
+}
+getUnreadMessages(myType: string, myId: number): Observable<any[]> {
+  return this.http.get<any[]>(
+    `${this.apiUrl}/message/unread?type=${myType}&id=${myId}`
+  );
 }
 }

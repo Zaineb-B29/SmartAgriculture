@@ -1,0 +1,147 @@
+<app-menu></app-menu>
+
+<div class="wrapper">
+  <app-header></app-header>
+  <div class="content-page">
+    <div class="container-fluid p-0">
+
+      <input #fileInput type="file" accept="image/*,video/*" (change)="onFileSelected($event)" hidden>
+      <!-- LIGHTBOX -->
+      <div class="lb-overlay" *ngIf="lightboxUrl" (click)="closeLightbox()">
+        <div class="lb-box" (click)="$event.stopPropagation()">
+          <button class="lb-close" (click)="closeLightbox()">✕</button>
+          <img *ngIf="lightboxType==='image'" [src]="lightboxUrl" alt="media" class="lb-media">
+          <video *ngIf="lightboxType==='video'" [src]="lightboxUrl" controls autoplay class="lb-media"></video>
+          <button class="lb-dl" (click)="downloadFile(lightboxUrl!)">⬇ Télécharger</button>
+        </div>
+      </div>
+
+      <!-- CARD PRINCIPALE -->
+      <div class="iq-card">
+        <div class="iq-card-header d-flex justify-content-between align-items-center">
+          <div class="iq-header-title">
+            <h4 class="card-title">💬 {{ otherLabel }}</h4>
+          </div>
+          <div>
+            <a href="/admin/messages" class="btn btn-sm btn-outline-secondary mr-2">
+              ← Retour
+            </a>
+            <button *ngIf="messages.length > 0" class="btn btn-sm btn-outline-danger" (click)="supprimerConversation()">
+              🗑 Supprimer
+            </button>
+          </div>
+        </div>
+
+        <div class="iq-card-body p-0">
+          <div class="msg-layout" style="display:flex; height:70vh;">
+
+            <!-- SIDEBAR MÉDIAS -->
+            <aside class="msg-sidebar" [class.collapsed]="!sidebarOpen" style="width:220px; border-right:1px solid #eee; overflow-y:auto;">
+              <div class="sb-tabs p-2">
+                <button class="sb-tab" [class.active]="activeHistTab==='media'" (click)="activeHistTab='media'">📷 Médias</button>
+                <button class="sb-tab" [class.active]="activeHistTab==='links'" (click)="activeHistTab='links'">🔗 Liens</button>
+              </div>
+
+              <div class="sb-body p-2" *ngIf="activeHistTab==='media'">
+                <div class="sb-empty text-center text-muted py-3" *ngIf="mediaMessages.length === 0">
+                  <p>Aucun média</p>
+                </div>
+                <div class="sb-media-grid" *ngIf="mediaMessages.length > 0">
+                  <div *ngFor="let msg of mediaMessages">
+                    <img *ngIf="isImageMessage(msg)" [src]="resolveUrl(msg.fileUrl)" class="sb-thumb-img" (click)="openLightbox(resolveUrl(msg.fileUrl), 'image')" style="width:100%;border-radius:6px;margin-bottom:6px;cursor:pointer;">
+                    <video *ngIf="isVideoMessage(msg)" [src]="resolveUrl(msg.fileUrl)" class="sb-thumb-img" style="width:100%;border-radius:6px;margin-bottom:6px;" preload="metadata"></video>
+                  </div>
+                </div>
+              </div>
+
+              <div class="sb-body p-2" *ngIf="activeHistTab==='links'">
+                <div class="sb-empty text-center text-muted py-3" *ngIf="linkMessages.length === 0">
+                  <p>Aucun lien</p>
+                </div>
+                <div *ngFor="let msg of linkMessages" class="mb-2">
+                  <small>{{ msg.contenu }}</small>
+                </div>
+              </div>
+            </aside>
+
+            <!-- ZONE CHAT -->
+            <main style="flex:1; display:flex; flex-direction:column;">
+
+              <!-- MESSAGES -->
+              <div class="msg-body p-3" #chatBox style="flex:1; overflow-y:auto;">
+
+                <div *ngIf="messages.length === 0" class="text-center text-muted py-5">
+                  <p>Aucun message — démarrez la conversation</p>
+                </div>
+
+                <ng-container *ngFor="let msg of messages; let i = index">
+                  <div *ngIf="showDateSeparator(i)" class="date-sep text-center my-2">
+                    <span class="badge badge-light">{{ formatDate(msg.dateEnvoi) }}</span>
+                  </div>
+
+                  <div class="bubble-row d-flex mb-2"
+                       [style.justify-content]="isMyMessage(msg) ? 'flex-end' : 'flex-start'">
+
+                    <div style="max-width:60%;">
+                      <small class="text-muted d-block mb-1" *ngIf="!isMyMessage(msg)">
+                        {{ getRoleEmoji(msg.expediteurType) }} {{ getSenderLabel(msg) }}
+                      </small>
+
+                      <div class="bubble p-2 px-3"
+                           [style.background]="isMyMessage(msg) ? '#1D9E75' : '#f1f3f5'"
+                           [style.color]="isMyMessage(msg) ? '#fff' : '#333'"
+                           style="border-radius:12px; display:inline-block;">
+
+                        <img *ngIf="isImageMessage(msg)" [src]="resolveUrl(msg.fileUrl)" style="max-width:200px;border-radius:8px;cursor:pointer;" (click)="openLightbox(resolveUrl(msg.fileUrl), 'image')">
+                        <video *ngIf="isVideoMessage(msg)" [src]="resolveUrl(msg.fileUrl)" style="max-width:200px;border-radius:8px;" controls preload="metadata"></video>
+                        <p *ngIf="!isImageMessage(msg) && !isVideoMessage(msg)" class="mb-0" [innerHTML]="renderTextWithLinks(msg.contenu ?? '')"></p>
+                        <p *ngIf="msg.contenu && (isImageMessage(msg) || isVideoMessage(msg))" class="mb-0 mt-1"><small>{{ msg.contenu }}</small></p>
+
+                        <div class="d-flex justify-content-between align-items-center mt-1">
+                          <small style="opacity:0.7; font-size:10px;">{{ formatTime(msg.dateEnvoi) }}</small>
+                          <button class="btn btn-link p-0 ml-2" style="font-size:10px; opacity:0.6;" (click)="supprimerMessage(msg, i)">🗑</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
+
+              <!-- ATTACHMENT PREVIEW -->
+              <div *ngIf="attachedFile" class="attach-bar px-3 py-2 border-top d-flex align-items-center">
+                <img *ngIf="isImageFile(attachedFile)" [src]="attachedPreviewUrl!" style="height:40px;border-radius:4px;margin-right:8px;">
+                <span>{{ attachedFile.name }} ({{ formatFileSize(attachedFile.size) }})</span>
+                <button class="btn btn-sm btn-link text-danger ml-auto" (click)="removeAttachment()">✕</button>
+              </div>
+
+              <!-- INPUT -->
+              <div class="msg-input-bar px-3 py-2 border-top d-flex align-items-center" style="gap:8px;">
+                <button class="btn btn-outline-secondary btn-sm" (click)="onAttachClick()" [disabled]="isSending || isUploadingFile">
+                  📎
+                </button>
+                <textarea class="form-control" rows="1"
+                          [(ngModel)]="newMessage"
+                          (keydown)="onKeydown($event)"
+                          [placeholder]="attachedFile ? 'Ajouter un message...' : 'Écrivez un message...'"
+                          [disabled]="isSending || isUploadingFile"
+                          style="resize:none;">
+                </textarea>
+                <button class="btn btn-success btn-sm"
+                        (click)="attachedFile ? envoyerFichier() : envoyerMessage()"
+                        [disabled]="(!newMessage.trim() && !attachedFile) || isSending || isUploadingFile"
+                        style="background:#1D9E75; border-color:#1D9E75;">
+                  <span *ngIf="!isSending && !isUploadingFile">➤</span>
+                  <span *ngIf="isSending || isUploadingFile">...</span>
+                </button>
+              </div>
+
+            </main>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

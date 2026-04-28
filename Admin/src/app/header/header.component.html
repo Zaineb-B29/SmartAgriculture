@@ -63,36 +63,54 @@
 
           <!-- NOTIFICATIONS -->
           <li class="nav-item nav-icon">
-            <a href=""
-               (click)="toggleNotifications($event)"
-               class="search-toggle iq-waves-effect text-primary rounded">
+            <a href="" (click)="toggleNotifications($event)"
+              class="search-toggle iq-waves-effect text-primary rounded">
               <i class="ri-notification-line block"></i>
-              <span class="bg-danger dots"></span>
+              <span class="bg-danger dots" *ngIf="unreadCount > 0"></span>
             </a>
 
-            <div class="iq-sub-dropdown"
-                 [class.show]="isNotificationsOpen">
+            <div class="iq-sub-dropdown" [class.show]="isNotificationsOpen"
+                style="width:320px;">
               <div class="iq-card shadow-none m-0">
                 <div class="iq-card-body p-0">
+
                   <div class="bg-primary p-3">
                     <h5 class="mb-0 text-white">
-                      All Notifications
-                      <small class="badge badge-light float-right pt-1">4</small>
+                      Messages non lus
+                      <small class="badge badge-light float-right pt-1">
+                        {{ unreadCount }}
+                      </small>
                     </h5>
                   </div>
 
-                  <!-- Notifications items -->
-                  <a href="" class="iq-sub-card">
+                  <div *ngIf="unreadCount === 0" class="p-3 text-center text-muted">
+                    <small>Aucun message non lu</small>
+                  </div>
+
+                  <a *ngFor="let msg of unreadMessages"
+                    href="javascript:void(0)"
+                    class="iq-sub-card"
+                    (click)="ouvrirMessage(msg)">
                     <div class="media align-items-center">
-                      <img class="avatar-40 rounded"
-                           src="assets/images/user/01.jpg">
+                      <div class="rounded-circle bg-success d-flex align-items-center justify-content-center"
+                          style="width:40px; height:40px; min-width:40px;">
+                        <span style="color:white; font-size:16px;">
+                          {{ msg.expediteurType === 'CLIENT' ? '🌾' : msg.expediteurType === 'EXPERT' ? '🔬' : '🚚' }}
+                        </span>
+                      </div>
                       <div class="media-body ml-3">
-                        <h6 class="mb-0">Emma Watson Barry</h6>
-                        <small class="float-right">Just Now</small>
-                        <p class="mb-0">95 MB</p>
+                        <h6 class="mb-0">{{ msg.expediteurType }} #{{ msg.expediteurId }}</h6>
+                        <small class="text-muted">{{ msg.contenu || 'Fichier envoyé' }}</small>
                       </div>
                     </div>
                   </a>
+
+                  <div class="text-center p-2 border-top" *ngIf="unreadCount > 0">
+                    <a routerLink="/admin/messages" class="text-success"
+                      (click)="isNotificationsOpen = false">
+                      <small>Voir tous les messages →</small>
+                    </a>
+                  </div>
 
                 </div>
               </div>

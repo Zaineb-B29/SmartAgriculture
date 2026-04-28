@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
-import { ContactComponent } from './contact/contact.component';
 import { RegistreClientComponent } from './registre-client/registre-client.component';
 import { RegistreFournisseurComponent } from './registre-fournisseur/registre-fournisseur.component';
 import { RegistreExpertComponent } from './registre-expert/registre-expert.component';
@@ -16,11 +15,11 @@ import { ListeBesoinEnAttenteComponent } from './liste-besoin-en-attente/liste-b
 import { AjouterSuiviFournisComponent } from './ajouter-suivi-fournis/ajouter-suivi-fournis.component';
 import { ModifierBesoinComponent } from './modifier-besoin/modifier-besoin.component';
 import { SuiviEvolutionComponent } from './suivi-evolution/suivi-evolution.component';
+import { MessageComponent } from './message/message.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'about', component: AboutComponent},
-  {path: 'contact', component: ContactComponent},
   {path:'registreClient', component: RegistreClientComponent},
   {path:'registreFournisseur', component: RegistreFournisseurComponent},
   {path:'registreExpert', component: RegistreExpertComponent},
@@ -35,7 +34,8 @@ const routes: Routes = [
   {path: 'listeBesoinEnAttente', component: ListeBesoinEnAttenteComponent },
   {path: 'modifierBesoin/:id', component: ModifierBesoinComponent },
   {path: 'suiviEvolution/:id', component: SuiviEvolutionComponent },
-]
+  { path: 'message', component: MessageComponent }
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

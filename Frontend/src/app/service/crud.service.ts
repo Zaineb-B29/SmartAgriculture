@@ -5,10 +5,10 @@ import { ExpertAgricole } from '../Entites/ExpertAgricole.Entites';
 import { Fournisseur } from '../Entites/Fournisseur.Entites';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Contact } from '../Entites/Contact.Entites';
 import { Besoin } from '../Entites/Besoin.Entites';
 import { PrixProposer } from '../Entites/PrixProposer.Entites';
 import { Router } from '@angular/router';
+import { Message } from '../Entites/Message.Entites';
 
 @Injectable({
   providedIn: 'root'
@@ -82,22 +82,54 @@ export class CrudService {
     return this.http.post<any>(this.loginFournisseururl, fournisseur);
   }
 
-  /* ================= CONTACT ================= */
-  addContact(contact: Contact): Observable<any> {
-    return this.http.post<any>(this.contactUrl, contact);
-  }
+//MESSAGE
+    // GET conversation between two actors
+    getConversation(type1: string, id1: number, type2: string, id2: number): Observable<Message[]> {
+      return this.http.get<Message[]>(
+        `${this.apiUrl}/message/conversation?type1=${type1}&id1=${id1}&type2=${type2}&id2=${id2}`
+      );
+    }
 
-  getContacts(): Observable<Contact[]> {
-    return this.http.get<Contact[]>(this.contactUrl);
-  }
+    // POST text message
+    envoyerMessage(expType: string, expId: number, destType: string, destId: number, contenu: string): Observable<Message> {
+      const params = new HttpParams()
+        .set('expediteurType', expType).set('expediteurId', expId)
+        .set('destinataireType', destType).set('destinataireId', destId)
+        .set('contenu', contenu);
+      return this.http.post<Message>(`${this.apiUrl}/message`, null, { params });
+    }
 
-  getContactById(id: number): Observable<Contact> {
-    return this.http.get<Contact>(`${this.contactUrl}/${id}`);
-  }
+    // POST file message
+    envoyerMessageFichier(expType: string, expId: number, destType: string, destId: number, file: File, contenu: string): Observable<Message> {
+      const fd = new FormData();
+      fd.append('expediteurType', expType);
+      fd.append('expediteurId', expId.toString());
+      fd.append('destinataireType', destType);
+      fd.append('destinataireId', destId.toString());
+      fd.append('file', file);
+      fd.append('contenu', contenu);
+      return this.http.post<Message>(`${this.apiUrl}/message/fichier`, fd);
+    }
 
-  deleteContact(id: number): Observable<any> {
-    return this.http.delete(`${this.contactUrl}/${id}`);
-  }
+    // PATCH mark as read
+    marquerLus(readerType: string, readerId: number, otherType: string, otherId: number): Observable<void> {
+      const params = new HttpParams()
+        .set('readerType', readerType).set('readerId', readerId)
+        .set('otherType', otherType).set('otherId', otherId);
+      return this.http.patch<void>(`${this.apiUrl}/message/mark-read`, null, { params });
+    }
+
+    // DELETE single message
+    supprimerMessage(id: number): Observable<void> {
+      return this.http.delete<void>(`${this.apiUrl}/message/${id}`);
+    }
+
+    // DELETE full conversation (add a new backend endpoint for this)
+    supprimerConversation(type1: string, id1: number, type2: string, id2: number): Observable<void> {
+      return this.http.delete<void>(
+        `${this.apiUrl}/message/conversation?type1=${type1}&id1=${id1}&type2=${type2}&id2=${id2}`
+      );
+    }
 
   /* ================= GOOGLE LOGIN ================= */
   signInWithGoogle(idToken: string): Observable<any> {
@@ -302,5 +334,8 @@ markAsRead(id: number): Observable<void> {
 
 markAllAsRead(): Observable<void> {
   return this.http.patch<void>(`${this.apiUrl}/prixproposer/mark-all-read`, {});
+}
+getAdminPrincipal(): Observable<any> {
+  return this.http.get<any>(`${this.apiUrl}/admin/principal`);
 }
 }

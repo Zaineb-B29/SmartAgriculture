@@ -354,6 +354,12 @@
   transition: background 0.2s;
 }
 
-.notif-read-btn:hover {
-  background: #c8e6c9;
+app-header {
+  position: relative;
+  z-index: 100;
+}
+
+.msg-page {
+  padding-top: 0;
+  height: calc(100vh - 80px); /* laisse de la place pour le header */
 }

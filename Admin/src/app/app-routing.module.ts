@@ -18,6 +18,8 @@ import { HomeComponent } from './home/home.component';
 import { ProfilComponent } from './profil/profil.component';
 import { UpdateProfilComponent } from './update-profil/update-profil.component';
 import { ContactComponent } from './contact/contact.component';
+import { AdminMessagesComponent } from './admin-messages/admin-messages.component';
+import { MessageComponent } from './message/message.component';
 
 const routes: Routes = [
   {path: 'ajouterAdmin', component: AjouterAdminComponent,canActivate: [AuthGuard]},
@@ -36,8 +38,9 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent ,canActivate: [AuthGuard]},
   { path: 'profil/:id', component: ProfilComponent ,canActivate: [AuthGuard]},
   { path: 'updateProfil/:id', component: UpdateProfilComponent ,canActivate: [AuthGuard]},
-  { path: 'contact', component: ContactComponent,canActivate: [AuthGuard] }
-
+  { path: 'contact', component: ContactComponent,canActivate: [AuthGuard] },
+  { path: 'admin/messages', component: AdminMessagesComponent },
+  { path: 'message', component: MessageComponent, canActivate: [AuthGuard] }
 
 ];
 
