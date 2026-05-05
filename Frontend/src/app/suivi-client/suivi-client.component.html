@@ -1,0 +1,192 @@
+<app-header></app-header>
+
+<div class="suivi-page-wrapper">
+  <div class="container">
+
+    <div *ngIf="isLoading" class="suivi-spinner">
+      <div class="spinner-ring"></div>
+      <p>Chargement...</p>
+    </div>
+
+    <ng-container *ngIf="!isLoading">
+
+      <!-- ERROR STATE -->
+      <div *ngIf="error" class="suivi-empty">
+        <div class="empty-icon error-icon">
+          <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <h5>Une erreur est survenue</h5>
+        <p>Impossible de charger vos suivis. Veuillez réessayer.</p>
+        <button class="btn-back" (click)="goBack()">
+          <i class="fas fa-arrow-left"></i> Retour
+        </button>
+      </div>
+
+      <!-- EMPTY STATE -->
+    <div *ngIf="!error && suivis.length === 0" class="suivi-empty">
+    <div class="empty-icon">
+        <i class="fas fa-seedling"></i>
+    </div>
+    <h5>Aucun suivi disponible</h5>
+
+    <!-- ✅ FIX 1: correct messages per role -->
+    <p *ngIf="userType === 'CLIENT' && besoinId">
+        Le fournisseur n'a pas encore ajouté de suivi pour ce besoin.
+    </p>
+    <p *ngIf="userType === 'CLIENT' && !besoinId">
+        Le fournisseur n'a pas encore ajouté de suivi pour vos besoins.
+    </p>
+
+    <button class="btn-back" (click)="goBack()">
+        <i class="fas fa-arrow-left"></i> Retour aux besoins
+    </button>
+    </div>
+
+      <!-- SUIVI LIST -->
+      <div *ngIf="!error && suivis.length > 0">
+
+        <div class="suivi-page-header">
+          <div class="suivi-page-header-icon">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <div class="suivi-page-header-text">
+            <h4>Historique de suivi</h4>
+            <p>{{ suivis.length }} suivi(s) ajouté(s) par votre fournisseur</p>
+          </div>
+          <div class="suivi-count-badge">{{ suivis.length }} suivi(s)</div>
+        </div>
+
+        <div class="suivi-grid">
+          <div class="suivi-grid-item" *ngFor="let suivi of suivis; let i = index">
+            <div class="suivi-card" [ngClass]="{
+              'type-photo': suivi.typeSuivi === 'PHOTO',
+              'type-video': suivi.typeSuivi === 'VIDEO'
+            }">
+
+              <!-- CARD TOP -->
+              <div class="suivi-card-top">
+                <div class="suivi-type-badge" [ngClass]="{
+                  'badge-photo': suivi.typeSuivi === 'PHOTO',
+                  'badge-video': suivi.typeSuivi === 'VIDEO'
+                }">
+                  <i [class]="suivi.typeSuivi === 'PHOTO' ? 'fas fa-camera' : 'fas fa-video'"></i>
+                  {{ suivi.typeSuivi === 'PHOTO' ? 'Photos' : 'Vidéo' }}
+                </div>
+                <span class="suivi-index">#{{ i + 1 }}</span>
+              </div>
+
+              <!-- BESOIN SECTION -->
+              <div class="suivi-section" *ngIf="suivi.reserver?.prixProposer?.besoin">
+                <div class="suivi-section-label">
+                  <i class="fas fa-leaf"></i> Votre besoin
+                </div>
+                <div class="suivi-besoin-title">
+                  {{ suivi.reserver?.prixProposer?.besoin?.titre || 'Besoin lié' }}
+                </div>
+                <div class="suivi-besoin-meta">
+                  <span *ngIf="suivi.reserver?.prixProposer?.besoin?.lieu">
+                    <i class="fas fa-map-marker-alt"></i> {{ suivi.reserver!.prixProposer!.besoin!.lieu }}
+                  </span>
+                  <span *ngIf="suivi.reserver?.prixProposer?.besoin?.nombreArbres">
+                    <i class="fas fa-tree"></i> {{ suivi.reserver!.prixProposer!.besoin!.nombreArbres }} arbres
+                  </span>
+                </div>
+              </div>
+
+              <!-- FOURNISSEUR SECTION -->
+              <div class="suivi-section" *ngIf="suivi.reserver?.prixProposer?.fournisseur">
+                <div class="suivi-section-label">
+                  <i class="fas fa-user-tie"></i> Fournisseur
+                </div>
+                <div class="suivi-fournisseur">
+                  <div class="fournisseur-avatar">
+                    {{ (suivi.reserver?.prixProposer?.fournisseur?.nom || 'F').charAt(0).toUpperCase() }}
+                  </div>
+                  <div class="fournisseur-info">
+                    <strong>
+                      {{ suivi.reserver?.prixProposer?.fournisseur?.nom }}
+                      {{ suivi.reserver?.prixProposer?.fournisseur?.prenom }}
+                    </strong>
+                    <span *ngIf="suivi.reserver?.prixProposer?.fournisseur?.email">
+                      {{ suivi.reserver!.prixProposer!.fournisseur!.email }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- AVANT SECTION -->
+              <div class="suivi-section" *ngIf="suivi.urlsAvant && suivi.urlsAvant.length > 0">
+                <div class="suivi-section-label">
+                  <i class="fas fa-history"></i> Avant
+                </div>
+                <div class="media-grid">
+                  <div class="media-thumb" *ngFor="let url of suivi.urlsAvant">
+                    <ng-container *ngIf="!isVideo(url)">
+                      <img [src]="fixUrl(url)" alt="Avant" (click)="openImage(fixUrl(url))">
+                      <div class="media-overlay" (click)="openImage(fixUrl(url))">
+                        <i class="fas fa-search-plus"></i>
+                      </div>
+                    </ng-container>
+                    <ng-container *ngIf="isVideo(url)">
+                      <div class="video-thumb" (click)="openVideo(url)">
+                        <i class="fas fa-play-circle"></i>
+                        <span>Vidéo</span>
+                      </div>
+                    </ng-container>
+                  </div>
+                </div>
+              </div>
+
+              <!-- APRES SECTION -->
+              <div class="suivi-section" *ngIf="suivi.urlsApres && suivi.urlsApres.length > 0">
+                <div class="suivi-section-label">
+                  <i class="fas fa-check-circle"></i> Après
+                </div>
+                <div class="media-grid">
+                  <div class="media-thumb" *ngFor="let url of suivi.urlsApres">
+                    <ng-container *ngIf="!isVideo(url)">
+                      <img [src]="fixUrl(url)" alt="Après" (click)="openImage(fixUrl(url))">
+                      <div class="media-overlay" (click)="openImage(fixUrl(url))">
+                        <i class="fas fa-search-plus"></i>
+                      </div>
+                    </ng-container>
+                    <ng-container *ngIf="isVideo(url)">
+                      <div class="video-thumb" (click)="openVideo(url)">
+                        <i class="fas fa-play-circle"></i>
+                        <span>Vidéo</span>
+                      </div>
+                    </ng-container>
+                  </div>
+                </div>
+              </div>
+
+            </div><!-- /suivi-card -->
+          </div><!-- /suivi-grid-item -->
+        </div><!-- /suivi-grid -->
+
+        <div class="suivi-footer-action">
+          <button class="btn-back" (click)="goBack()">
+            <i class="fas fa-arrow-left"></i> Retour aux besoins
+          </button>
+        </div>
+
+      </div><!-- /suivi list -->
+
+    </ng-container>
+
+  </div>
+</div>
+
+<!-- LIGHTBOX IMAGE -->
+<div class="suivi-modal" *ngIf="selectedImage" (click)="closeModal()">
+  <div class="modal-close" (click)="closeModal()"><i class="fas fa-times"></i></div>
+  <img [src]="selectedImage" alt="Aperçu" (click)="$event.stopPropagation()">
+</div>
+
+<!-- LIGHTBOX VIDEO -->
+<div class="suivi-modal" *ngIf="selectedVideo" (click)="closeModal()">
+  <div class="modal-close" (click)="closeModal()"><i class="fas fa-times"></i></div>
+  <video [src]="selectedVideo" controls autoplay (click)="$event.stopPropagation()"></video>
+</div>
+
+<app-footer></app-footer>

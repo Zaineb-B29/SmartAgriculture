@@ -9,6 +9,7 @@ import { Besoin } from '../Entites/Besoin.Entites';
 import { PrixProposer } from '../Entites/PrixProposer.Entites';
 import { Router } from '@angular/router';
 import { Message } from '../Entites/Message.Entites';
+import { Suivi } from '../Entites/Suivi.Entites';
 
 @Injectable({
   providedIn: 'root'
@@ -151,6 +152,22 @@ export class CrudService {
 
     let decodeToken = this.helper.decodeToken(token);
     return decodeToken.data;
+  }
+
+  getCurrentUserType(): string | null {
+    return sessionStorage.getItem('type');
+  }
+
+  updateClient(client: Client): Observable<Client> {
+    return this.http.put<Client>(`${this.apiUrl}/client/${client.id}`, client);
+  }
+
+  updateExpert(expert: ExpertAgricole): Observable<ExpertAgricole> {
+    return this.http.put<ExpertAgricole>(`${this.apiUrl}/expertAgricole/${expert.id}`, expert);
+  }
+
+  updateFournisseur(fournisseur: Fournisseur): Observable<Fournisseur> {
+    return this.http.put<Fournisseur>(`${this.apiUrl}/fournisseur/${fournisseur.id}`, fournisseur);
   }
 
   isLoggedIn() {
@@ -337,5 +354,36 @@ markAllAsRead(): Observable<void> {
 }
 getAdminPrincipal(): Observable<any> {
   return this.http.get<any>(`${this.apiUrl}/admin/principal`);
+}
+// ================= SUIVI =================
+
+// In CrudService, replace getSuivisByClientId() with this:
+
+getSuivisByClientId(clientId: number): Observable<Suivi[]> {
+  const token = sessionStorage.getItem('myTokenClient');
+  return this.http.get<Suivi[]>(`${this.apiUrl}/suivi/client/${clientId}`, {
+    headers: { 'Authorization': `Bearer ${token}` }
+  });
+}
+
+getReservationsByFournisseur(fournisseurId: number): Observable<any[]> {
+  return this.http.get<any[]>(`${this.apiUrl}/reserver/fournisseur/${fournisseurId}`);
+}
+validerBesoin(besoinId: number): Observable<any> {
+  return this.http.put(`${this.apiUrl}/besoin/valider/${besoinId}`, {});
+}
+
+getReservationsWithoutSuivi(): Observable<any[]> {
+  return this.http.get<any[]>(`${this.apiUrl}/reserver/without-suivi`);
+}
+
+createSuiviTempsReel(reservationId: number): Observable<any> {
+  return this.http.post(`${this.apiUrl}/suivi/temps-reel/${reservationId}`, {});
+}
+getSuivisByFournisseurId(fournisseurId: number): Observable<Suivi[]> {
+  const token = sessionStorage.getItem('myTokenFournisseur');
+  return this.http.get<Suivi[]>(`${this.apiUrl}/suivi/fournisseur/${fournisseurId}`, {
+    headers: { 'Authorization': `Bearer ${token}` }
+  });
 }
 }

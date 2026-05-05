@@ -8,6 +8,7 @@ import { RegistreExpertComponent } from './registre-expert/registre-expert.compo
 import { LoginClientComponent } from './login-client/login-client.component';
 import { LoginExpertComponent } from './login-expert/login-expert.component';
 import { LoginFournisseurComponent } from './login-fournisseur/login-fournisseur.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 import { AjouterBesoinComponent } from './ajouter-besoin/ajouter-besoin.component';
 import { ListeBesoinComponent } from './liste-besoin/liste-besoin.component';
 import { MesPropositionsComponent } from './mes-propositions/mes-propositions.component';
@@ -16,29 +17,35 @@ import { AjouterSuiviFournisComponent } from './ajouter-suivi-fournis/ajouter-su
 import { ModifierBesoinComponent } from './modifier-besoin/modifier-besoin.component';
 import { SuiviEvolutionComponent } from './suivi-evolution/suivi-evolution.component';
 import { MessageComponent } from './message/message.component';
+import { SuiviClientComponent } from './suivi-client/suivi-client.component';
 
 const routes: Routes = [
-  {path: '', component: HomeComponent},
-  {path: 'about', component: AboutComponent},
-  {path:'registreClient', component: RegistreClientComponent},
-  {path:'registreFournisseur', component: RegistreFournisseurComponent},
-  {path:'registreExpert', component: RegistreExpertComponent},
-  {path:'loginClient', component: LoginClientComponent},
-  {path:'loginFournisseur', component: LoginFournisseurComponent},
-  {path:'loginExpert', component: LoginExpertComponent},
-  {path:'ajouterBesoin', component: AjouterBesoinComponent},
-  {path:'listeBesoin', component:ListeBesoinComponent},
-  {path:'mesPropositions', component:MesPropositionsComponent},
-  {path: 'suivi', component: AjouterSuiviFournisComponent },
-  {path: 'ajouterSuiviFournis/:reservationId', component: AjouterSuiviFournisComponent },
-  {path: 'listeBesoinEnAttente', component: ListeBesoinEnAttenteComponent },
-  {path: 'modifierBesoin/:id', component: ModifierBesoinComponent },
-  {path: 'suiviEvolution/:id', component: SuiviEvolutionComponent },
-  { path: 'message', component: MessageComponent }
+  { path: '',                                    component: HomeComponent },
+  { path: 'about',                               component: AboutComponent },
+  { path: 'registreClient',                      component: RegistreClientComponent },
+  { path: 'registreFournisseur',                 component: RegistreFournisseurComponent },
+  { path: 'registreExpert',                      component: RegistreExpertComponent },
+  { path: 'loginClient',                         component: LoginClientComponent },
+  { path: 'loginFournisseur',                    component: LoginFournisseurComponent },
+  { path: 'loginExpert',                         component: LoginExpertComponent },
+  { path: 'profile',                             component: UserProfileComponent },
+  { path: 'ajouterBesoin',                       component: AjouterBesoinComponent },
+  { path: 'listeBesoin',                         component: ListeBesoinComponent },
+  { path: 'mesPropositions',                     component: MesPropositionsComponent },
+  { path: 'listeBesoinEnAttente',                component: ListeBesoinEnAttenteComponent },
+  { path: 'modifierBesoin/:id',                  component: ModifierBesoinComponent },
+  { path: 'suiviEvolution/:id',                  component: SuiviEvolutionComponent },
+  { path: 'message',                             component: MessageComponent },
+  { path: 'suiviBesoin',                         component: SuiviClientComponent },
+  { path: 'ajouterSuivi/:reservationId',         component: AjouterSuiviFournisComponent },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {
+    scrollPositionRestoration: 'enabled',
+    anchorScrolling: 'enabled',
+    onSameUrlNavigation: 'reload'
+  })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

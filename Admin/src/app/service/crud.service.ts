@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Admin } from '../Entites/Admin.Entites';
 import { Client } from '../Entites/Client.Entites';
 import { Fournisseur } from '../Entites/Fournisseur.Entites';
@@ -18,7 +18,9 @@ export class CrudService {
   apiUrl = 'http://localhost:8081/api';
   loginAdminurl = 'http://localhost:8081/api/admin/login';
   contactUrl = `${this.apiUrl}/contact`;
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.updateBodyClass();
+  }
 
 // ===== ADMIN =====
   addadmin(admin: Admin): Observable<any> {
@@ -188,4 +190,34 @@ getUnreadMessages(myType: string, myId: number): Observable<any[]> {
     `${this.apiUrl}/message/unread?type=${myType}&id=${myId}`
   );
 }
+  private _open = new BehaviorSubject<boolean>(window.innerWidth > 768);
+  isOpen$ = this._open.asObservable();
+
+  get isOpen(): boolean {
+    return this._open.value;
+  }
+
+  toggle() {
+    const newState = !this._open.value;
+    this._open.next(newState);
+    this.updateBodyClass();
+  }
+
+  open() {
+    this._open.next(true);
+    this.updateBodyClass();
+  }
+
+  close() {
+    this._open.next(false);
+    this.updateBodyClass();
+  }
+
+  private updateBodyClass() {
+    if (this._open.value) {
+      document.body.classList.remove('sidebar-main');
+    } else {
+      document.body.classList.add('sidebar-main');
+    }
+  }
 }

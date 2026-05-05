@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -20,6 +21,7 @@ export class ModifierBesoinComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
+    private location: Location,
     private service: CrudService
   ) {}
 
@@ -98,6 +100,10 @@ export class ModifierBesoinComponent implements OnInit {
   }
 
   goBack(): void {
-    this.router.navigate(['/listeBesoin']);
+    if (window.history.length > 1) {
+      this.location.back();
+    } else {
+      this.router.navigate(['/listeBesoin']);
+    }
   }
 }

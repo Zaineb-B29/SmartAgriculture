@@ -55,9 +55,7 @@
             <li *ngIf="IsFournisseurIn">
               <a href="/suivi">Suivi</a>
             </li>
-            <li *ngIf="IsFournisseurIn">
-              <a href="/mesPropositions">Mes propositions</a>
-            </li>
+            
 
             <!-- EXPERT only -->
             <!-- Expert sees validated besoins via /listeBesoin (the component handles the split) -->
@@ -116,11 +114,17 @@
           </button>
 
           <!-- CONNECTED -->
-          <button *ngIf="IsClientIn || IsFournisseurIn || IsExpertIn"
-                  (click)="logout()"
-                  class="btn btn-danger connexion-btn">
-            <span>Déconnexion</span>
-          </button>
+          <div *ngIf="IsClientIn || IsFournisseurIn || IsExpertIn" class="profile-wrapper">
+            <button type="button" class="profile-button" (click)="toggleProfileMenu()">
+              <span class="profile-avatar">{{ userInitials }}</span>
+              <span class="profile-name">{{ userDisplayName }}</span>
+              <i class="fas" [ngClass]="showProfileMenu ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+            </button>
+            <div *ngIf="showProfileMenu" class="profile-dropdown">
+              <a routerLink="/profile" (click)="closeProfileMenu()">Mon profil</a>
+              <button type="button" class="dropdown-action" (click)="logout()">Déconnexion</button>
+            </div>
+          </div>
 
         </div>
         <div class="overlay-screen"></div>

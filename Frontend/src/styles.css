@@ -1,1 +1,23 @@
-/* You can add global styles to this file, and also import other style files */
+/* ✅ Fix global page blanche */
+router-outlet + * {
+  display: block;
+  min-height: 60vh;
+}
+
+.validtheme-shop-area,
+.default-padding {
+  min-height: 60vh;
+}
+
+/* ✅ Fix transition entre pages */
+.se-pre-con {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  background: #ffffff;
+}
+
+

@@ -1,13 +1,17 @@
 package com.projet.SmartAgriculture.RestController;
+import com.projet.SmartAgriculture.Entity.Reserver;
 import com.projet.SmartAgriculture.Entity.Suivi;
 import com.projet.SmartAgriculture.Services.SuiviService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
-
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/suivi")
 public class SuiviRestController {
@@ -27,12 +31,6 @@ public class SuiviRestController {
         );
     }
 
-    @PostMapping("/{reservationId}/temps-reel")
-    public ResponseEntity<?> createTempsReel(@PathVariable Long reservationId) {
-        return ResponseEntity.ok(
-                suiviService.createSuiviTempsReel(reservationId)
-        );
-    }
 
     @GetMapping("/client/{clientId}")
     public ResponseEntity<List<Suivi>> getSuivisByClientId(@PathVariable Long clientId) {
@@ -41,18 +39,31 @@ public class SuiviRestController {
         );
     }
 
-    @PostMapping("/{id}/upload")
-    public Suivi upload(
-            @PathVariable Long id,
-            @RequestParam("typeSuivi") String typeSuivi,
-            @RequestParam("avantFiles") List<MultipartFile> avantFiles,
-            @RequestParam("apresFiles") List<MultipartFile> apresFiles
-    ) {
-        return suiviService.createSuiviAvecUpload(id, typeSuivi, avantFiles, apresFiles);
-    }
-
     @GetMapping
     public List<Suivi> affichersuivi() {
         return suiviService.affichiersuivi();
+    }
+
+    @GetMapping("/without-suivi")
+    public ResponseEntity<List<Reserver>> getReservationsWithoutSuivi() {
+        return ResponseEntity.ok(
+                suiviService.getReservationsWithoutSuivi()
+        );
+    }
+
+    @Configuration
+    public class WebConfig implements WebMvcConfigurer {
+        @Override
+        public void addResourceHandlers(ResourceHandlerRegistry registry) {
+            registry.addResourceHandler("/uploads/**")
+                    .addResourceLocations("file:D:/pfe/uploads/");
+        }
+    }
+
+    @GetMapping("/fournisseur/{fournisseurId}")
+    @CrossOrigin(origins = "http://localhost:4200")
+    public ResponseEntity<List<Suivi>> getSuivisByFournisseur(@PathVariable Long fournisseurId) {
+        List<Suivi> suivis = suiviService.getSuivisByFournisseurId(fournisseurId);
+        return ResponseEntity.ok(suivis);
     }
 }

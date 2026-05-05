@@ -1,0 +1,67 @@
+<section class="profile-page">
+  <div class="profile-panel">
+    <div class="profile-head">
+      <div>
+        <p class="subtitle">Mon profil</p>
+        <h1>Bonjour, {{ currentUser?.prenom || currentUser?.nom || 'Utilisateur' }}</h1>
+        <small class="profile-type">{{ profileTypeLabel }}</small>
+      </div>
+    </div>
+
+    <div class="profile-card">
+      <div class="profile-card-header">
+        <div>
+          <h2>Informations personnelles</h2>
+          <p>Modifiez votre nom, email, adresse et téléphone.</p>
+        </div>
+      </div>
+
+      <form [formGroup]="profileForm" (ngSubmit)="saveProfile()" class="profile-form">
+        <div class="fields-grid">
+          <label class="field-group">
+            <span>Prénom</span>
+            <input type="text" formControlName="prenom" placeholder="Votre prénom" />
+            <small class="field-error" *ngIf="profileForm.get('prenom')?.invalid && profileForm.get('prenom')?.touched">Le prénom est requis.</small>
+          </label>
+
+          <label class="field-group">
+            <span>Nom</span>
+            <input type="text" formControlName="nom" placeholder="Votre nom" />
+            <small class="field-error" *ngIf="profileForm.get('nom')?.invalid && profileForm.get('nom')?.touched">Le nom est requis.</small>
+          </label>
+
+          <label class="field-group">
+            <span>Email</span>
+            <input type="email" formControlName="email" placeholder="Votre email" />
+            <small class="field-error" *ngIf="profileForm.get('email')?.invalid && profileForm.get('email')?.touched">Email invalide.</small>
+          </label>
+
+          <label class="field-group">
+            <span>Téléphone</span>
+            <input type="text" formControlName="tlf" placeholder="Ex: +216 12 345 678" />
+            <small class="field-error" *ngIf="profileForm.get('tlf')?.invalid && profileForm.get('tlf')?.touched">Numéro invalide.</small>
+          </label>
+
+          <label class="field-group field-full">
+            <span>Adresse</span>
+            <input type="text" formControlName="adresse" placeholder="Votre adresse" />
+          </label>
+
+          <label class="field-group field-full">
+            <span>Mot de passe</span>
+            <input type="password" formControlName="mdp" placeholder="Laissez vide pour conserver" />
+            <small>Remplissez seulement si vous souhaitez changer le mot de passe.</small>
+          </label>
+        </div>
+
+        <div class="action-row">
+          <button type="submit" class="btn btn-theme" [disabled]="submitting">Enregistrer</button>
+          <button type="button" class="btn btn-secondary" (click)="goHome()">Retour</button>
+        </div>
+
+        <p class="success-text" *ngIf="successMessage">{{ successMessage }}</p>
+        <p class="error-text" *ngIf="errorMessage">{{ errorMessage }}</p>
+      </form>
+    </div>
+  </div>
+</section>

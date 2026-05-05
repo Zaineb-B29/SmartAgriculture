@@ -2,6 +2,7 @@ package com.projet.SmartAgriculture.RestController;
 
 import com.projet.SmartAgriculture.Entity.Reserver;
 import com.projet.SmartAgriculture.Services.ReserverService;
+import com.projet.SmartAgriculture.Services.SuiviService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,8 @@ public class ReserverRestController {
 
     @Autowired
     private ReserverService reserverService;
+    @Autowired
+    private SuiviService suiviService;
 
     @PostMapping("/client/{clientId}/prixproposer/{prixProposerId}")
     public ResponseEntity<?> ajouterReserver(
@@ -43,5 +46,17 @@ public class ReserverRestController {
     @GetMapping("/prixproposer/{prixProposerId}")
     public ResponseEntity<List<Reserver>> getByPrixProposer(@PathVariable Long prixProposerId) {
         return ResponseEntity.ok(reserverService.getByPrixProposer(prixProposerId));
+    }
+
+    @GetMapping("/fournisseur/{fournisseurId}")
+    public ResponseEntity<List<Reserver>> getByFournisseur(@PathVariable Long fournisseurId) {
+        return ResponseEntity.ok(reserverService.getByFournisseur(fournisseurId));
+    }
+
+    @GetMapping("/without-suivi")
+    public ResponseEntity<List<Reserver>> getReservationsWithoutSuivi() {
+        return ResponseEntity.ok(
+                suiviService.getReservationsWithoutSuivi()
+        );
     }
 }

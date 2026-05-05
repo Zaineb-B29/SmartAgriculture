@@ -1,1 +1,39 @@
-/* You can add global styles to this file, and also import other style files */
+/* ═══════════════════════════════════════════════
+   SMART AGRICULTURE — GLOBAL STYLES
+   Only base resets. All component styles live
+   in their own .css files.
+   ═══════════════════════════════════════════════ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #f4f7f9;
+  color: #374151;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Remove default link underlines */
+a { text-decoration: none; }
+
+/* Smooth transitions on body class changes (sidebar toggle) */
+body { transition: none; }
+
+/* ── IQ Waves ripple (keep for compatibility) ─ */
+.iq-waves-effect { position: relative; overflow: hidden; }
+
+/* ── Bootstrap helpers ────────────────────────── */
+.badge-light {
+  background: rgba(255,255,255,0.25);
+  color: #fff;
+  border-radius: 10px;
+  padding: 2px 8px;
+  font-size: 11px;
+}
+
+/* ── Utility ──────────────────────────────────── */
+.text-green { color: #2e7d32 !important; }
+.bg-green   { background: #2e7d32 !important; }

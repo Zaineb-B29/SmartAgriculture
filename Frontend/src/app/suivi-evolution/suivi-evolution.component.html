@@ -27,6 +27,57 @@
 
       <div class="col-lg-7">
 
+        <!-- 🔥 NEW SECTION (ADDED WITHOUT TOUCHING DESIGN) -->
+        <div *ngIf="reservationsSansSuivi.length > 0" style="margin-bottom:25px;">
+
+          <div style="
+            background:#fff;
+            border-radius:14px;
+            padding:24px;
+            box-shadow:0 4px 24px rgba(0,0,0,0.08);
+            border:1px solid #eef2f7;">
+
+            <h4 style="margin-bottom:20px; font-weight:700; color:#1e293b;">
+              🔥 Suivi non ajouté
+            </h4>
+
+            <div *ngFor="let r of reservationsSansSuivi" style="
+              border:1px solid #e2e8f0;
+              border-radius:10px;
+              padding:15px;
+              margin-bottom:12px;
+              display:flex;
+              justify-content:space-between;
+              align-items:center;">
+
+              <div>
+                <p style="margin:0; font-size:13px;">
+                  <strong>Client:</strong> {{ r.client?.nom }}
+                </p>
+
+                <p style="margin:0; font-size:12px; color:#64748b;">
+                  Prix: {{ r.prixProposer?.prix }}
+                </p>
+              </div>
+
+              <button (click)="ajouterSuivi(r.id)" style="
+                background:#4CAF50;
+                color:white;
+                border:none;
+                padding:8px 14px;
+                border-radius:6px;
+                font-size:12px;
+                cursor:pointer;">
+                Ajouter suivi
+              </button>
+
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ================= ORIGINAL CARD (UNCHANGED) ================= -->
+
         <div class="contact-form-style-one" style="
           background:#fff;
           border-radius:14px;
@@ -135,7 +186,7 @@
               </div>
             </div>
 
-            <!-- BUTTONS -->
+            <!-- BUTTON -->
             <div class="col-lg-12">
               <button (click)="goBack()" class="btn"
                       style="

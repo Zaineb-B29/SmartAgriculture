@@ -10,4 +10,7 @@ public interface ReserverService {
     List<Reserver> getByClient(Long clientId);
     List<Reserver> getByPrixProposer(Long prixProposerId);
     List<Reserver> getMesReservations(Long clientId);
+    List<Reserver> getByFournisseur(Long fournisseurId);
+    List<Reserver> getReservationsWithoutSuivi();
+
 }

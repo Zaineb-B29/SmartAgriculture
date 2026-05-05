@@ -1,4 +1,5 @@
 package com.projet.SmartAgriculture.Services;
+import com.projet.SmartAgriculture.Entity.Reserver;
 import com.projet.SmartAgriculture.Entity.Suivi;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -9,4 +10,6 @@ public interface SuiviService {
     Suivi createSuiviTempsReel(Long reservationId);
     List<Suivi> getSuivisByClientId(Long clientId);
     List<Suivi> affichiersuivi();
+    List<Reserver> getReservationsWithoutSuivi();
+    List<Suivi> getSuivisByFournisseurId(Long fournisseurId);
 }

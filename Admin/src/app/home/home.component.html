@@ -1,139 +1,78 @@
-<div class="wrapper">
+<div class="page-wrapper">
 
   <app-menu></app-menu>
   <app-header></app-header>
 
-  <div id="content-page" class="content-page">
+  <main class="page-content">
     <div class="container-fluid">
 
-      <div class="row content-body">
-        <div class="col-lg-12 row m-0 p-0">
+      <!-- Stats Cards -->
+      <div class="stats-grid">
 
-          <!-- ADMIN -->
-          <div class="col-sm-6 col-md-6 col-lg-3">
-            <div class="iq-card iq-card-block iq-card-stretch iq-card-height clickable-card"
-                 routerLink="/listeAdmin">
-
-              <div class="iq-card-body">
-                <div class="icon iq-icon-box rounded" style="background:#e3f2fd;">
-                  <i class="ri-cpu-line" style="color:#1e88e5;"></i>
-                </div>
-
-                <div class="mt-4">
-                  <h5 class="text-uppercase" style="color:#1e88e5;">Administrateur</h5>
-                  <h3 class="d-flex" style="color:#1e88e5;">
-                    {{totalAdmin}} <i class="ri-arrow-up-line"></i>
-                  </h3>
-                </div>
-
-                <div class="mt-3">
-                  <div class="iq-progress-bar">
-                    <span style="background:#1e88e5;"></span>
-                  </div>
-                </div>
-              </div>
-
-            </div>
+        <!-- ADMIN -->
+        <div class="stat-card" routerLink="/listeAdmin">
+          <div class="stat-icon" style="background:#e3f2fd;">
+            <i class="las la-user-shield" style="color:#1e88e5;"></i>
           </div>
-
-          <!-- CLIENT -->
-          <div class="col-sm-6 col-md-6 col-lg-3">
-            <div class="iq-card iq-card-block iq-card-stretch iq-card-height clickable-card"
-                 routerLink="/listeClient">
-
-              <div class="iq-card-body">
-                <div class="icon iq-icon-box rounded" style="background:#e8f5e9;">
-                  <i class="ri-window-line" style="color:#2e7d32;"></i>
-                </div>
-
-                <div class="mt-4">
-                  <h5 class="text-uppercase" style="color:#2e7d32;">Client</h5>
-                  <h3 class="d-flex" style="color:#2e7d32;">
-                    {{totalClient}} <i class="ri-arrow-down-line"></i>
-                  </h3>
-                </div>
-
-                <div class="mt-3">
-                  <div class="iq-progress-bar">
-                    <span style="background:#2e7d32;"></span>
-                  </div>
-                </div>
-              </div>
-
-            </div>
+          <div class="stat-info">
+            <span class="stat-label">Administrateurs</span>
+            <span class="stat-value" style="color:#1e88e5;">{{ totalAdmin }}</span>
           </div>
+          <div class="stat-bar" style="--bar-color:#1e88e5;"></div>
+        </div>
 
-          <!-- EXPERT -->
-          <div class="col-sm-6 col-md-6 col-lg-3">
-            <div class="iq-card iq-card-block iq-card-stretch iq-card-height clickable-card"
-                 routerLink="/listeExpert">
-
-              <div class="iq-card-body">
-                <div class="icon iq-icon-box rounded" style="background:#fff3e0;">
-                  <i class="ri-u-disk-line" style="color:#ffb300;"></i>
-                </div>
-
-                <div class="mt-4">
-                  <h5 class="text-uppercase" style="color:#ffb300;">Expert Agricole</h5>
-                  <h3 class="d-flex" style="color:#ffb300;">
-                    {{totalExpert}} <i class="ri-arrow-up-line"></i>
-                  </h3>
-                </div>
-
-                <div class="mt-3">
-                  <div class="iq-progress-bar">
-                    <span style="background:#ffb300;"></span>
-                  </div>
-                </div>
-              </div>
-
-            </div>
+        <!-- CLIENT -->
+        <div class="stat-card" routerLink="/listeClient">
+          <div class="stat-icon" style="background:#e8f5e9;">
+            <i class="las la-users" style="color:#2e7d32;"></i>
           </div>
-
-          <!-- FOURNISSEUR -->
-          <div class="col-sm-6 col-md-6 col-lg-3">
-            <div class="iq-card iq-card-block iq-card-stretch iq-card-height clickable-card"
-                 routerLink="/listeFournisseur">
-
-              <div class="iq-card-body">
-                <div class="icon iq-icon-box rounded" style="background:#f3e5f5;">
-                  <i class="ri-global-line" style="color:#7b1fa2;"></i>
-                </div>
-
-                <div class="mt-4">
-                  <h5 class="text-uppercase" style="color:#7b1fa2;">Fournisseur</h5>
-                  <h3 class="d-flex" style="color:#7b1fa2;">
-                    {{totalFournisseur}} <i class="ri-arrow-down-line"></i>
-                  </h3>
-                </div>
-
-                <div class="mt-3">
-                  <div class="iq-progress-bar">
-                    <span style="background:#7b1fa2;"></span>
-                  </div>
-                </div>
-              </div>
-
-            </div>
+          <div class="stat-info">
+            <span class="stat-label">Clients</span>
+            <span class="stat-value" style="color:#2e7d32;">{{ totalClient }}</span>
           </div>
+          <div class="stat-bar" style="--bar-color:#2e7d32;"></div>
+        </div>
 
+        <!-- EXPERT -->
+        <div class="stat-card" routerLink="/listeExpert">
+          <div class="stat-icon" style="background:#fff8e1;">
+            <i class="las la-microscope" style="color:#f9a825;"></i>
+          </div>
+          <div class="stat-info">
+            <span class="stat-label">Experts Agricoles</span>
+            <span class="stat-value" style="color:#f9a825;">{{ totalExpert }}</span>
+          </div>
+          <div class="stat-bar" style="--bar-color:#f9a825;"></div>
+        </div>
+
+        <!-- FOURNISSEUR -->
+        <div class="stat-card" routerLink="/listeFournisseur">
+          <div class="stat-icon" style="background:#f3e5f5;">
+            <i class="las la-truck" style="color:#7b1fa2;"></i>
+          </div>
+          <div class="stat-info">
+            <span class="stat-label">Fournisseurs</span>
+            <span class="stat-value" style="color:#7b1fa2;">{{ totalFournisseur }}</span>
+          </div>
+          <div class="stat-bar" style="--bar-color:#7b1fa2;"></div>
+        </div>
+
+      </div>
+
+      <!-- Chart -->
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <h5 class="chart-title">Répartition globale</h5>
+          <span class="chart-subtitle">Pourcentage par rôle</span>
+        </div>
+        <div class="chart-body">
+          <canvas id="percentageCanvas" width="350" height="350"></canvas>
         </div>
       </div>
 
     </div>
+  </main>
 
-    <!-- CHART -->
-    <div class="row">
-      <div class="col-md-12">
-        <div class="charts-wrapper">
-          <div class="chart-container">
-            <canvas id="percentageCanvas" width="350" height="350"></canvas>
-          </div>
-        </div>
-      </div>
-    </div>
+  <app-footer></app-footer>
 
-  </div>
 </div>
-
-<app-footer></app-footer>

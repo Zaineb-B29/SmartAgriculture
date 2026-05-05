@@ -1,11 +1,10 @@
 <div class="se-pre-con"></div>
 <app-header></app-header>
 
-<!-- Breadcrumb -->
 <div class="breadcrumb-area shadow dark bg-cover text-center text-light"
      style="background-image: url(assets/img/banner/3.jpg);">
   <div class="container">
-    <h1>Créer un Suivi</h1>
+    <h1>{{ hasExistingSuivi ? 'Mon Suivi' : 'Créer un Suivi' }}</h1>
     <ul class="breadcrumb">
       <li><a href="/"><i class="fas fa-home"></i> Accueil</a></li>
       <li>Suivi</li>
@@ -16,171 +15,239 @@
 <div class="validtheme-shop-area default-padding">
   <div class="container">
 
-    <div class="suivi-wrapper">
+    <!-- SPINNER -->
+    <div *ngIf="isLoading"
+         style="display:flex; flex-direction:column; align-items:center;
+                justify-content:center; min-height:400px; gap:16px;">
+      <div style="width:48px; height:48px; border:4px solid #e2e8f0;
+                  border-top-color:#4CAF50; border-radius:50%;
+                  animation: spin 0.8s linear infinite;"></div>
+      <p style="color:#94a3b8; font-size:14px; margin:0;">Chargement...</p>
+    </div>
+
+    <style>
+      @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+
+    <div class="suivi-wrapper" *ngIf="!isLoading">
       <div class="suivi-card">
 
-        <!-- ── CARD HEADER ── -->
-        <div class="card-header">
-          <svg class="header-icon" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M18 4C18 4 8 11 8 21a10 10 0 0020 0c0-10-10-17-10-17z"
-                  fill="rgba(255,255,255,0.2)" stroke="#fff" stroke-width="1.5"/>
-            <line x1="18" y1="31" x2="18" y2="13" stroke="#fff" stroke-width="1.2" stroke-dasharray="2.5 2.5"/>
-            <path d="M18 18 Q23 14 25 10" stroke="#fff" stroke-width="1.2" fill="none"/>
-            <path d="M18 22 Q13 18 10 14" stroke="#fff" stroke-width="1.2" fill="none"/>
-          </svg>
-          <div class="header-text">
-            <h2>Création d'un Suivi</h2>
-            <p>{{ headerSubtitle }}</p>
-          </div>
-        </div>
+        <!-- ══════════════════════════════════════
+             VIEW-ONLY MODE — suivi already exists
+             ══════════════════════════════════════ -->
+        <ng-container *ngIf="hasExistingSuivi && displaySuivi">
 
-        <!-- ── FORM BODY ── -->
-        <div class="form-body">
-          <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
-
-            <!-- TYPE SELECTOR -->
-            <div class="field">
-              <label>Type de suivi</label>
-              <div class="type-grid">
-
-                <button type="button"
-                        class="type-btn"
-                        [class.active]="currentType === 'PHOTO'"
-                        (click)="setType('PHOTO')">
-                  <div class="tb-icon">📷</div>
-                  <span class="tb-label">Photo</span>
-                  <span class="tb-sub">Comparaison</span>
-                </button>
-
-                <button type="button"
-                        class="type-btn"
-                        [class.active]="currentType === 'VIDEO'"
-                        (click)="setType('VIDEO')">
-                  <div class="tb-icon">🎞</div>
-                  <span class="tb-label">Vidéo</span>
-                  <span class="tb-sub">Enregistrement</span>
-                </button>
-                <!--
-                <button type="button"
-                        class="type-btn"
-                        [class.active]="currentType === 'TEMPS_REEL'"
-                        (click)="setType('TEMPS_REEL')">
-                  <div class="tb-icon">📡</div>
-                  <span class="tb-label">Temps réel</span>
-                  <span class="tb-sub">Diffusion live</span>
-                </button>-->
-
-              </div>
-            </div>
-
-            <!-- PHOTO / VIDEO UPLOAD -->
-            <ng-container *ngIf="isPhotoOrVideo()">
-
-              <!-- AVANT -->
-              <div class="field">
-                <label>Fichiers avant</label>
-                <div class="upload-zone" [class.has-files]="avantFiles.length > 0">
-                  <input type="file" multiple (change)="onFileChange($event, 'avant')">
-                  <div class="uz-inner">
-                    <div class="uz-icon">📂</div>
-                    <div class="uz-text">
-                      <p>{{ avantFiles.length > 0 ? 'Fichiers sélectionnés' : 'Importer des fichiers' }}</p>
-                      <span>{{ avantHint }}</span>
-                    </div>
-                    <span class="file-badge" *ngIf="avantFiles.length > 0">
-                      {{ avantFiles.length }} fichier{{ avantFiles.length > 1 ? 's' : '' }}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- DIVIDER -->
-              <div class="divider">
-                <div class="divider-line"></div>
-                <span>puis</span>
-                <div class="divider-line"></div>
-              </div>
-
-              <!-- APRES -->
-              <div class="field">
-                <label>Fichiers après</label>
-                <div class="upload-zone" [class.has-files]="apresFiles.length > 0">
-                  <input type="file" multiple (change)="onFileChange($event, 'apres')">
-                  <div class="uz-inner">
-                    <div class="uz-icon">📂</div>
-                    <div class="uz-text">
-                      <p>{{ apresFiles.length > 0 ? 'Fichiers sélectionnés' : 'Importer des fichiers' }}</p>
-                      <span>{{ apresHint }}</span>
-                    </div>
-                    <span class="file-badge" *ngIf="apresFiles.length > 0">
-                      {{ apresFiles.length }} fichier{{ apresFiles.length > 1 ? 's' : '' }}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <button type="submit" class="btn-submit">
-                Envoyer le suivi
-              </button>
-
-            </ng-container>
-            <!--
-             TEMPS RÉEL
-            <ng-container *ngIf="isTempsReel()">
-              <div class="realtime-info">
-                Un lien Google Meet sera automatiquement généré pour permettre une session
-                de suivi en direct avec votre agriculteur ou fournisseur.
-              </div>
-              <button type="button" class="btn-meet" (click)="createTempsReel()">
-                Générer le lien Meet
-              </button>
-            </ng-container>-->
-
-          </form>
-        </div>
-
-        <!-- ── RESULT PANEL ── -->
-        <div class="result-panel" *ngIf="suivi">
-
-          <div class="result-header">
-            <svg class="icon-check" viewBox="0 0 18 18" fill="none">
-              <circle cx="9" cy="9" r="8" fill="#2d6a4f"/>
-              <path d="M5.5 9l2.5 2.5 5-5"
-                    stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <!-- Header -->
+          <div class="card-header" style="background: linear-gradient(135deg, #2d6a4f, #52b788);">
+            <svg class="header-icon" viewBox="0 0 36 36" fill="none">
+              <circle cx="18" cy="18" r="14" fill="rgba(255,255,255,0.15)" stroke="#fff" stroke-width="1.5"/>
+              <path d="M11 18l5 5 9-9" stroke="#fff" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" fill="none"/>
             </svg>
-            <h3>Suivi créé avec succès</h3>
-            <span class="type-badge">{{ suivi.typeSuivi }}</span>
+            <div class="header-text">
+              <h2>Suivi déjà soumis</h2>
+              <p>Vous avez déjà ajouté un suivi pour cette réservation</p>
+            </div>
           </div>
 
-          <!-- Photo / Video results -->
-          <ng-container *ngIf="suivi.typeSuivi === 'PHOTO' || suivi.typeSuivi === 'VIDEO'">
-            <p class="imgs-section-label">Avant</p>
-            <div class="img-grid">
-              <div class="img-thumb" *ngFor="let url of suivi.urlsAvant">
-                <img [src]="url" [alt]="'avant-' + url">
+          <div class="form-body">
+
+            <!-- Already submitted notice -->
+            <div style="display:flex; align-items:center; gap:10px;
+                        background:#dcfce7; border:1px solid #86efac;
+                        border-radius:10px; padding:14px 16px; margin-bottom:20px;">
+              <i class="fas fa-check-circle" style="color:#16a34a; font-size:18px; flex-shrink:0;"></i>
+              <div>
+                <p style="margin:0; font-weight:600; color:#15803d; font-size:14px;">
+                  Suivi soumis avec succès
+                </p>
+                <p style="margin:0; color:#166534; font-size:12px; margin-top:2px;">
+                  Il n'est pas possible d'ajouter un deuxième suivi pour la même réservation.
+                </p>
               </div>
             </div>
 
-            <p class="imgs-section-label">Après</p>
-            <div class="img-grid">
-              <div class="img-thumb" *ngFor="let url of suivi.urlsApres">
-                <img [src]="url" [alt]="'apres-' + url">
+            <!-- Type badge -->
+            <div style="margin-bottom:16px;">
+              <span style="display:inline-flex; align-items:center; gap:6px;
+                           background:#eff6ff; border:1px solid #bfdbfe;
+                           border-radius:20px; padding:4px 12px;
+                           font-size:12px; font-weight:600; color:#1d4ed8;">
+                <i [class]="displaySuivi!.typeSuivi === 'PHOTO' ? 'fas fa-camera' : 'fas fa-video'"></i>
+                {{ displaySuivi!.typeSuivi }}
+              </span>
+            </div>
+
+            <!-- AVANT media -->
+            <div *ngIf="displaySuivi!.urlsAvant && displaySuivi!.urlsAvant.length > 0"
+                 style="margin-bottom:20px;">
+              <p style="font-size:13px; font-weight:600; color:#475569; margin-bottom:10px;">
+                <i class="fas fa-history" style="color:#4CAF50; margin-right:6px;"></i>Avant
+              </p>
+              <div style="display:flex; flex-wrap:wrap; gap:10px;">
+                <div *ngFor="let url of displaySuivi!.urlsAvant"
+                     style="width:120px; height:90px; border-radius:8px; overflow:hidden;
+                            border:1px solid #e2e8f0; position:relative;">
+                  <ng-container *ngIf="!isVideo(url)">
+                    <img [src]="fixUrl(url)" alt="avant"
+                         style="width:100%; height:100%; object-fit:cover;">
+                  </ng-container>
+                  <ng-container *ngIf="isVideo(url)">
+                    <video [src]="fixUrl(url)" controls
+                           style="width:100%; height:100%; object-fit:cover;"></video>
+                  </ng-container>
+                </div>
               </div>
             </div>
-          </ng-container>
-      
-          <!-- Temps réel result
-          <ng-container *ngIf="suivi.typeSuivi === 'TEMPS_REEL'">
-            <p class="imgs-section-label">Lien de la réunion</p>
-            <div class="meet-link-card">
-              <a [href]="suivi.lienTempsReel" target="_blank" rel="noopener">
-                {{ suivi.lienTempsReel }}
-              </a>
-            </div>
-          </ng-container> -->
 
-        </div>
-        <!-- /result-panel -->
+            <!-- APRES media -->
+            <div *ngIf="displaySuivi!.urlsApres && displaySuivi!.urlsApres.length > 0"
+                 style="margin-bottom:20px;">
+              <p style="font-size:13px; font-weight:600; color:#475569; margin-bottom:10px;">
+                <i class="fas fa-check-circle" style="color:#4CAF50; margin-right:6px;"></i>Après
+              </p>
+              <div style="display:flex; flex-wrap:wrap; gap:10px;">
+                <div *ngFor="let url of displaySuivi!.urlsApres"
+                     style="width:120px; height:90px; border-radius:8px; overflow:hidden;
+                            border:1px solid #e2e8f0; position:relative;">
+                  <ng-container *ngIf="!isVideo(url)">
+                    <img [src]="fixUrl(url)" alt="après"
+                         style="width:100%; height:100%; object-fit:cover;">
+                  </ng-container>
+                  <ng-container *ngIf="isVideo(url)">
+                    <video [src]="fixUrl(url)" controls
+                           style="width:100%; height:100%; object-fit:cover;"></video>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+
+            <!-- Back button -->
+            <button (click)="goBack()"
+                    style="display:flex; align-items:center; gap:8px;
+                           background:#f1f5f9; border:1px solid #e2e8f0;
+                           border-radius:8px; padding:10px 20px;
+                           font-size:13px; font-weight:500; color:#475569;
+                           cursor:pointer; margin-top:8px;">
+              <i class="fas fa-arrow-left"></i> Retour aux besoins
+            </button>
+
+          </div>
+
+        </ng-container>
+
+        <!-- ══════════════════════════════════════
+             UPLOAD FORM — no suivi yet
+             ══════════════════════════════════════ -->
+        <ng-container *ngIf="!hasExistingSuivi">
+
+          <!-- Card Header -->
+          <div class="card-header">
+            <svg class="header-icon" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M18 4C18 4 8 11 8 21a10 10 0 0020 0c0-10-10-17-10-17z"
+                    fill="rgba(255,255,255,0.2)" stroke="#fff" stroke-width="1.5"/>
+              <line x1="18" y1="31" x2="18" y2="13" stroke="#fff" stroke-width="1.2" stroke-dasharray="2.5 2.5"/>
+              <path d="M18 18 Q23 14 25 10" stroke="#fff" stroke-width="1.2" fill="none"/>
+              <path d="M18 22 Q13 18 10 14" stroke="#fff" stroke-width="1.2" fill="none"/>
+            </svg>
+            <div class="header-text">
+              <h2>Création d'un Suivi</h2>
+              <p>{{ headerSubtitle }}</p>
+            </div>
+          </div>
+
+          <!-- Form Body -->
+          <div class="form-body">
+            <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
+
+              <!-- TYPE SELECTOR -->
+              <div class="field">
+                <label>Type de suivi</label>
+                <div class="type-grid">
+                  <button type="button" class="type-btn"
+                          [class.active]="currentType === 'PHOTO'"
+                          (click)="setType('PHOTO')">
+                    <span class="tb-icon">📷</span>
+                    <span class="tb-label">Photo</span>
+                    <span class="tb-sub">Comparaison avant / après</span>
+                  </button>
+                  <button type="button" class="type-btn"
+                          [class.active]="currentType === 'VIDEO'"
+                          (click)="setType('VIDEO')">
+                    <span class="tb-icon">🎞</span>
+                    <span class="tb-label">Vidéo</span>
+                    <span class="tb-sub">Enregistrement avant / après</span>
+                  </button>
+                </div>
+              </div>
+
+              <ng-container *ngIf="isPhotoOrVideo()">
+
+                <!-- AVANT -->
+                <div class="field">
+                  <label>
+                    <i class="fas fa-history" style="color:var(--sage); margin-right:5px;"></i>
+                    Fichiers avant
+                  </label>
+                  <div class="upload-zone" [class.has-files]="avantFiles.length > 0">
+                    <input type="file" multiple (change)="onFileChange($event, 'avant')">
+                    <div class="uz-inner">
+                      <div class="uz-icon">📂</div>
+                      <div class="uz-text">
+                        <p>{{ avantFiles.length > 0 ? 'Fichiers sélectionnés' : 'Cliquez pour importer' }}</p>
+                        <span>{{ avantHint }}</span>
+                      </div>
+                      <span class="file-badge" *ngIf="avantFiles.length > 0">
+                        {{ avantFiles.length }} fichier{{ avantFiles.length > 1 ? 's' : '' }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- DIVIDER -->
+                <div class="divider">
+                  <div class="divider-line"></div>
+                  <span>puis</span>
+                  <div class="divider-line"></div>
+                </div>
+
+                <!-- APRES -->
+                <div class="field">
+                  <label>
+                    <i class="fas fa-check-circle" style="color:var(--sage); margin-right:5px;"></i>
+                    Fichiers après
+                  </label>
+                  <div class="upload-zone" [class.has-files]="apresFiles.length > 0">
+                    <input type="file" multiple (change)="onFileChange($event, 'apres')">
+                    <div class="uz-inner">
+                      <div class="uz-icon">📂</div>
+                      <div class="uz-text">
+                        <p>{{ apresFiles.length > 0 ? 'Fichiers sélectionnés' : 'Cliquez pour importer' }}</p>
+                        <span>{{ apresHint }}</span>
+                      </div>
+                      <span class="file-badge" *ngIf="apresFiles.length > 0">
+                        {{ apresFiles.length }} fichier{{ apresFiles.length > 1 ? 's' : '' }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- SUBMIT -->
+                <button type="submit" class="btn-submit" [disabled]="isSubmitting">
+                  <ng-container *ngIf="!isSubmitting">
+                    <i class="fas fa-paper-plane"></i> Envoyer le suivi
+                  </ng-container>
+                  <ng-container *ngIf="isSubmitting">
+                    <i class="fas fa-spinner fa-spin"></i> Envoi en cours...
+                  </ng-container>
+                </button>
+
+              </ng-container>
+
+            </form>
+          </div>
+
+        </ng-container>
 
       </div>
     </div>

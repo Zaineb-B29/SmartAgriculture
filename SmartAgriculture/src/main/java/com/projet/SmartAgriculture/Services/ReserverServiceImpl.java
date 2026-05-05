@@ -57,4 +57,14 @@ public class ReserverServiceImpl implements ReserverService {
     public List<Reserver> getMesReservations(Long clientId) {
         return reserverRepository.findByClientId(clientId);
     }
+
+    @Override
+    public List<Reserver> getByFournisseur(Long fournisseurId) {
+        return reserverRepository.findByPrixProposerFournisseurId(fournisseurId);
+    }
+
+    @Override
+    public List<Reserver> getReservationsWithoutSuivi() {
+        return reserverRepository.findReservationsWithoutSuivi();
+    }
 }

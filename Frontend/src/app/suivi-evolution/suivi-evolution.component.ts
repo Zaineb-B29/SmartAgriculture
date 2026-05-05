@@ -16,6 +16,9 @@ export class SuiviEvolutionComponent implements OnInit {
   offresCount = 0;
   isLoading = true;
 
+  // 🔥 NEW FEATURE
+  reservationsSansSuivi: any[] = [];
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -30,6 +33,7 @@ export class SuiviEvolutionComponent implements OnInit {
       return;
     }
 
+    // 🔥 Load besoin + offres
     this.service.getBesoinById(id).pipe(
       switchMap((b: Besoin) => {
         this.besoin = b;
@@ -43,6 +47,29 @@ export class SuiviEvolutionComponent implements OnInit {
       error: () => {
         this.router.navigate(['/listeBesoin']);
       }
+    });
+
+    // 🔥 Load reservations WITHOUT suivi
+    this.loadReservationsSansSuivi();
+  }
+
+  loadReservationsSansSuivi() {
+    this.service.getReservationsWithoutSuivi().subscribe({
+      next: (data) => {
+        this.reservationsSansSuivi = data;
+      },
+      error: (err) => console.error(err)
+    });
+  }
+
+  ajouterSuivi(reservationId: number) {
+    this.service.createSuiviTempsReel(reservationId).subscribe({
+      next: () => {
+        // remove instantly
+        this.reservationsSansSuivi =
+          this.reservationsSansSuivi.filter(r => r.id !== reservationId);
+      },
+      error: (err) => console.error(err)
     });
   }
 

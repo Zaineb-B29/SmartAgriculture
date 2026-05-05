@@ -28,6 +28,10 @@ public class SuiviServiceImpl implements SuiviService {
     public Suivi createSuiviAvecUpload(Long reserverId, String typeSuivi,
                                        List<MultipartFile> avantFiles, List<MultipartFile> apresFiles) {
 
+        if (suiviRepository.existsByReserverId(reserverId)) {
+            throw new RuntimeException("Suivi already exists for this reservation");
+        }
+
         Reserver reserver = reserverRepository.findById(reserverId)
                 .orElseThrow(() -> new RuntimeException("Reservation not found"));
 
@@ -48,6 +52,11 @@ public class SuiviServiceImpl implements SuiviService {
 
     @Override
     public Suivi createSuiviTempsReel(Long reserverId) {
+
+        if (suiviRepository.existsByReserverId(reserverId)) {
+            throw new RuntimeException("Suivi already exists for this reservation");
+        }
+
         Reserver reserver = reserverRepository.findById(reserverId)
                 .orElseThrow(() -> new RuntimeException("Reservation not found"));
 
@@ -66,15 +75,21 @@ public class SuiviServiceImpl implements SuiviService {
     private List<String> saveFiles(List<MultipartFile> files) {
         List<String> urls = new ArrayList<>();
 
+        // ✅ Create the directory if it doesn't exist
+        File uploadDir = new File("D:/pfe/uploads/");
+        if (!uploadDir.exists()) {
+            uploadDir.mkdirs();
+        }
+
         for (MultipartFile file : files) {
             String filename = UUID.randomUUID() + "-" + file.getOriginalFilename();
             String path = "D:/pfe/uploads/" + filename;
 
             try {
                 file.transferTo(new File(path));
-                urls.add("http://localhost:8081/uploads/" + filename);
+                urls.add("http://localhost:8081/api/uploads/" + filename);
             } catch (IOException e) {
-                throw new RuntimeException("Failed to save file", e);
+                throw new RuntimeException("Failed to save file: " + filename, e);
             }
         }
 
@@ -89,5 +104,14 @@ public class SuiviServiceImpl implements SuiviService {
     @Override
     public List<Suivi> affichiersuivi() {
         return suiviRepository.findAll();
+    }
+
+    @Override
+    public List<Reserver> getReservationsWithoutSuivi() {
+        return reserverRepository.findReservationsWithoutSuivi();
+    }
+
+    public List<Suivi> getSuivisByFournisseurId(Long fournisseurId) {
+        return suiviRepository.findByFournisseurId(fournisseurId);
     }
 }
