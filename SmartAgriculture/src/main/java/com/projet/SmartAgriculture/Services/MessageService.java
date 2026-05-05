@@ -16,10 +16,9 @@ public interface MessageService {
     Message envoyerMessageFichier(String expediteurType, Long expediteurId,
                                   String destinataireType, Long destinataireId,
                                   MultipartFile file, String contenu) throws IOException;
-
     void marquerLus(String readerType, Long readerId, String otherType, Long otherId);
-
     List<Message> getUnreadFor(String type, Long id);
-
     void supprimerMessage(Long id);
+    boolean canChat(Long clientId, Long fournisseurId);
+    List<Message> getLatestMessagePerContact(String type, Long id);
 }

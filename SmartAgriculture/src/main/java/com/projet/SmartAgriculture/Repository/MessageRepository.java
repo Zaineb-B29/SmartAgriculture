@@ -28,4 +28,14 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
                                            @Param("readerId") Long readerId,
                                            @Param("otherType") String otherType,
                                            @Param("otherId") Long otherId);
+    @Query("SELECT COUNT(r) > 0 FROM Reserver r WHERE r.client.id = :clientId AND r.prixProposer.fournisseur.id = :fournisseurId")
+    boolean existsByClientIdAndFournisseurId(
+            @Param("clientId") Long clientId,
+            @Param("fournisseurId") Long fournisseurId
+    );
+    @Query("SELECT m FROM Message m WHERE " +
+            "(m.expediteurType = :type AND m.expediteurId = :id) OR " +
+            "(m.destinataireType = :type AND m.destinataireId = :id) " +
+            "ORDER BY m.dateEnvoi DESC")
+    List<Message> findByExpeditorOrDestinator(@Param("type") String type, @Param("id") Long id);
 }

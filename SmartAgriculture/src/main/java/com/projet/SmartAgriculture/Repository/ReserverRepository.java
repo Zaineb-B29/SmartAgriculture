@@ -21,4 +21,7 @@ WHERE r.id NOT IN (
 )
 """)
     List<Reserver> findReservationsWithoutSuivi();
+
+    @Query("SELECT COUNT(r) > 0 FROM Reserver r WHERE r.client.id = :clientId AND r.prixProposer.fournisseur.id = :fournisseurId")
+    boolean existsByClientIdAndFournisseurId(@Param("clientId") Long clientId, @Param("fournisseurId") Long fournisseurId);
 }

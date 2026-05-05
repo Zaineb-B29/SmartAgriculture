@@ -26,6 +26,7 @@ import { SuiviEvolutionComponent } from './suivi-evolution/suivi-evolution.compo
 import { MessageComponent } from './message/message.component';
 import { ProfileComponent } from './profile/profile.component';
 import { SuiviClientComponent } from './suivi-client/suivi-client.component';
+import { ConversationsComponent } from './conversations/conversations.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { SuiviClientComponent } from './suivi-client/suivi-client.component';
     SuiviEvolutionComponent,
     MessageComponent,
     ProfileComponent,
-    SuiviClientComponent
+    SuiviClientComponent,
+    ConversationsComponent
   ],
   imports: [
     BrowserModule,

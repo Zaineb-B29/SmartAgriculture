@@ -1,0 +1,112 @@
+<app-header></app-header>
+
+<div class="conv-page">
+  <div class="conv-wrapper">
+
+    <!-- LEFT: conversation list -->
+    <div class="conv-list-panel">
+      <div class="conv-list-header">
+        <h2><i class="fas fa-comments"></i> Mes conversations</h2>
+        <span class="conv-count">{{ conversations.length }} conversation(s)</span>
+      </div>
+
+      <div *ngIf="isLoading" class="conv-loading">
+        <i class="fas fa-spinner fa-spin"></i>
+        <p>Chargement...</p>
+      </div>
+
+      <div *ngIf="!isLoading && conversations.length === 0" class="conv-empty">
+        <i class="fas fa-comment-slash"></i>
+        <p>Aucune conversation pour le moment.</p>
+      </div>
+
+      <div class="conv-list" *ngIf="!isLoading">
+        <div class="conv-item"
+             *ngFor="let conv of conversations"
+             [class.active]="selectedConv?.otherId === conv.otherId && selectedConv?.otherType === conv.otherType"
+             (click)="selectConversation(conv)">
+
+          <div class="conv-avatar" [attr.data-type]="conv.otherType">
+            {{ conv.initials }}
+          </div>
+
+          <div class="conv-info">
+            <div class="conv-name-row">
+              <span class="conv-name">{{ conv.otherName }}</span>
+              <span class="conv-date">{{ formatDate(conv.lastDate) }}</span>
+            </div>
+            <div class="conv-role-row">
+              <span class="conv-role-badge" [attr.data-type]="conv.otherType">
+                {{ getRoleEmoji(conv.otherType) }} {{ getLabelForType(conv.otherType) }}
+              </span>
+              <span class="conv-unread-dot" *ngIf="conv.unread"></span>
+            </div>
+            <p class="conv-preview">{{ conv.lastMessage }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: detail panel -->
+    <div class="conv-detail-panel" *ngIf="selectedConv; else noSelection">
+
+      <div class="detail-header">
+        <div class="detail-avatar" [attr.data-type]="selectedConv.otherType">
+          {{ selectedConv.initials }}
+        </div>
+        <div class="detail-info">
+          <h3>{{ selectedConv.otherName }}</h3>
+          <span class="conv-role-badge" [attr.data-type]="selectedConv.otherType">
+            {{ getRoleEmoji(selectedConv.otherType) }} {{ getLabelForType(selectedConv.otherType) }}
+          </span>
+        </div>
+        <button class="btn-open-chat" (click)="openChat(selectedConv)">
+          <i class="fas fa-comment-dots"></i> Ouvrir la conversation
+        </button>
+      </div>
+
+      <!-- Besoin details if client↔fournisseur -->
+      <div *ngIf="loadingBesoin" class="besoin-loading">
+        <i class="fas fa-spinner fa-spin"></i> Chargement du besoin...
+      </div>
+
+      <div class="besoin-panel" *ngIf="!loadingBesoin && relatedBesoin">
+        <div class="besoin-panel-header">
+          <i class="fas fa-leaf"></i>
+          Besoin réservé associé
+        </div>
+        <div class="besoin-panel-body">
+          <img *ngIf="relatedBesoin.image" [src]="relatedBesoin.image"
+               alt="besoin" class="besoin-img">
+          <h4 class="besoin-titre">{{ relatedBesoin.titre }}</h4>
+          <p class="besoin-desc">{{ relatedBesoin.descriptionExpert || relatedBesoin.description }}</p>
+          <div class="besoin-chips">
+            <span class="chip"><i class="fas fa-tree"></i> {{ relatedBesoin.nombreArbres }} arbres</span>
+            <span class="chip"><i class="fas fa-map-marker-alt"></i> {{ relatedBesoin.lieu }}</span>
+            <span class="chip"><i class="fas fa-ruler-combined"></i> {{ relatedBesoin.metrage }}</span>
+          </div>
+          <div class="besoin-status">
+            <i class="fas fa-check-circle"></i> Besoin validé et réservé
+          </div>
+        </div>
+      </div>
+
+      <div class="no-besoin" *ngIf="!loadingBesoin && !relatedBesoin &&
+           (selectedConv.otherType === 'CLIENT' || selectedConv.otherType === 'FOURNISSEUR')">
+        <i class="fas fa-info-circle"></i>
+        Aucun besoin réservé associé à cette conversation.
+      </div>
+
+    </div>
+
+    <ng-template #noSelection>
+      <div class="conv-detail-panel conv-detail-empty">
+        <i class="fas fa-hand-pointer"></i>
+        <p>Sélectionnez une conversation pour voir les détails</p>
+      </div>
+    </ng-template>
+
+  </div>
+</div>
+
+<app-footer></app-footer>

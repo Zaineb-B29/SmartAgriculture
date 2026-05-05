@@ -2,6 +2,7 @@ package com.projet.SmartAgriculture.RestController;
 
 import com.projet.SmartAgriculture.Entity.Message;
 import com.projet.SmartAgriculture.Services.MessageService;
+import com.projet.SmartAgriculture.Services.MessageServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -90,5 +91,20 @@ public class MessageRestController {
         messages.forEach(m -> messageService.supprimerMessage(m.getId()));
 
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/can-chat")
+    public ResponseEntity<Boolean> canChat(
+            @RequestParam Long clientId,
+            @RequestParam Long fournisseurId) {
+        return ResponseEntity.ok(messageService.canChat(clientId, fournisseurId));
+    }
+    // Returns list of distinct people this user has chatted with
+    @GetMapping("/contacts")
+    public ResponseEntity<List<Message>> getContacts(
+            @RequestParam String type, @RequestParam Long id) {
+        return ResponseEntity.ok(
+                ((MessageServiceImpl) messageService).getLatestMessagePerContact(type, id)
+        );
     }
 }

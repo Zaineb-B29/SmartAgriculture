@@ -132,6 +132,13 @@ export class CrudService {
       );
     }
 
+    // Add this one new method
+    canChat(clientId: number, fournisseurId: number): Observable<boolean> {
+      return this.http.get<boolean>(
+        `${this.apiUrl}/message/can-chat?clientId=${clientId}&fournisseurId=${fournisseurId}`
+      );
+    }
+
   /* ================= GOOGLE LOGIN ================= */
   signInWithGoogle(idToken: string): Observable<any> {
     const params = new HttpParams().set('id_token', idToken);
@@ -385,5 +392,21 @@ getSuivisByFournisseurId(fournisseurId: number): Observable<Suivi[]> {
   return this.http.get<Suivi[]>(`${this.apiUrl}/suivi/fournisseur/${fournisseurId}`, {
     headers: { 'Authorization': `Bearer ${token}` }
   });
+}
+
+getMyContacts(type: string, id: number): Observable<any[]> {
+  return this.http.get<any[]>(`${this.apiUrl}/message/contacts?type=${type}&id=${id}`);
+}
+
+getClientById(id: number): Observable<any> {
+  return this.http.get<any>(`${this.apiUrl}/client/${id}`);
+}
+
+getFournisseurById(id: number): Observable<any> {
+  return this.http.get<any>(`${this.apiUrl}/fournisseur/${id}`);
+}
+
+getExpertById(id: number): Observable<any> {
+  return this.http.get<any>(`${this.apiUrl}/expertAgricole/${id}`);
 }
 }

@@ -114,31 +114,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     document.body.style.overflow = '';
   }
   contactAdmin() {
-    const type  = sessionStorage.getItem('type');
-    const token = sessionStorage.getItem('myTokenClient')
-              || sessionStorage.getItem('myTokenExpert')
-              || sessionStorage.getItem('myTokenFournisseur');
-
-    if (!type || !token) {
-      this.openLoginModal();
-      return;
-    }
-
-    try {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      const userId  = payload.data?.id;
-
-      this.router.navigate(['/message'], {
-        queryParams: {
-          myType:    type,
-          myId:      userId,
-          otherType: 'ADMIN',
-          otherId:   3  // ← change 1 par 3
-        }
-      });
-    } catch {
-      this.openLoginModal();
-    }
+    const type = sessionStorage.getItem('type');
+    if (!type) { this.openLoginModal(); return; }
+    this.router.navigate(['/conversations']);
   }
   
   logout(): void {

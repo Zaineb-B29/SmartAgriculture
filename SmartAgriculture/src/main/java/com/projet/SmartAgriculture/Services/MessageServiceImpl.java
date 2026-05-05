@@ -9,7 +9,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.nio.file.*;
 import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.ArrayList;
 
 @Service
 public class MessageServiceImpl implements MessageService {
@@ -87,5 +90,30 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public void supprimerMessage(Long id) {
         messageRepository.deleteById(id);
+    }
+
+    @Autowired
+    private com.projet.SmartAgriculture.Repository.ReserverRepository reserverRepository;
+
+    @Override
+    public boolean canChat(Long clientId, Long fournisseurId) {
+        return reserverRepository.existsByClientIdAndFournisseurId(clientId, fournisseurId);
+    }
+
+    public List<Message> getLatestMessagePerContact(String type, Long id) {
+        List<Message> all = messageRepository.findByExpeditorOrDestinator(type, id);
+        // group by the "other" person, keep latest message per group
+        Map<String, Message> map = new LinkedHashMap<>();
+        for (Message m : all) {
+            String key;
+            if (m.getExpediteurType().equals(type) && m.getExpediteurId().equals(id)) {
+                key = m.getExpediteurType() + "_" + m.getExpediteurId();
+            } else {
+                key = m.getExpediteurType() + "_" + m.getExpediteurId();
+            }
+            map.merge(key, m, (existing, newMsg) ->
+                    newMsg.getDateEnvoi().isAfter(existing.getDateEnvoi()) ? newMsg : existing);
+        }
+        return new ArrayList<>(map.values());
     }
 }
