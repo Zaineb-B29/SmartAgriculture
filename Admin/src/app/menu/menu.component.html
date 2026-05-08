@@ -1,4 +1,4 @@
-<div class="iq-sidebar">
+<div class="iq-sidebar" [class.collapsed]="sidebarService.isCollapsed">
    <div class="iq-sidebar-logo d-flex justify-content-between">
       <a href="/" class="header-logo">
          <img src="assets/images/logo.png" class="img-fluid rounded-normal" alt="">
@@ -130,5 +130,9 @@
 
          </ul>
       </nav>
+   </div>
+   <!-- REOPEN ARROW TAB -->
+   <div class="sidebar-reopen-tab" (click)="toggleSidebar()">
+    <i class="ri-arrow-right-s-line"></i>
    </div>
 </div>

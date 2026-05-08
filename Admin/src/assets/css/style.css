@@ -323,7 +323,7 @@ a:hover { text-decoration: none; }
 .iq-sidebar-menu .iq-menu li a .iq-arrow-right { margin-right: 0px; margin-left: auto; transition: all 0.3s ease-in-out; -webkit-transition: all 0.3s ease-in-out; -moz-transition: all 0.3s ease-in-out; -o-transition: all 0.3s ease-in-out; -ms-transition: all 0.3s ease-in-out; }
 .iq-sidebar-menu .iq-menu li a .badge { position: absolute; right: 15px; -webkit-transition: all 0.9s ease-out 0s; -moz-transition: all 0.9s ease-out 0s; -ms-transition: all 0.9s ease-out 0s; -o-transition: all 0.9s ease-out 0s; transition: all 0.9s ease-out 0s; }
 .iq-sidebar-menu .iq-menu li a:hover { color: var(--iq-dark-primary-bg); }
-.iq-sidebar-menu .iq-menu li.active, .iq-sidebar-menu .iq-menu li.active-menu {/* background: var(--iq-dark-primary);*/ }
+.iq-sidebar-menu .iq-menu li.active, .iq-sidebar-menu .iq-menu li.active-menu { }
 .iq-sidebar-menu .iq-menu > li.active>a { color: var(--iq-dark-primary-bg); text-decoration: none; }
 .iq-search-bar .searchbox .search-link { position: absolute; left: 15px; top: 6px; font-size: 16px; }
 .iq-sidebar-menu .iq-menu li a[aria-expanded="true"] { color: var(--iq-dark-primary-bg); text-decoration: none; border-radius: 0; }
@@ -334,8 +334,8 @@ a:hover { text-decoration: none; }
 .iq-sidebar-menu .iq-menu li.active .iq-submenu li:last-child>a { border-radius: 0 0 5px 5px; }
 .iq-sidebar-menu .iq-menu li .iq-submenu li>a::before { display: none; }
 body.sidebar-main .iq-sidebar .iq-menu li a[aria-expanded="false"].collapsed { border-radius: 15px; }
-.iq-sidebar-menu .iq-menu li a i.iq-arrow-left, .iq-sidebar-menu .iq-menu li > a > i.iq-arrow-left { /*background: transparent; color: var(--iq-dark-body-text); text-align: center; border-radius: 15px; font-size: 16px;*/ }
-.iq-sidebar-menu .iq-menu li a[aria-expanded="true"] i.iq-arrow-left, .iq-sidebar-menu .iq-menu li.active > a > i.iq-arrow-left, .iq-sidebar-menu .iq-menu li.active-menu > a > i.iq-arrow-left { color: var(--iq-dark-primary-bg);/* color: var(--iq-white);*/ }
+.iq-sidebar-menu .iq-menu li a i.iq-arrow-left, .iq-sidebar-menu .iq-menu li > a > i.iq-arrow-left { }
+.iq-sidebar-menu .iq-menu li a[aria-expanded="true"] i.iq-arrow-left, .iq-sidebar-menu .iq-menu li.active > a > i.iq-arrow-left, .iq-sidebar-menu .iq-menu li.active-menu > a > i.iq-arrow-left { color: var(--iq-dark-primary-bg); }
 
 /*------------------------*/
 .iq-sidebar-menu .iq-menu li ul { padding-left: 0; }
@@ -350,13 +350,40 @@ body.sidebar-main .iq-sidebar .iq-menu li a[aria-expanded="false"].collapsed { b
 .iq-sidebar-menu .iq-menu li.active ul.iq-submenu-data li.active>a { background: var(--iq-dark-primary); color: var(--iq-dark-primary-bg); border-radius: 0; }
 .iq-sidebar-menu .iq-menu li ul.iq-submenu-data li { margin: 0; }
 
-
 /*---------------------------------- */
 #sidebar-bottom { padding-top: 50px !important; margin-bottom: 40px; }
 #sidebar-bottom .image { margin-top: -70px; }
 #sidebar-bottom .image img { max-width: 60%; }
 #sidebar-bottom > .bg-primary { background: var(--iq-dark-primary) !important; }
 
+/* ── FREEZE SIDEBAR ON COLLAPSE — NUCLEAR OVERRIDE ── */
+body.sidebar-main .iq-sidebar {
+  width: 70px !important;
+  min-width: 70px !important;
+  max-width: 70px !important;
+  transition: none !important;
+  pointer-events: none !important;
+}
+
+/* Re-enable clicks on links and toggle button */
+body.sidebar-main .iq-sidebar .iq-menu,
+body.sidebar-main .iq-sidebar .iq-menu li,
+body.sidebar-main .iq-sidebar .iq-menu li a,
+body.sidebar-main .iq-sidebar .iq-menu-bt,
+body.sidebar-main .iq-sidebar .wrapper-menu,
+body.sidebar-main .iq-sidebar .sidebar-reopen-tab {
+  pointer-events: all !important;
+}
+
+/* Hide text, keep icons */
+body.sidebar-main .iq-sidebar .iq-menu li a span,
+body.sidebar-main .iq-sidebar .logo-title,
+body.sidebar-main .iq-sidebar .iq-sidebar-logo a div,
+body.sidebar-main .iq-sidebar .iq-arrow-right {
+  display: none !important;
+  opacity: 0 !important;
+  width: 0 !important;
+}
 /*---------------------------------------------------------------------
                              Top Menu
 -----------------------------------------------------------------------*/

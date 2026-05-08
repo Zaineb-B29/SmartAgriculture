@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { CrudService } from '../service/crud.service';
 import { interval, Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { SidebarService } from '../service/sidebar.service';
 
 @Component({
   selector: 'app-header',
@@ -18,7 +19,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   userDetails: any = {};
   private pollSub!: Subscription;
 
-  constructor(private service: CrudService, private router: Router) {}
+  constructor(private service: CrudService, private router: Router,public sidebarService: SidebarService  ) {}
 
   ngOnInit() {
     const token = localStorage.getItem('myToken');

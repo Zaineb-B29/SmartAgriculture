@@ -1,6 +1,66 @@
-/* FORCE SMART AGRICULTURE GREEN */
 .smart-title {
-    color: #2e7d32 !important;
-    font-weight: 700;
-    font-size: 20px !important; 
+  color: #2e7d32 !important;
+  font-weight: 700;
+  font-size: 20px !important;
 }
+
+/* ── Reopen tab (hidden by default) ──────────── */
+.sidebar-reopen-tab {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 70px;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 56px;
+  background: #2e7d32;
+  border-radius: 0 8px 8px 0;
+  cursor: pointer;
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 3px 0 10px rgba(0,0,0,0.2);
+  transition: background 0.2s;
+}
+
+.sidebar-reopen-tab i {
+  color: #fff !important;
+  font-size: 20px;
+  pointer-events: none;
+}
+
+.sidebar-reopen-tab:hover {
+  background: #1b5e20;
+}
+
+/* Show tab ONLY when sidebar is collapsed */
+.iq-sidebar.collapsed .sidebar-reopen-tab {
+  display: flex;
+}
+
+/* ── Disable hover-to-expand (IQ template fix) ── */
+body.sidebar-main .iq-sidebar:hover {
+  width: inherit !important;
+}
+
+body.sidebar-main .iq-sidebar:hover .iq-sidebar-logo,
+body.sidebar-main .iq-sidebar:hover span,
+body.sidebar-main .iq-sidebar:hover .iq-menu li a span,
+body.sidebar-main .iq-sidebar:hover .logo-title {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  width: 0 !important;
+}
+
+/* Kill hover on sidebar container, keep clicks alive */
+body.sidebar-main .iq-sidebar {
+  pointer-events: none;
+}
+
+body.sidebar-main .iq-sidebar ul,
+body.sidebar-main .iq-sidebar a,
+body.sidebar-main .sidebar-reopen-tab {
+  pointer-events: all !important;
+}
+

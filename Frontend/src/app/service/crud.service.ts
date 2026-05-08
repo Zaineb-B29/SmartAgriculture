@@ -11,10 +11,20 @@ import { Router } from '@angular/router';
 import { Message } from '../Entites/Message.Entites';
 import { Suivi } from '../Entites/Suivi.Entites';
 
+export interface ChatResponse {
+  intent: string;
+  source: string;
+  response: string;
+  project_data?: any;
+}
 @Injectable({
   providedIn: 'root'
 })
+
+
+
 export class CrudService {
+  ChatBotapiUrl = 'http://localhost:5000/chat';
   helper = new JwtHelperService();
   apiUrl = 'http://localhost:8081/api';
   loginClienturl = `${this.apiUrl}/client/login`;
@@ -409,4 +419,13 @@ getFournisseurById(id: number): Observable<any> {
 getExpertById(id: number): Observable<any> {
   return this.http.get<any>(`${this.apiUrl}/expertAgricole/${id}`);
 }
+  //CHAT BOT
+  sendMessage(message: string, clientId?: number): Observable<ChatResponse> {
+    const body: any = { message };
+    if (clientId) {
+      body['client_id'] = clientId;
+    }
+    return this.http.post<ChatResponse>(this.ChatBotapiUrl, body);
+  }
+
 }

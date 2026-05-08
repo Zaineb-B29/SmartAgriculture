@@ -27,6 +27,7 @@ import { MessageComponent } from './message/message.component';
 import { ProfileComponent } from './profile/profile.component';
 import { SuiviClientComponent } from './suivi-client/suivi-client.component';
 import { ConversationsComponent } from './conversations/conversations.component';
+import { ChatbotComponent } from './chatbot/chatbot.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { ConversationsComponent } from './conversations/conversations.component'
     MessageComponent,
     ProfileComponent,
     SuiviClientComponent,
-    ConversationsComponent
+    ConversationsComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -60,7 +62,8 @@ import { ConversationsComponent } from './conversations/conversations.component'
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    
+    ChatbotComponent,
+  
   ],
   providers: [],
   bootstrap: [AppComponent]
