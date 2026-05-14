@@ -149,6 +149,35 @@
     justify-content: center; flex-shrink: 0;
   }
   .prix-empty { font-size: 12px; color: #94a3b8; font-style: italic; margin: 0; }
+
+  /* AI Diagnostic styles */
+  .ai-diagnostic-box {
+    background: #f0fdf4; border: 1px solid #86efac;
+    border-radius: 10px; padding: 12px;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .ai-diagnostic-header {
+    display: flex; align-items: center; gap: 6px;
+  }
+  .ai-diagnostic-header span {
+    font-size: 11px; font-weight: 700; color: #15803d;
+    text-transform: uppercase; letter-spacing: .05em;
+  }
+  .ai-badges { display: flex; flex-wrap: wrap; gap: 6px; }
+  .ai-badge-maladie {
+    background: #dcfce7; color: #15803d; border-radius: 20px;
+    padding: 2px 10px; font-size: 11px; font-weight: 600;
+  }
+  .ai-badge-risque-eleve  { background: #fee2e2; color: #dc2626; border-radius: 20px; padding: 2px 10px; font-size: 11px; font-weight: 600; }
+  .ai-badge-risque-moyen  { background: #fef9c3; color: #92400e; border-radius: 20px; padding: 2px 10px; font-size: 11px; font-weight: 600; }
+  .ai-badge-risque-faible { background: #dcfce7; color: #15803d; border-radius: 20px; padding: 2px 10px; font-size: 11px; font-weight: 600; }
+  .ai-recommandations { font-size: 12px; color: #475569; margin: 0; line-height: 1.5; }
+  .ai-pending-box {
+    background: #f8fafc; border: 1px solid #e2e8f0;
+    border-radius: 8px; padding: 10px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .ai-pending-box span { font-size: 12px; color: #94a3b8; }
 </style>
 
 <div class="validtheme-shop-area default-padding">
@@ -179,6 +208,7 @@
          ════════════════════════════════════════ -->
     <ng-container *ngIf="isClientIn">
 
+      <!-- Section 1 : Validés -->
       <div class="section-header">
         <i class="fas fa-check-circle" style="color:#16a34a; font-size:16px;"></i>
         <h5>Besoins validés par l'expert</h5>
@@ -215,6 +245,29 @@
                 <span class="chip"><i class="fas fa-tree"></i>{{ besoin.nombreArbres }}</span>
                 <span class="chip"><i class="fas fa-map-marker-alt"></i>{{ besoin.lieu }}</span>
                 <span class="chip"><i class="fas fa-ruler-combined"></i>{{ besoin.metrage }}</span>
+              </div>
+
+              <!-- AI Diagnostic (validated besoin) -->
+              <div class="ai-diagnostic-box" *ngIf="besoin.maladie">
+                <div class="ai-diagnostic-header">
+                  <i class="fas fa-robot" style="color:#16a34a; font-size:12px;"></i>
+                  <span>Diagnostic IA</span>
+                </div>
+                <div class="ai-badges">
+                  <span class="ai-badge-maladie">
+                    <i class="fas fa-bug" style="margin-right:3px; font-size:10px;"></i>
+                    {{ besoin.maladie }}
+                  </span>
+                  <span [ngClass]="{
+                    'ai-badge-risque-eleve':  besoin.niveauRisque === 'élevé',
+                    'ai-badge-risque-moyen':  besoin.niveauRisque === 'moyen',
+                    'ai-badge-risque-faible': besoin.niveauRisque === 'faible'
+                  }">
+                    <i class="fas fa-exclamation-triangle" style="margin-right:3px; font-size:10px;"></i>
+                    Risque : {{ besoin.niveauRisque }}
+                  </span>
+                </div>
+                <p class="ai-recommandations">{{ besoin.recommandations }}</p>
               </div>
 
               <div class="expert-strip" *ngIf="besoin.expert">
@@ -286,7 +339,6 @@
                 </ng-container>
               </div>
 
-              <!-- Suivi badge -->
               <div class="suivi-exists-badge" *ngIf="suiviExistsMap[besoin.id!]">
                 <i class="fas fa-check-circle"></i>
                 <span>Suivi disponible</span>
@@ -296,7 +348,6 @@
                 <span>Pas encore de suivi</span>
               </div>
 
-              <!-- Mon Suivi button -->
               <a class="btn-action btn-action-blue"
                  [routerLink]="['/suiviBesoin']"
                  [queryParams]="{ besoinId: besoin.id }">
@@ -304,7 +355,6 @@
                 {{ suiviExistsMap[besoin.id!] ? 'Voir mon suivi' : 'Mon Suivi' }}
               </a>
 
-              <!-- ✅ Message button — only shown if this besoin is reserved -->
               <button *ngIf="reservedFournisseurMap[besoin.id!]"
                       class="btn-action btn-action-message"
                       (click)="ouvrirMessage('CLIENT', getUserIdClient(), 'FOURNISSEUR', reservedFournisseurMap[besoin.id!])">
@@ -357,15 +407,47 @@
                 </div>
                 <p class="besoin-description">{{ besoin.description }}</p>
               </div>
+
               <div class="besoin-meta">
                 <span class="chip"><i class="fas fa-tree"></i>{{ besoin.nombreArbres }}</span>
                 <span class="chip"><i class="fas fa-map-marker-alt"></i>{{ besoin.lieu }}</span>
                 <span class="chip"><i class="fas fa-ruler-combined"></i>{{ besoin.metrage }}</span>
               </div>
+
+              <!-- ── AI Diagnostic Section ── -->
+              <div class="ai-diagnostic-box" *ngIf="besoin.maladie">
+                <div class="ai-diagnostic-header">
+                  <i class="fas fa-robot" style="color:#16a34a; font-size:12px;"></i>
+                  <span>Diagnostic IA</span>
+                </div>
+                <div class="ai-badges">
+                  <span class="ai-badge-maladie">
+                    <i class="fas fa-bug" style="margin-right:3px; font-size:10px;"></i>
+                    {{ besoin.maladie }}
+                  </span>
+                  <span [ngClass]="{
+                    'ai-badge-risque-eleve':  besoin.niveauRisque === 'élevé',
+                    'ai-badge-risque-moyen':  besoin.niveauRisque === 'moyen',
+                    'ai-badge-risque-faible': besoin.niveauRisque === 'faible'
+                  }">
+                    <i class="fas fa-exclamation-triangle" style="margin-right:3px; font-size:10px;"></i>
+                    Risque : {{ besoin.niveauRisque }}
+                  </span>
+                </div>
+                <p class="ai-recommandations">{{ besoin.recommandations }}</p>
+              </div>
+
+              <!-- AI pending (no result yet) -->
+              <div class="ai-pending-box" *ngIf="!besoin.maladie">
+                <i class="fas fa-robot" style="color:#cbd5e1; font-size:16px;"></i>
+                <span>Analyse IA en cours...</span>
+              </div>
+
               <div class="pending-info">
                 <i class="fas fa-info-circle" style="flex-shrink:0;"></i>
                 Votre demande est en cours d'examen par un expert agricole.
               </div>
+
               <div class="besoin-action">
                 <a class="btn-action btn-action-amber" href="/modifierBesoin/{{ besoin.id }}">
                   <i class="fas fa-edit"></i> Modifier ce besoin
@@ -411,61 +493,46 @@
                 </div>
                 <p class="besoin-description">{{ besoin.description }}</p>
               </div>
+
               <div class="besoin-meta">
                 <span class="chip"><i class="fas fa-tree"></i>{{ besoin.nombreArbres }}</span>
                 <span class="chip"><i class="fas fa-map-marker-alt"></i>{{ besoin.lieu }}</span>
                 <span class="chip"><i class="fas fa-ruler-combined"></i>{{ besoin.metrage }}</span>
               </div>
+
+              <!-- ── AI Diagnostic Section (Expert) ── -->
+              <div class="ai-diagnostic-box" *ngIf="besoin.maladie">
+                <div class="ai-diagnostic-header">
+                  <i class="fas fa-robot" style="color:#16a34a; font-size:12px;"></i>
+                  <span>Diagnostic IA — à vérifier</span>
+                </div>
+                <div class="ai-badges">
+                  <span class="ai-badge-maladie">
+                    <i class="fas fa-bug" style="margin-right:3px; font-size:10px;"></i>
+                    {{ besoin.maladie }}
+                  </span>
+                  <span [ngClass]="{
+                    'ai-badge-risque-eleve':  besoin.niveauRisque === 'élevé',
+                    'ai-badge-risque-moyen':  besoin.niveauRisque === 'moyen',
+                    'ai-badge-risque-faible': besoin.niveauRisque === 'faible'
+                  }">
+                    <i class="fas fa-exclamation-triangle" style="margin-right:3px; font-size:10px;"></i>
+                    Risque : {{ besoin.niveauRisque }}
+                  </span>
+                </div>
+                <p class="ai-recommandations">{{ besoin.recommandations }}</p>
+              </div>
+
+              <div class="ai-pending-box" *ngIf="!besoin.maladie">
+                <i class="fas fa-robot" style="color:#cbd5e1; font-size:16px;"></i>
+                <span>Aucune analyse IA disponible.</span>
+              </div>
+
               <div class="besoin-action">
-  <!-- Toggle button -->
-  <button class="btn-action btn-action-green" (click)="validerBesoin(besoin)">
-    <i class="fas fa-check"></i> Valider ce besoin
-  </button>
-  <button *ngIf="showFormMap[besoin.id!]"
-          class="btn-action btn-action-cancel"
-          (click)="toggleForm(besoin.id!)">
-    <i class="fas fa-times"></i> Annuler
-  </button>
-</div>
-
-<!-- Validation form -->
-<div class="validation-panel" *ngIf="showFormMap[besoin.id!]"
-     style="background:#f8fafc; border:1px solid #e2e8f0;
-            border-radius:10px; padding:14px; display:flex;
-            flex-direction:column; gap:10px; margin-top:8px;">
-
-  <div>
-    <label style="font-size:11px; font-weight:600; color:#64748b;">
-      <i class="fas fa-comment-medical" style="color:#4CAF50;"></i>
-      Description Expert
-    </label>
-    <textarea [(ngModel)]="descriptions[besoin.id!]"
-              placeholder="Votre diagnostic et recommandations..."
-              rows="3"
-              style="width:100%; font-size:13px; padding:8px 10px;
-                     border-radius:8px; border:1px solid #e2e8f0;
-                     resize:vertical; font-family:inherit;">
-    </textarea>
-  </div>
-
-  <div>
-    <label style="font-size:11px; font-weight:600; color:#64748b;">
-      <i class="fas fa-tree" style="color:#4CAF50;"></i>
-      Quantité d'arbres
-    </label>
-    <input type="number"
-           [(ngModel)]="quantites[besoin.id!]"
-           placeholder="Ex: 10"
-           min="1"
-           style="width:100%; font-size:13px; padding:8px 10px;
-                  border-radius:8px; border:1px solid #e2e8f0;" />
-          </div>
-
-          <button class="btn-action btn-action-green"
-                  (click)="validerBesoin(besoin)">
-            <i class="fas fa-check-circle"></i> Confirmer la validation
-          </button>
-        </div>
+                <button class="btn-action btn-action-green" (click)="validerBesoin(besoin)">
+                  <i class="fas fa-check"></i> Valider ce besoin
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -504,6 +571,22 @@
                 <span class="chip"><i class="fas fa-map-marker-alt"></i>{{ besoin.lieu }}</span>
                 <span class="chip"><i class="fas fa-ruler-combined"></i>{{ besoin.metrage }}</span>
               </div>
+
+              <!-- AI Diagnostic (validated) -->
+              <div class="ai-diagnostic-box" *ngIf="besoin.maladie">
+                <div class="ai-diagnostic-header">
+                  <i class="fas fa-robot" style="color:#16a34a; font-size:12px;"></i>
+                  <span>Diagnostic IA</span>
+                </div>
+                <div class="ai-badges">
+                  <span class="ai-badge-maladie">{{ besoin.maladie }}</span>
+                  <span [ngClass]="{
+                    'ai-badge-risque-eleve':  besoin.niveauRisque === 'élevé',
+                    'ai-badge-risque-moyen':  besoin.niveauRisque === 'moyen',
+                    'ai-badge-risque-faible': besoin.niveauRisque === 'faible'
+                  }">Risque : {{ besoin.niveauRisque }}</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -524,7 +607,7 @@
 
       <ng-container *ngIf="!isLoading">
 
-        <!-- 🟡 SECTION 1: SANS OFFRE -->
+        <!-- SECTION 1: SANS OFFRE -->
         <div class="section-header">
           <i class="fas fa-clock" style="color:#d97706;"></i>
           <h5>Besoins sans offre</h5>
@@ -552,6 +635,23 @@
                   <span class="chip"><i class="fas fa-tree"></i>{{ besoin.nombreArbres }}</span>
                   <span class="chip"><i class="fas fa-map-marker-alt"></i>{{ besoin.lieu }}</span>
                 </div>
+
+                <!-- AI Diagnostic for fournisseur -->
+                <div class="ai-diagnostic-box" *ngIf="besoin.maladie">
+                  <div class="ai-diagnostic-header">
+                    <i class="fas fa-robot" style="color:#16a34a; font-size:12px;"></i>
+                    <span>Diagnostic IA</span>
+                  </div>
+                  <div class="ai-badges">
+                    <span class="ai-badge-maladie">{{ besoin.maladie }}</span>
+                    <span [ngClass]="{
+                      'ai-badge-risque-eleve':  besoin.niveauRisque === 'élevé',
+                      'ai-badge-risque-moyen':  besoin.niveauRisque === 'moyen',
+                      'ai-badge-risque-faible': besoin.niveauRisque === 'faible'
+                    }">Risque : {{ besoin.niveauRisque }}</span>
+                  </div>
+                </div>
+
                 <button class="btn-action btn-action-green" (click)="proposerPrix(besoin)">
                   <i class="fas fa-tag"></i> Proposer un prix
                 </button>
@@ -560,7 +660,7 @@
           </div>
         </div>
 
-        <!-- 🔵 SECTION 2: MES OFFRES -->
+        <!-- SECTION 2: MES OFFRES -->
         <div class="section-header" style="margin-top:40px;">
           <i class="fas fa-check-circle" style="color:#2563eb;"></i>
           <h5>Mes offres</h5>
@@ -597,7 +697,7 @@
           </div>
         </div>
 
-        <!-- 🟢 SECTION 3: RÉSERVÉS -->
+        <!-- SECTION 3: RÉSERVÉS -->
         <div class="section-header" style="margin-top:40px;">
           <i class="fas fa-handshake" style="color:#16a34a;"></i>
           <h5>Besoins réservés</h5>
@@ -630,7 +730,6 @@
                   <i class="fas fa-handshake"></i> Réservé
                 </span>
 
-                <!-- Suivi badge -->
                 <div class="suivi-exists-badge" *ngIf="suiviExistsMapFournis[besoin.id!]">
                   <i class="fas fa-check-circle"></i>
                   <span>Suivi déjà soumis</span>
@@ -640,14 +739,12 @@
                   <span>Aucun suivi ajouté</span>
                 </div>
 
-                <!-- Suivi button -->
                 <a class="btn-action btn-action-suivi"
                    [routerLink]="['/ajouterSuivi', getReservationId(besoin.id!)]">
                   <i [class]="suiviExistsMapFournis[besoin.id!] ? 'fas fa-eye' : 'fas fa-plus-circle'"></i>
                   {{ suiviExistsMapFournis[besoin.id!] ? 'Voir mon suivi' : 'Ajouter un suivi' }}
                 </a>
 
-                <!-- ✅ Message button — only shown if clientId exists for this besoin -->
                 <button *ngIf="reservedClientMap[besoin.id!]"
                         class="btn-action btn-action-message"
                         (click)="ouvrirMessage('FOURNISSEUR', getUserIdFournisseur(), 'CLIENT', reservedClientMap[besoin.id!])">

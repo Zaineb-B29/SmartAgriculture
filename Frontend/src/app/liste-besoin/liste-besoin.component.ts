@@ -301,6 +301,65 @@ export class ListeBesoinComponent implements OnInit {
         const id   = besoin.id!;
         const user = this.service.userDetails();
 
+        // Build AI section HTML based on available data
+        const aiSection = (besoin.maladie || besoin.niveauRisque || besoin.recommandations) ? `
+          <div style="margin-top:16px; background:#f0fdf4; border:1px solid #86efac;
+                      border-radius:10px; padding:14px; text-align:left;">
+            <div style="display:flex; align-items:center; gap:6px; margin-bottom:10px;">
+              <i class="fas fa-robot" style="color:#16a34a; font-size:13px;"></i>
+              <span style="font-size:11px; font-weight:700; color:#15803d;
+                          text-transform:uppercase; letter-spacing:.05em;">
+                Diagnostic IA
+              </span>
+            </div>
+
+            <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
+              <span style="background:#dcfce7; color:#15803d; border-radius:20px;
+                          padding:3px 10px; font-size:12px; font-weight:600;
+                          display:flex; align-items:center; gap:4px;">
+                <i class="fas fa-bug" style="font-size:10px;"></i>
+                ${besoin.maladie || 'Non déterminée'}
+              </span>
+              <span style="background:${besoin.niveauRisque === 'élevé' ? '#fee2e2' : besoin.niveauRisque === 'faible' ? '#dcfce7' : '#fef9c3'};
+                          color:${besoin.niveauRisque === 'élevé' ? '#dc2626' : besoin.niveauRisque === 'faible' ? '#15803d' : '#92400e'};
+                          border-radius:20px; padding:3px 10px; font-size:12px; font-weight:600;
+                          display:flex; align-items:center; gap:4px;">
+                <i class="fas fa-exclamation-triangle" style="font-size:10px;"></i>
+                Risque : ${besoin.niveauRisque || 'moyen'}
+              </span>
+            </div>
+
+            ${besoin.analyseImage ? `
+              <div style="margin-bottom:8px;">
+                <p style="font-size:10px; font-weight:600; color:#64748b;
+                          text-transform:uppercase; margin:0 0 4px;">
+                  Observation visuelle
+                </p>
+                <p style="font-size:12px; color:#475569; margin:0; line-height:1.5;">
+                  ${besoin.analyseImage}
+                </p>
+              </div>` : ''}
+
+            <div>
+              <p style="font-size:10px; font-weight:600; color:#64748b;
+                        text-transform:uppercase; margin:0 0 4px;">
+                Recommandations IA
+              </p>
+              <p style="font-size:12px; color:#475569; margin:0; line-height:1.5;">
+                ${besoin.recommandations || 'Aucune recommandation disponible.'}
+              </p>
+            </div>
+          </div>
+        ` : `
+          <div style="margin-top:16px; background:#f8fafc; border:1px solid #e2e8f0;
+                      border-radius:10px; padding:12px; text-align:center;">
+            <i class="fas fa-robot" style="color:#cbd5e1; font-size:20px;"></i>
+            <p style="font-size:12px; color:#94a3b8; margin:6px 0 0;">
+              Aucune analyse IA disponible pour ce besoin.
+            </p>
+          </div>
+        `;
+
         Swal.fire({
           title: `<div style="display:flex; align-items:center; gap:10px; font-size:17px;">
                     <i class="fas fa-leaf" style="color:#4CAF50;"></i>
@@ -313,34 +372,24 @@ export class ListeBesoinComponent implements OnInit {
 
             <hr style="border:none; border-top:1px solid #e2e8f0; margin:0 0 16px;">
 
+            <!-- AI Diagnostic section -->
+            ${aiSection}
+
             <!-- Description Expert -->
-            <div style="margin-bottom:16px;">
+            <div style="margin-top:16px;">
               <label style="font-size:11px; font-weight:600; color:#64748b;
                             text-transform:uppercase; letter-spacing:.04em;
                             display:flex; align-items:center; gap:5px; margin-bottom:6px;">
                 <i class="fas fa-comment-medical" style="color:#4CAF50;"></i>
-                Description Expert
+                Votre description / correction
               </label>
               <textarea id="swal-desc"
-                        placeholder="Votre diagnostic et recommandations..."
-                        rows="5"
+                        placeholder="Confirmez, corrigez ou complétez le diagnostic IA..."
+                        rows="4"
                         style="width:100%; font-size:13px; padding:10px 12px;
                               border-radius:8px; border:1px solid #e2e8f0;
                               resize:vertical; font-family:inherit; color:#1e293b;
-                              box-sizing:border-box; outline:none;">
-              </textarea>
-            </div>
-
-            <!-- AI Analysis divider -->
-            <div style="display:flex; align-items:center; gap:10px; margin: 4px 0 0;">
-              <div style="flex:1; height:1px; background:#e2e8f0;"></div>
-              <span style="font-size:11px; font-weight:600; color:#94a3b8;
-                          text-transform:uppercase; letter-spacing:.05em;
-                          display:flex; align-items:center; gap:5px; white-space:nowrap;">
-                <i class="fas fa-robot" style="color:#c4b5fd;"></i>
-                Analyse IA — bientôt disponible
-              </span>
-              <div style="flex:1; height:1px; background:#e2e8f0;"></div>
+                              box-sizing:border-box; outline:none;">${besoin.recommandations || ''}</textarea>
             </div>
           `,
           showCancelButton: true,
@@ -348,7 +397,7 @@ export class ListeBesoinComponent implements OnInit {
           cancelButtonText:  '<i class="fas fa-times"></i> Annuler',
           confirmButtonColor: '#4CAF50',
           cancelButtonColor:  '#94a3b8',
-          width: '520px',
+          width: '560px',
           preConfirm: () => {
             const desc = (document.getElementById('swal-desc') as HTMLTextAreaElement)?.value?.trim();
             if (!desc) {

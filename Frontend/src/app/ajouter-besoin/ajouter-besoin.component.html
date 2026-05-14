@@ -46,12 +46,12 @@
                   <input
                     type="file"
                     class="form-control"
-                    [class.is-invalid]="besoinForm.get('image')?.invalid && besoinForm.get('image')?.touched"
-                    formControlName="image"
+                    [class.is-invalid]="imageError"
+                    #fileInput
                     (change)="onFileSelected($event)"
+                    accept="image/*"
                     style="padding: 10px;">
-                  <div *ngIf="besoinForm.get('image')?.invalid && besoinForm.get('image')?.touched"
-                      class="text-danger" style="font-size: 13px; margin-top: 4px;">
+                  <div *ngIf="imageError" class="text-danger" style="font-size: 13px; margin-top: 4px;">
                     L'image est obligatoire.
                   </div>
                 </div>

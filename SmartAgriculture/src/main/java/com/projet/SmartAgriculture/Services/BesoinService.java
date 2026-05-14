@@ -18,4 +18,5 @@ public interface BesoinService {
     List<Besoin> getBesoinsByClientAndStatut(Long clientId, String statut);
     void deleteBesoin(Long id);
     Besoin updateBesoin(Long id, Besoin updated);
+    Besoin saveBesoin(Besoin besoin);
 }

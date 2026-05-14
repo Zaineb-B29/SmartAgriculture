@@ -50,7 +50,7 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
 
     this.messages.push({
       sender: 'bot',
-      text: 'Bonjour ! Je suis AgroSmart AI. Je peux vous aider concernant vos cultures, maladies des plantes, irrigation et recommandations agricoles.',
+      text: '👋 Bonjour ! Je suis AgroSmart AI. Je peux vous aider concernant vos cultures, maladies des plantes, irrigation et recommandations agricoles.',
       timestamp: new Date()
     });
   }
@@ -83,7 +83,12 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
     this.userInput = '';
     this.shouldScroll = true;
 
-    this.messages.push({ sender: 'bot', text: '', timestamp: new Date(), isLoading: true });
+    this.messages.push({
+      sender: 'bot',
+      text: '',
+      timestamp: new Date(),
+      isLoading: true
+    });
 
     this.crudService.sendMessage(msg, this.clientId).subscribe({
       next: (res) => {
@@ -98,8 +103,9 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
       },
       error: (err) => {
         this.messages = this.messages.filter(m => !m.isLoading);
-        const errorMsg = err?.error?.response
-          || 'Une erreur de connexion est survenue. Vérifiez que le serveur Flask est lancé.';
+        const errorMsg =
+          err?.error?.response ||
+          '❌ Erreur de connexion. Vérifiez que le serveur Flask est lancé sur le port 5000.';
         this.messages.push({
           sender: 'bot',
           text: errorMsg,
@@ -126,13 +132,16 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
   }
 
   formatTime(date: Date): string {
-    return date.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+    return date.toLocaleTimeString('fr-FR', {
+      hour: '2-digit',
+      minute: '2-digit'
+    });
   }
 
   clearChat(): void {
     this.messages = [{
       sender: 'bot',
-      text: 'Bonjour ! Je suis AgroSmart AI. Comment puis-je vous aider ?',
+      text: '👋 Bonjour ! Je suis AgroSmart AI. Comment puis-je vous aider ?',
       timestamp: new Date()
     }];
   }

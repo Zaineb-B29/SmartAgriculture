@@ -27,29 +27,28 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.currentUser = this.service.userDetails();
     this.userType = this.service.getCurrentUserType();
-    
+
     if (!this.currentUser || !this.userType) {
       this.router.navigate(['/']);
       return;
     }
-    
 
     this.profileForm = this.fb.group({
-      nom: [this.currentUser.nom || '', [Validators.required]],
+      nom:    [this.currentUser.nom    || '', [Validators.required]],
       prenom: [this.currentUser.prenom || '', [Validators.required]],
-      email: [this.currentUser.email || '', [Validators.required, Validators.email]],
-      adresse: [this.currentUser.adresse || ''],
-      tlf: [this.currentUser.tlf || '', [Validators.pattern('^[0-9 +()-]*$')]],
-      mdp: ['']
+      email:  [this.currentUser.email  || '', [Validators.required, Validators.email]],
+      adresse:[this.currentUser.adresse|| ''],
+      tlf:    [this.currentUser.tlf    || '', [Validators.pattern('^[0-9 +()-]*$')]],
+      mdp:    ['']
     });
   }
 
   get profileTypeLabel(): string {
     switch (this.userType) {
-      case 'CLIENT': return 'Client';
-      case 'EXPERT': return 'Expert Agricole';
+      case 'CLIENT':      return 'Client';
+      case 'EXPERT':      return 'Expert Agricole';
       case 'FOURNISSEUR': return 'Fournisseur';
-      default: return 'Utilisateur';
+      default:            return 'Utilisateur';
     }
   }
 
@@ -60,9 +59,7 @@ export class ProfileComponent implements OnInit {
     }
 
     const values = { ...this.profileForm.value };
-    if (!values.mdp) {
-      delete values.mdp;
-    }
+    if (!values.mdp) delete values.mdp;
 
     const payload = { id: this.currentUser.id, ...values };
     this.submitting = true;
@@ -82,12 +79,12 @@ export class ProfileComponent implements OnInit {
         this.successMessage = 'Vos informations ont été mises à jour avec succès.';
         this.currentUser = updated;
         this.profileForm.patchValue({
-          nom: updated.nom || '',
+          nom:    updated.nom    || '',
           prenom: updated.prenom || '',
-          email: updated.email || '',
-          adresse: updated.adresse || '',
-          tlf: updated.tlf || '',
-          mdp: ''
+          email:  updated.email  || '',
+          adresse:updated.adresse|| '',
+          tlf:    updated.tlf    || '',
+          mdp:    ''
         });
       },
       error: (err) => {
@@ -98,10 +95,11 @@ export class ProfileComponent implements OnInit {
     });
   }
 
- goHome(): void {
-  const destination = this.userType === 'FOURNISSEUR' ? '/listeBesoin' :
-                      this.userType === 'EXPERT'      ? '/listeBesoin' :
-                      this.userType === 'CLIENT'      ? '/listeBesoin' : '/';
-  this.router.navigate([destination]);
-}
+  goBack(): void {
+    this.router.navigate(['/listeBesoin']).then(()=>{window.location.reload()});
+  }
+
+  goHome(): void {
+    this.router.navigate(['/']).then(()=>{window.location.reload()});
+  }
 }

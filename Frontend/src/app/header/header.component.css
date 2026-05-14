@@ -384,7 +384,7 @@
     box-shadow: 0 24px 48px rgba(0, 0, 0, 0.13);
     border-radius: 16px;
     overflow: hidden;
-    z-index: 10000;
+    z-index: 99999;
   }
 
   .profile-dropdown a,

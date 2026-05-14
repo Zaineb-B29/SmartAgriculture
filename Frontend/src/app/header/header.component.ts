@@ -120,8 +120,22 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
   
   logout(): void {
-    sessionStorage.clear();
-    window.location.href = '/';
+
+    sessionStorage.removeItem('myTokenClient');
+    sessionStorage.removeItem('myTokenFournisseur');
+    sessionStorage.removeItem('myTokenExpert');
+    sessionStorage.removeItem('type');
+
+    this.userData = null;
+    this.userType = null;
+
+    this.showProfileMenu = false;
+    this.showNotifications = false;
+
+    this.router.navigate(['/']).then(() => {
+      window.location.reload();
+    });
+
   }
 
   

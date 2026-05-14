@@ -14,6 +14,12 @@ export class Besoin {
     public dateSoumission?: string,
     public dateValidationExpert?: string,
     public client?: any,
-    public expert?: any
+    public expert?: any,
+
+    // AI diagnostic fields
+    public maladie?: string,
+    public niveauRisque?: string,
+    public recommandations?: string,
+    public analyseImage?: string
   ) {}
 }

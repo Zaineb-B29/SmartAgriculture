@@ -3,8 +3,13 @@ package com.projet.SmartAgriculture.RestController;
 import com.projet.SmartAgriculture.Entity.Besoin;
 import com.projet.SmartAgriculture.Services.BesoinService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.*;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -12,6 +17,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RequestMapping(value = "/besoin")
@@ -22,8 +28,14 @@ public class BesoinRestController {
     @Autowired
     BesoinService besoinService;
 
+    // URL of the Python AI module — set in application.properties
+    @Value("${ia.module.url:http://localhost:8000}")
+    private String iaModuleUrl;
+
+    private final RestTemplate restTemplate = new RestTemplate();
+
     @PostMapping("/client/{clientId}")
-    public ResponseEntity<Besoin> createBesoin(
+    public ResponseEntity<?> createBesoin(
             @PathVariable Long clientId,
             @RequestParam("titre") String titre,
             @RequestParam("description") String description,
@@ -39,17 +51,80 @@ public class BesoinRestController {
         besoin.setLieu(lieu);
         besoin.setMetrage(metrage);
 
+        // ── Save image to disk ──────────────────────────
+        byte[] imageBytes;
         try {
+            imageBytes = file.getBytes();  // read ONCE, reuse for both disk and AI
             String fileName = file.getOriginalFilename();
             Path path = Paths.get("D:/pfe/Frontend/src/assets/img/uploads/" + fileName);
             Files.createDirectories(path.getParent());
-            Files.write(path, file.getBytes());
+            Files.write(path, imageBytes);
             besoin.setImage("assets/img/uploads/" + fileName);
         } catch (IOException e) {
             throw new RuntimeException("Error upload image");
         }
 
-        return ResponseEntity.ok(besoinService.ajouterBesoin(clientId, besoin));
+        // ── Save the besoin ─────────────────────────────
+        Besoin savedBesoin = besoinService.ajouterBesoin(clientId, besoin);
+
+        // ── Call Python AI module ───────────────────────
+        Map<String, Object> diagnostic = null;
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+            MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+            body.add("titre", titre);
+            body.add("description", description);
+            body.add("lieu", lieu != null ? lieu : "");
+
+            // Use the already-read bytes — NOT file.getInputStream() which is consumed
+            String finalFileName = file.getOriginalFilename();
+            ByteArrayResource imageResource = new ByteArrayResource(imageBytes) {
+                @Override
+                public String getFilename() {
+                    return finalFileName;
+                }
+            };
+            body.add("image", imageResource);
+
+            HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+
+            ResponseEntity<Map> response = restTemplate.exchange(
+                    iaModuleUrl + "/analyse",
+                    HttpMethod.POST,
+                    requestEntity,
+                    Map.class
+            );
+
+            System.out.println("AI module response status: " + response.getStatusCode());
+            System.out.println("AI module response body: " + response.getBody());
+
+            if (response.getStatusCode() == HttpStatus.OK) {
+                diagnostic = response.getBody();
+
+                // Save AI diagnostic into the besoin
+                if (diagnostic != null) {
+                    savedBesoin.setMaladie((String) diagnostic.get("maladie"));
+                    savedBesoin.setNiveauRisque((String) diagnostic.get("niveau_risque"));
+                    savedBesoin.setRecommandations((String) diagnostic.get("recommandations"));
+                    savedBesoin.setAnalyseImage((String) diagnostic.get("analyse_image"));
+                    besoinService.saveBesoin(savedBesoin);
+                }
+            }
+        } catch (Exception e) {
+            // AI module failure should NOT block the besoin creation
+            System.err.println("AI module error: " + e.getMessage());
+        }
+
+        return ResponseEntity.ok(Map.of(
+                "besoin", savedBesoin,
+                "diagnostic", diagnostic != null ? diagnostic : Map.of(
+                        "maladie", "Analyse en cours...",
+                        "niveau_risque", "inconnu",
+                        "recommandations", "Le module IA n'est pas disponible pour le moment."
+                )
+        ));
     }
 
     @GetMapping
@@ -107,7 +182,6 @@ public class BesoinRestController {
         return ResponseEntity.ok(besoinService.getBesoinsByExpert(expertId));
     }
 
-    // ── Besoins validés d'un client spécifique ──
     @GetMapping("/client/{clientId}/valide")
     public ResponseEntity<List<Besoin>> getBesoinsValidesByClient(@PathVariable Long clientId) {
         return ResponseEntity.ok(
@@ -115,7 +189,6 @@ public class BesoinRestController {
         );
     }
 
-    // ── Besoins en attente d'un client spécifique ──
     @GetMapping("/client/{clientId}/en-attente")
     public ResponseEntity<List<Besoin>> getBesoinsEnAttenteByClient(@PathVariable Long clientId) {
         return ResponseEntity.ok(

@@ -113,14 +113,28 @@
 
           <!-- CONNECTED -->
           <div *ngIf="IsClientIn || IsFournisseurIn || IsExpertIn" class="profile-wrapper">
-            <button type="button" class="profile-button" (click)="toggleProfileMenu()">
+           <button type="button" class="profile-button" (click)="toggleProfileMenu()">
               <span class="profile-avatar">{{ userInitials }}</span>
               <span class="profile-name">{{ userDisplayName }}</span>
-              <i class="fas" [ngClass]="showProfileMenu ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+              <i class="fas fa-profile" [class.fa-chevron-up]="showProfileMenu" [class.fa-chevron-down]="!showProfileMenu"></i>
             </button>
             <div *ngIf="showProfileMenu" class="profile-dropdown">
-              <a routerLink="/profile" (click)="closeProfileMenu()">Mon profil</a>
-              <button type="button" class="dropdown-action" (click)="logout()">Déconnexion</button>
+              <a routerLink="/profile"
+                (click)="closeProfileMenu()"
+                class="dropdown-action">
+                <i class="fas fa-user" style="margin-right:6px;"></i>
+                Mon profil
+              </a>
+
+              <button
+                type="button"
+                class="dropdown-action"
+                (click)="logout(); $event.stopPropagation()">
+
+                <i class="fas fa-sign-out-alt" style="margin-right:6px;"></i>
+                Déconnexion
+
+              </button>
             </div>
           </div>
 

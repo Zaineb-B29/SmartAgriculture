@@ -139,4 +139,9 @@ public class BesoinServiceImpl implements BesoinService {
         return besoinRepository.save(existing);
     }
 
+    @Override
+    public Besoin saveBesoin(Besoin besoin) {
+        return besoinRepository.save(besoin);
+    }
+
 }

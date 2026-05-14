@@ -29,9 +29,16 @@ public class Besoin {
     private LocalDateTime dateSoumission;
     private LocalDateTime dateValidationExpert;
 
+    private String maladie;
+    private String niveauRisque;
+    private String recommandations;
+    private String analyseImage;
+
     @ManyToOne
     private Client client;
 
     @ManyToOne
     private ExpertAgricole expert;
+
+
 }
