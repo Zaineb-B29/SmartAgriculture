@@ -18,7 +18,6 @@ import { LoginFournisseurComponent } from './login-fournisseur/login-fournisseur
 import { AjouterBesoinComponent } from './ajouter-besoin/ajouter-besoin.component';
 import { ListeBesoinComponent } from './liste-besoin/liste-besoin.component';
 import { MesPropositionsComponent } from './mes-propositions/mes-propositions.component';
-import { UserProfileComponent } from './user-profile/user-profile.component';
 import { ListeBesoinEnAttenteComponent } from './liste-besoin-en-attente/liste-besoin-en-attente.component';
 import { AjouterSuiviFournisComponent } from './ajouter-suivi-fournis/ajouter-suivi-fournis.component';
 import { ModifierBesoinComponent } from './modifier-besoin/modifier-besoin.component';
@@ -42,7 +41,6 @@ import { ChatbotComponent } from './chatbot/chatbot.component';
     LoginClientComponent,
     LoginExpertComponent,
     LoginFournisseurComponent,
-    UserProfileComponent,
     AjouterBesoinComponent,
     ListeBesoinComponent,
     MesPropositionsComponent,

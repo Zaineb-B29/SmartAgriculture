@@ -267,7 +267,6 @@
                     Risque : {{ besoin.niveauRisque }}
                   </span>
                 </div>
-                <p class="ai-recommandations">{{ besoin.recommandations }}</p>
               </div>
 
               <div class="expert-strip" *ngIf="besoin.expert">
@@ -289,9 +288,9 @@
                 <div class="offers-header" (click)="toggleOffers(besoin.id!)">
                   <span class="offers-title">
                     <i class="fas fa-tags" style="font-size:11px;"></i>
-                    Offres des fournisseurs
+                    Prix proposés des fournisseurs
                     <span class="offers-count-pill">
-                      {{ propositionsMap[besoin.id!]?.length || 0 }} offre(s)
+                      {{ propositionsMap[besoin.id!]?.length || 0 }} prix proposé(s)
                     </span>
                   </span>
                   <span class="chevron-icon"
@@ -334,7 +333,7 @@
                     </div>
                   </ng-container>
                   <ng-template #noPrixValide>
-                    <p class="prix-empty" style="padding:10px 12px;">Aucune offre pour le moment.</p>
+                    <p class="prix-empty" style="padding:10px 12px;">Aucun prix  proposé pour le moment.</p>
                   </ng-template>
                 </ng-container>
               </div>
@@ -434,7 +433,6 @@
                     Risque : {{ besoin.niveauRisque }}
                   </span>
                 </div>
-                <p class="ai-recommandations">{{ besoin.recommandations }}</p>
               </div>
 
               <!-- AI pending (no result yet) -->
@@ -610,14 +608,14 @@
         <!-- SECTION 1: SANS OFFRE -->
         <div class="section-header">
           <i class="fas fa-clock" style="color:#d97706;"></i>
-          <h5>Besoins sans offre</h5>
+          <h5>Besoins sans prix proposé</h5>
           <span class="section-badge badge-amber">{{ besoinsSansOffre.length }}</span>
         </div>
 
         <div class="row" *ngIf="besoinsSansOffre.length === 0">
           <div class="col-12 empty-state">
             <i class="fas fa-inbox"></i>
-            <p>Aucun besoin sans offre pour le moment.</p>
+            <p>Aucun besoin sans prix proposé pour le moment.</p>
           </div>
         </div>
 
@@ -660,17 +658,17 @@
           </div>
         </div>
 
-        <!-- SECTION 2: MES OFFRES -->
+        <!-- SECTION 2: MES  PRIX PROPOSÉS -->
         <div class="section-header" style="margin-top:40px;">
           <i class="fas fa-check-circle" style="color:#2563eb;"></i>
-          <h5>Mes offres</h5>
+          <h5>Mes  prix proposés</h5>
           <span class="section-badge badge-blue">{{ besoinsAvecOffre.length }}</span>
         </div>
 
         <div class="row" *ngIf="besoinsAvecOffre.length === 0">
           <div class="col-12 empty-state">
             <i class="fas fa-tags"></i>
-            <p>Vous n'avez soumis aucune offre pour le moment.</p>
+            <p>Vous n'avez soumis aucun prix proposé pour le moment.</p>
           </div>
         </div>
 
@@ -686,11 +684,11 @@
                 <p class="besoin-description">{{ besoin.descriptionExpert || besoin.description }}</p>
                 <span class="mon-offre-badge">
                   <i class="fas fa-tag" style="margin-right:4px;"></i>
-                  Mon offre : {{ getMonPrix(besoin.id!) }} TND
+                  Mon prix  proposé : {{ getMonPrix(besoin.id!) }} TND
                 </span>
                 <button class="btn-action btn-action-disabled" disabled>
                   <i class="fas fa-check" style="margin-right:4px;"></i>
-                  Offre déjà soumise
+                  Prix  proposé déjà soumis
                 </button>
               </div>
             </div>
@@ -740,7 +738,7 @@
                 </div>
 
                 <a class="btn-action btn-action-suivi"
-                   [routerLink]="['/ajouterSuivi', getReservationId(besoin.id!)]">
+                  [href]="['/ajouterSuivi/' + getReservationId(besoin.id!)]">
                   <i [class]="suiviExistsMapFournis[besoin.id!] ? 'fas fa-eye' : 'fas fa-plus-circle'"></i>
                   {{ suiviExistsMapFournis[besoin.id!] ? 'Voir mon suivi' : 'Ajouter un suivi' }}
                 </a>

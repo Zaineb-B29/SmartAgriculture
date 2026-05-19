@@ -8,7 +8,6 @@ import { RegistreExpertComponent } from './registre-expert/registre-expert.compo
 import { LoginClientComponent } from './login-client/login-client.component';
 import { LoginExpertComponent } from './login-expert/login-expert.component';
 import { LoginFournisseurComponent } from './login-fournisseur/login-fournisseur.component';
-import { UserProfileComponent } from './user-profile/user-profile.component';
 import { AjouterBesoinComponent } from './ajouter-besoin/ajouter-besoin.component';
 import { ListeBesoinComponent } from './liste-besoin/liste-besoin.component';
 import { MesPropositionsComponent } from './mes-propositions/mes-propositions.component';
@@ -18,6 +17,7 @@ import { ModifierBesoinComponent } from './modifier-besoin/modifier-besoin.compo
 import { SuiviEvolutionComponent } from './suivi-evolution/suivi-evolution.component';
 import { MessageComponent } from './message/message.component';
 import { SuiviClientComponent } from './suivi-client/suivi-client.component';
+import { ProfileComponent } from './profile/profile.component';
 
 const routes: Routes = [
   { path: '',                                    component: HomeComponent },
@@ -28,7 +28,7 @@ const routes: Routes = [
   { path: 'loginClient',                         component: LoginClientComponent },
   { path: 'loginFournisseur',                    component: LoginFournisseurComponent },
   { path: 'loginExpert',                         component: LoginExpertComponent },
-  { path: 'profile',                             component: UserProfileComponent },
+  { path: 'profile',                             component: ProfileComponent },
   { path: 'ajouterBesoin',                       component: AjouterBesoinComponent },
   { path: 'listeBesoin',                         component: ListeBesoinComponent },
   { path: 'mesPropositions',                     component: MesPropositionsComponent },

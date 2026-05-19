@@ -166,3 +166,8 @@
     grid-template-columns: 1fr;
   }
 }
+
+section.profile-page {
+  height: auto !important;
+  min-height: unset !important;
+}

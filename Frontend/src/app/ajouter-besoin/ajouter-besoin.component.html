@@ -10,7 +10,7 @@
       <div class="col-lg-12 col-md-12">
         <h1>Ajouter un Besoin</h1>
         <ul class="breadcrumb">
-          <li><a routerLink="/listeBesoin">Voir les besoins</a></li>
+          <li><a href="/listeBesoin">Voir les besoins</a></li>
           <li>Ajouter un besoin</li>
         </ul>
       </div>
@@ -98,12 +98,12 @@
                 </div>
               </div>
 
-              <!-- NOMBRE D'ARBRES -->
+              <!-- NOMBRE D'UNITÉS TOUCHÉES -->
               <div class="col-lg-6 mb-3">
                 <div class="form-group">
                   <label style="font-weight: 600; margin-bottom: 8px;">
                     <i class="fas fa-tree" style="color: #4CAF50; margin-right: 6px;"></i>
-                    Nombre d'arbres <span style="color:red">*</span>
+                    Nombre d'unités touchées <span style="color:red">*</span>
                   </label>
                   <input
                     type="text"
@@ -113,7 +113,7 @@
                     placeholder="Ex: 50">
                   <div *ngIf="besoinForm.get('nombreArbres')?.invalid && besoinForm.get('nombreArbres')?.touched"
                       class="text-danger" style="font-size: 13px; margin-top: 4px;">
-                    Le nombre d'arbres est obligatoire.
+                    Le Nombre d'unités touchées est obligatoire.
                   </div>
                 </div>
               </div>
@@ -182,50 +182,21 @@
       </div>
 
       <!-- Info Side -->
-      <div class="col-lg-4">
-        <div class="footer-item contact" style="background: #f8f9fa; padding: 30px; border-radius: 8px;">
+<div class="col-lg-4">
+  <div style="background: #f8f9fa; padding: 1.25rem; border-radius: 10px; border: 1px solid #e0e0e0;">
+    
+    <!-- Note IA -->
+    <div style="margin-top: 1rem; padding: 10px 14px; background: #EAF3DE;
+                border-radius: 8px; border-left: 3px solid #3B6D11;">
+      <p style="font-size: 12px; color: #27500A; margin: 0; line-height: 1.6;">
+        <i class="fas fa-info-circle" style="margin-right: 5px;"></i>
+        Tous les champs marqués <strong style="color: #c0392b;">*</strong> sont obligatoires.
+        L'image sera analysée automatiquement par notre module IA.
+      </p>
+    </div>
 
-          <h4 class="widget-title">Informations</h4>
-
-          <ul>
-            <li style="display: flex; align-items: flex-start; margin-bottom: 15px;">
-              <div class="icon" style="margin-right: 12px;">
-                <i class="fas fa-leaf" style="color: #4CAF50;"></i>
-              </div>
-              <div class="content">
-                <strong>Agriculture intelligente</strong><br>
-                <span style="color: #777;">Gérez vos besoins agricoles facilement.</span>
-              </div>
-            </li>
-            <li style="display: flex; align-items: flex-start; margin-bottom: 15px;">
-              <div class="icon" style="margin-right: 12px;">
-                <i class="fas fa-upload" style="color: #4CAF50;"></i>
-              </div>
-              <div class="content">
-                <strong>Upload d'image</strong><br>
-                <span style="color: #777;">Ajoutez une photo de votre terrain.</span>
-              </div>
-            </li>
-            <li style="display: flex; align-items: flex-start; margin-bottom: 15px;">
-              <div class="icon" style="margin-right: 12px;">
-                <i class="fas fa-check-circle" style="color: #4CAF50;"></i>
-              </div>
-              <div class="content">
-                <strong>Suivi en temps réel</strong><br>
-                <span style="color: #777;">Suivez l'état de vos besoins.</span>
-              </div>
-            </li>
-          </ul>
-
-          <div style="margin-top: 25px;">
-            <a routerLink="/listeBesoin" class="btn btn-theme animation" style="width: 100%; text-align: center;">
-              <i class="fas fa-list" style="margin-right: 8px;"></i>
-              Voir tous les besoins
-            </a>
-          </div>
-
-        </div>
-      </div>
+  </div>
+</div>
 
     </div>
   </div>

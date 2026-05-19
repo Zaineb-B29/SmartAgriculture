@@ -14,9 +14,8 @@ export class AjouterBesoinComponent implements OnInit {
   besoinForm: FormGroup;
   selectedFile!: File;
   isLoading = false;
-  imageError = false;  // to show validation error for image
+  imageError = false;
 
-  // Reference to the file input so we can clear it manually
   @ViewChild('fileInput') fileInput!: ElementRef;
 
   constructor(
@@ -24,7 +23,6 @@ export class AjouterBesoinComponent implements OnInit {
     private router: Router,
     private crudService: CrudService
   ) {
-    // image is NOT in the FormGroup — handled separately to avoid the browser error
     this.besoinForm = this.fb.group({
       titre:        ['', Validators.required],
       description:  ['', Validators.required],
@@ -48,8 +46,50 @@ export class AjouterBesoinComponent implements OnInit {
     }
   }
 
+  // ── Polls backend every 3s until maladie is filled ──────────
+  private pollForAiResult(besoinId: number, maxAttempts = 20): void {
+    let attempts = 0;
+
+    // Update the Swal HTML with a live dots animation
+    const dotInterval = setInterval(() => {
+      const el = document.getElementById('ai-status-text');
+      if (el) {
+        const dots = '.'.repeat((attempts % 3) + 1);
+        el.textContent = `Analyse en cours${dots}`;
+      }
+    }, 600);
+
+    const poll = setInterval(() => {
+      attempts++;
+
+      this.crudService.getBesoinById(besoinId).subscribe({
+        next: (besoin: any) => {
+          // ✅ L'analyse est terminée (ou le max d'essais est atteint)
+          if (besoin?.maladie || attempts >= maxAttempts) {
+            clearInterval(poll);
+            clearInterval(dotInterval);
+
+            // On affiche un message de succès simple, SANS afficher le diagnostic de l'IA
+            Swal.fire({
+              icon: 'success',
+              title: ' Besoin enregistré !',
+              text: 'Votre demande a été enregistrée avec succès. Vous pouvez suivre son évolution dans votre liste.',
+              confirmButtonText: 'Voir mes besoins',
+              confirmButtonColor: '#4CAF50',
+              width: '420px'
+            }).then(() => {
+              this.router.navigate(['/listeBesoin']);
+            });
+          }
+        },
+        error: () => {
+          // Ne pas stopper le polling en cas d'erreur réseau temporaire, passer à l'essai suivant
+        }
+      });
+    }, 3000); // poll toutes les 3 secondes
+  }
+
   onSubmit() {
-    // Validate image manually
     if (!this.selectedFile) {
       this.imageError = true;
     }
@@ -77,23 +117,27 @@ export class AjouterBesoinComponent implements OnInit {
     const clientId = this.crudService.userDetails().id;
 
     this.crudService.addBesoin(clientId, formData).subscribe({
-      next: () => {
+      next: (createdBesoin: any) => {
         this.isLoading = false;
+        this.besoinForm.reset();
+        this.selectedFile = undefined!;
+        if (this.fileInput) this.fileInput.nativeElement.value = '';
 
+
+        // ── Show persistent AI loading Swal ──────────
         Swal.fire({
           icon: 'success',
-          title: 'Succès',
-          text: 'Besoin ajouté avec succès ! L\'analyse IA est en cours...'
+          title: '✅ Besoin enregistré !',
+          text: 'Votre demande a été enregistrée et analysée avec succès.',
+          confirmButtonText: 'Voir mes besoins',
+          confirmButtonColor: '#4CAF50'
         }).then(() => {
-          // Reset form safely — file input cleared via ViewChild, not patchValue
-          this.besoinForm.reset();
-          this.selectedFile = undefined!;
-          this.imageError = false;
-          if (this.fileInput) {
-            this.fileInput.nativeElement.value = '';
-          }
-          this.router.navigate(['/listeBesoin']).then(()=>{window.location.reload()});
+          this.router.navigate(['/listeBesoin']).then(() => {
+            window.location.reload(); // ✅ force le rechargement après navigation
+          });
         });
+        // ── Start polling for AI result ───────────────
+        // createdBesoin should be the saved entity with its id
       },
       error: (err) => {
         this.isLoading = false;

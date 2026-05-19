@@ -1,6 +1,7 @@
 package com.projet.SmartAgriculture.RestController;
 
 import com.projet.SmartAgriculture.Entity.Besoin;
+import com.projet.SmartAgriculture.Repository.BesoinRepository;
 import com.projet.SmartAgriculture.Services.BesoinService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,6 +26,8 @@ import java.util.Optional;
 @CrossOrigin("*")
 public class BesoinRestController {
 
+    @Autowired
+    BesoinRepository besoinRepository;
     @Autowired
     BesoinService besoinService;
 
@@ -109,7 +112,10 @@ public class BesoinRestController {
                     savedBesoin.setNiveauRisque((String) diagnostic.get("niveau_risque"));
                     savedBesoin.setRecommandations((String) diagnostic.get("recommandations"));
                     savedBesoin.setAnalyseImage((String) diagnostic.get("analyse_image"));
-                    besoinService.saveBesoin(savedBesoin);
+                    System.out.println(">>> Saving AI fields for besoin id: " + savedBesoin.getId());
+                    System.out.println(">>> Maladie: " + savedBesoin.getMaladie());
+                    besoinRepository.save(savedBesoin);
+                    System.out.println(">>> Save done!");
                 }
             }
         } catch (Exception e) {

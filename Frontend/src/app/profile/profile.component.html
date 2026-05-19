@@ -1,4 +1,5 @@
-<section class="profile-page">
+<app-header></app-header>
+<div class="profile-page">
   <div class="profile-panel">
     <div class="profile-head">
       <div>
@@ -56,7 +57,7 @@
 
         <div class="action-row">
           <button type="submit" class="btn btn-theme" [disabled]="submitting">Enregistrer</button>
-          <a href="/listeBesoin" class="btn-back">
+          <a (click)="goBack()" class="btn-back">
             <i class="fas fa-arrow-left"></i> Retour
           </a>    
         </div>
@@ -65,4 +66,5 @@
       </form>
     </div>
   </div>
-</section>
+</div>
+<app-footer></app-footer>

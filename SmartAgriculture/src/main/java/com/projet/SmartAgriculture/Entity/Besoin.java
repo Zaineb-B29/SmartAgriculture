@@ -16,12 +16,15 @@ public class Besoin {
     @Lob
     @Column(columnDefinition = "LONGTEXT")
     private String image;
-
+    @Lob
+    @Column(columnDefinition = "LONGTEXT")
     private String description;
     private String type;
     private String nombreArbres;
     private String lieu;
     private String metrage;
+    @Lob
+    @Column(columnDefinition = "LONGTEXT")
     private String descriptionExpert;
     private Boolean etat;
 
@@ -31,7 +34,13 @@ public class Besoin {
 
     private String maladie;
     private String niveauRisque;
+
+    @Lob
+    @Column(columnDefinition = "LONGTEXT")
     private String recommandations;
+
+    @Lob
+    @Column(columnDefinition = "LONGTEXT")
     private String analyseImage;
 
     @ManyToOne
